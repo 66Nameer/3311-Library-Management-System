@@ -12,6 +12,6 @@ public class Context {
     public double calculatePenalty(int daysOverdue){
         return penaltyStrat.calculatePenalty(daysOverdue);
     }
-
+//TODO: add more algorithm for the app if needed
 
 }
