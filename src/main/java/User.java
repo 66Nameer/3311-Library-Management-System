@@ -2,8 +2,7 @@ package src.main.java;
 
 import java.util.*;
 
-import Item.Item;
-import Request.Request;
+
 
 public class User {
 private String password;
