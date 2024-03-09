@@ -9,5 +9,6 @@ public abstract class Item {
 	public boolean canRent;
 	public boolean discounted;
 	
+	
 
 }

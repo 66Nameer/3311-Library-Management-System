@@ -6,5 +6,6 @@ public class Magazine extends PhysicalItem {
 	public String publisher;
 	public LocalDate dateissued;
 	
+	
 
 }

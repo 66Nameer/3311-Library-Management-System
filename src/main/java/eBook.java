@@ -6,4 +6,5 @@ public class eBook extends VirtualItem {
 	public String author;
 	public ArrayList<String> courses;
 
+	
 }
