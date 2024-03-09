@@ -1,3 +1,5 @@
+import java.util.HashMap;
+
 public class Cart {
 	
 private HashMap<Item, Integer> items; 
