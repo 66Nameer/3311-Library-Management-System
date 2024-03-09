@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class Cart {
 	
-private HashMap<Item, Integer> items1;
+private HashMap<Item, Integer> items11;
 
 	public void addItem(int itemId, int quantity) {
 	
