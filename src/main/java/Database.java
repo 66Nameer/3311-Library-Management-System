@@ -1,6 +1,8 @@
 package src.main.java;
 
-public class Database {
+import java.util.ArrayList;
+
+public final class Database {
 
     private static Database INSTANCE;
 
@@ -15,5 +17,26 @@ public class Database {
             INSTANCE = new Database();
         }
         return INSTANCE;
+    }
+
+    public ArrayList<Rental> fetchRentals(String userID) {
+        return new ArrayList<>();
+    }
+
+    public Item fetchItem(int itemID) {
+        return null;
+    }
+
+    public User fetchUser(String userID) {
+        return null;
+    }
+
+    public void updateStock() {
+
+
+    }
+
+    public void prioritizeRequests() {
+
     }
 }
