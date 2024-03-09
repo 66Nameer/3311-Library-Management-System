@@ -1,4 +1,5 @@
-package user;
+package src.main.java;
+
 import java.util.*;
 
 import Item.Item;
