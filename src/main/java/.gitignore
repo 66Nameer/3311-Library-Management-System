@@ -11,3 +11,12 @@
 /Magazine.class
 /CD.class
 /Request.class
+/Cart.class
+/Notification.class
+/Rental.class
+/Faculty.class
+/Manager.class
+/Staff.class
+/Student.class
+/User.class
+/Visitor.class

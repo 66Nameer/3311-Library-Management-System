@@ -3,8 +3,15 @@ package src.main.java;
 public class Request {
 	
 	public Item item;
-	//public User user;			Commented out until User class implemented
+	public User user;
 	public int priority;
+	
+	
+	public Request(Item item, User user, int priority) {
+		this.item = item;
+		this.user = user;
+		this.priority = priority;
+	}
 	
 
 }
