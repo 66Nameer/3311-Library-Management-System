@@ -12,7 +12,7 @@ public class CartCaretaker {
         if(!history.isEmpty()){
             cart.undo(history.pop());
         }else{
-            System.out.println("No states to undo");
+            System.out.println("The cart is already empty!!!");
         }
     }
 }
