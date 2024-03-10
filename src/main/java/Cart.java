@@ -26,5 +26,14 @@ private HashMap<Item, Integer> items;
 		
 		
 	}
-	
+
+
+//Memento design pattern method implementation
+	     public CartMemento save(){
+        		return new CartMemento(this.items);
+   	  }
+
+	public void undo(CartMemento memento){
+        	this.items=memento.getItems();
+	}
 }
