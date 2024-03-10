@@ -1,29 +1,37 @@
 package src.main.java;
 
+import src.main.java.notification.NotificationManager;
+
 import java.util.*;
 
 
 
-public class User {
-private String password;
-private String email;
-ArrayList<Item> rentals=new ArrayList<Item>();
+public abstract class User {
 
-public ArrayList<Request> requests(){
-	return null;
-	
-}
+	private String password;
+	private String email;
+	private NotificationManager notificationService;
+	ArrayList<Item> rentals = new ArrayList<>();
 
-public void makeRequests(Item item) {
+	public ArrayList<Request> requests(){
+		return null;
 	
-}
+	}
 
-public void openItem(Item item) {
+	public void makeRequests(Item item) {
 	
-}
+	}
 
-public void subscribe(String page) {
+	public void openItem(Item item) {
 	
-}
+	}
+
+	public void subscribe(String page) {
+	
+	}
+
+	public NotificationManager getNotificationService() {
+		return notificationService;
+	}
 
 }

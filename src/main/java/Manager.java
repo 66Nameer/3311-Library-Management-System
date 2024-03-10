@@ -1,8 +1,5 @@
 package src.main.java;
-
-
-
-import Item.Item;
+import src.main.java.Item;
 
 public class Manager extends User{
 

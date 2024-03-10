@@ -1,5 +1,7 @@
-package src.main.java;
+package src.main.java.notification;
 
+
+@Deprecated
 public class Notification {
 
     private String alert;
