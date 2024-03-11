@@ -1,20 +1,20 @@
 package src.main.java;
 
 public class ConcreteItemFactory implements ItemFactory {
-    public Item createItem(String type, String name, int ID, double price, boolean canPurchase, boolean canRent, boolean discounted) {
+    public Item createItem(String type, ItemAttributes attributes) {
         switch (type) {
             case "Textbook":
-                return new Textbook(name, ID, price, canPurchase, canRent, discounted);
+                return new Textbook(attributes);
             case "Book":
-                return new Book(name, ID, price, canPurchase, canRent, discounted);
+                return new Book(attributes);
             case "Magazine":
-                return new Magazine(name, ID, price, canPurchase, canRent, discounted);
+                return new Magazine(attributes);
             case "CD":
-                return new CD(name, ID, price, canPurchase, canRent, discounted);
+                return new CD(attributes);
             case "eBook":
-                return new EBook(name, ID, price, canPurchase, canRent, discounted);
+                return new eBook(attributes);
             case "Newsletter":
-                return new Newsletter(name, ID, price, canPurchase, canRent, discounted);
+                return new Newsletter(attributes);
             default:
                 throw new IllegalArgumentException("Item type unknown: " + type);
         }

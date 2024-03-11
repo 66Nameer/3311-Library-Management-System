@@ -8,18 +8,19 @@ public class Textbook extends PhysicalItem {
 	
 	// default constructor
 	public Textbook() {
-		this("", 0, 0.00, false, false, false, "");
+	
+		this(null);
 	}
 	
 	
-	public Textbook(String name, int ID, double price, boolean canPurchase, boolean canRent, boolean discounted, String location) {
-		this.name = name;
-		this.ID = ID;
-		this.price = price;
-		this.canPurchase = canPurchase;
-		this.canRent = canRent;
-		this.discounted = discounted;
-		this.location = location;
+	public Textbook(ItemAttributes attributes) {
+		this.name = attributes.name;
+		this.ID = attributes.ID;
+		this.price = attributes.price;
+		this.canPurchase = attributes.canPurchase;
+		this.canRent = attributes.canRent;
+		this.discounted = attributes.discounted;
+		this.location = (String) attributes.additionalAttributes.get("location");
 	}
 	
 

@@ -9,20 +9,20 @@ public class Magazine extends PhysicalItem {
 	
 	// default constructor
 	public Magazine() {
-		this("", 0, 0.00, false, false, false, "", "", null);
+		this(null);
 	}
 	
 	
-	public Magazine(String name, int ID, double price, boolean canPurchase, boolean canRent, boolean discounted, String location, String publisher, LocalDate dateissued) {
-		this.name = name;
-		this.ID = ID;
-		this.price = price;
-		this.canPurchase = canPurchase;
-		this.canRent = canRent;
-		this.discounted = discounted;
-		this.location = location;
-		this.publisher = publisher;
-		this.dateissued = dateissued;
+	public Magazine(ItemAttributes attributes) {
+		this.name = attributes.name;
+		this.ID = attributes.ID;
+		this.price = attributes.price;
+		this.canPurchase = attributes.canPurchase;
+		this.canRent = attributes.canRent;
+		this.discounted = attributes.discounted;
+		this.location = (String) attributes.additionalAttributes.get("location");
+		this.publisher = (String) attributes.additionalAttributes.get("publisher");
+		this.dateissued = (LocalDate) attributes.additionalAttributes.get("dateissued");
 	}
 	
 	
