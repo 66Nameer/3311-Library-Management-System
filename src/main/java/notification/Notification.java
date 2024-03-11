@@ -1,7 +1,10 @@
 package src.main.java.notification;
 
 
-@Deprecated
+/**
+ * Use NotificationManager instead
+ **/
+@Deprecated(forRemoval = true)
 public class Notification {
 
     private String alert;

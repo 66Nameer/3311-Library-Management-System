@@ -12,6 +12,8 @@ public class NotificationPanel extends JPanel {
     public void addNotification(String message) {
         JLabel label = new JLabel(message);
         label.setAlignmentX(Component.LEFT_ALIGNMENT);
+        Font newFont = new Font(label.getName(), label.getFont().getStyle(), 18);
+        label.setFont(newFont);
         // Add some styling or additional components to label if necessary
         add(label);
         revalidate();

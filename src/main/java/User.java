@@ -10,7 +10,7 @@ public abstract class User {
 
 	private String password;
 	private String email;
-	private NotificationManager notificationService;
+	private NotificationManager notificationService = new NotificationManager();
 	ArrayList<Item> rentals = new ArrayList<>();
 
 	public ArrayList<Request> requests(){

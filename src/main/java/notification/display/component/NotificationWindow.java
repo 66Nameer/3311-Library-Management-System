@@ -12,7 +12,7 @@ public class NotificationWindow extends JFrame {
 
     private NotificationWindow() {
         setTitle("Notifications");
-        setSize(300, 400); // Set desired size
+        setSize(300, 400); // Set desired size (don't think this is needed due to the pack() method)
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
         notificationPanel = new NotificationPanel();
@@ -37,6 +37,7 @@ public class NotificationWindow extends JFrame {
 
     public void pushNotification(String message) {
         notificationPanel.addNotification(message);
+        pack();
     }
 
     public void clearNotifications() {

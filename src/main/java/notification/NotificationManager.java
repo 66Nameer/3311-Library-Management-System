@@ -1,9 +1,6 @@
 package src.main.java.notification;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 // Acts as the observable class
 public class NotificationManager {
@@ -33,7 +30,7 @@ public class NotificationManager {
 
     private void initializeMap(Map<NotifyType, List<MessageListener>> map) {
         for (NotifyType type : NotifyType.values()) {
-            map.put(type, List.of());
+            map.put(type, new ArrayList<>());
         }
     }
 }
