@@ -2,6 +2,7 @@ package src.main.java.notification;
 
 import src.main.java.notification.display.NotificationDisplay;
 
+// Acts as a concrete observer
 public class AppMessageListener implements MessageListener {
 
     private final NotificationDisplay display;
