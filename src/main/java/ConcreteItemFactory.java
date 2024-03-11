@@ -1,8 +1,7 @@
 package src.main.java;
 
 public class ConcreteItemFactory implements ItemFactory {
-    public Item createItem(String type, String name, int ID, double price,
-                           boolean canPurchase, boolean canRent, boolean discounted) {
+    public Item createItem(String type, String name, int ID, double price, boolean canPurchase, boolean canRent, boolean discounted) {
         switch (type) {
             case "Textbook":
                 return new Textbook(name, ID, price, canPurchase, canRent, discounted);
@@ -17,7 +16,7 @@ public class ConcreteItemFactory implements ItemFactory {
             case "Newsletter":
                 return new Newsletter(name, ID, price, canPurchase, canRent, discounted);
             default:
-                throw new IllegalArgumentException("Unknown Item type: " + type);
+                throw new IllegalArgumentException("Item type unknown: " + type);
         }
     }
 }
