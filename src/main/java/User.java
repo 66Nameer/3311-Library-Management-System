@@ -11,6 +11,7 @@ public abstract class User {
 	private String password;
 	private String email;
 	private NotificationManager notificationService = new NotificationManager();
+	protected Cart cart;
 	ArrayList<Item> rentals = new ArrayList<>();
 
 	public ArrayList<Request> requests(){
