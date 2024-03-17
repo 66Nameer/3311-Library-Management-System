@@ -1,10 +1,15 @@
 package src.main.java.gui.panels;
 
 
+import src.main.java.Database;
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
-public class LoginPanel extends JPanel {
+import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+
+public class LoginPanel extends JPanel implements ActionListener {
     private JTextField usernameField;
     private JPasswordField passwordField;
     private JButton loginButton;
@@ -39,6 +44,7 @@ public class LoginPanel extends JPanel {
 
         // Login button
         loginButton = new JButton("Login");
+        loginButton.addActionListener(this);
         loginButton.setAlignmentX(Component.CENTER_ALIGNMENT); // This will align the button to the center of the X axis
 
         // Add the login button directly under the password panel
@@ -57,4 +63,22 @@ public class LoginPanel extends JPanel {
         // Add the bottom panel with the register button to the south of the main panel
         add(bottomPanel, BorderLayout.SOUTH);
     }
+
+
+    public void actionPerformed(ActionEvent e) {
+        String email = usernameField.getText();
+        String password = new String(passwordField.getPassword());
+
+
+        boolean isVerified = Database.authenticateUser(email, password);
+        if (isVerified) {
+            // If
+            JComponent comp = (JComponent) e.getSource();
+            Window win = SwingUtilities.getWindowAncestor(comp);
+            win.dispose();
+        }else {
+            JOptionPane.showMessageDialog(this, "Invalid Username or Password", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
 }

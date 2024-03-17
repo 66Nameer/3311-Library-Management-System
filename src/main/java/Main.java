@@ -19,10 +19,8 @@ public class Main {
         user.getNotificationService().addNotification(NotifyType.OVERDUE, new AppMessageListener(new JFrameNotificationDisplay(), "Pumping Textbook 3"));
         user.getNotificationService().notify(NotifyType.OVERDUE);
 
-        SwingUtilities.invokeLater(() -> {
-            MainFrame mainFrame = new MainFrame();
-            mainFrame.setVisible(true);
-        });
+        MainFrame mainFrame = new MainFrame();
+        mainFrame.setVisible(true);
 
     }
 }
