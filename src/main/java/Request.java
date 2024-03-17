@@ -13,5 +13,11 @@ public class Request {
 		this.priority = priority;
 	}
 	
+	
+	
+	public void updatePriority(int newPriority) {
+		this.priority = newPriority;
+	}
+	
 
 }

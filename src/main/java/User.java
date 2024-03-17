@@ -3,6 +3,8 @@ package src.main.java;
 import src.main.java.notification.NotificationManager;
 
 import java.util.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 
 
@@ -13,7 +15,7 @@ public abstract class User {
 	private NotificationManager notificationService = new NotificationManager();
 	protected Cart cart;
 	private int priority;
-	ArrayList<Item> rentals = new ArrayList<>();
+	ArrayList<Rental> rentals = new ArrayList<>();
 	ArrayList<Request> request = new ArrayList<>();
 
 	public ArrayList<Request> requests(){
@@ -31,6 +33,24 @@ public abstract class User {
 			Request req=new Request(item, this, priority);
 			request.add(req);
 	}
+	
+	
+	
+	public void rentItem(PhysicalItem item) {
+		if (item.canRent) {								// Need a checker of User's outstanding rentals/penalties in case they've lost rental privileges
+			
+			LocalDate today = LocalDate.now();
+			LocalDate due = today.plusDays(3);
+			
+			Rental rent = new Rental(this, item, due);
+			rentals.add(rent);
+			
+			// update stock of item in DB to reflect item being rented
+			
+		}
+	}
+	
+	
 
 	public void openItem(Item item) {
 	
