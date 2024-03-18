@@ -46,6 +46,9 @@ public abstract class User {
 			rentals.add(rent);
 			
 			// update stock of item in DB to reflect item being rented
+			//Database1.updateStock(item.getID(), -1);
+			
+			
 			
 		}
 	}
