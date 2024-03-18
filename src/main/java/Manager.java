@@ -1,30 +1,36 @@
 package src.main.java;
 import src.main.java.Item;
 
-public class Manager extends User{
+public class Manager extends User implements PrivilegedUsers{
 
-	
-	public void AddItem (Item item) {
+
+	@Override
+	public void AddItem(Item item) {
 		
 	}
-	
+
+	@Override
 	public void EnableItemForRent(int itemID) {
-		
+
 	}
-	
-	public void EditItemDetails(int item, String updatedDetails) {
-		
+
+	@Override
+	public void EditItemDetails(int itemID, String updatedDetails) {
+
 	}
-	
+
+	@Override
 	public void DisableItemForRent(int itemID) {
-		
+
 	}
-	
+
+	@Override
 	public void ValidateRegistration() {
-		
+
 	}
-	
+
+	@Override
 	public void DisplayNotification(String message) {
-		
+
 	}
 }
