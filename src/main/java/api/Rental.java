@@ -21,6 +21,15 @@ public class Rental {
     	this.item = item;
     	this.dueDate = dueDate;
     }
+
+
+    public PhysicalItem getItem() {
+        return this.item;
+    }
+
+    public User getUser() {
+        return this.user;
+    }
     
     
     

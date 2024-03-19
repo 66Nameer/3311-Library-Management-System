@@ -3,6 +3,10 @@ package api;
 public class Manager extends User implements PrivilegedUsers {
 
 
+	public Manager(String email, String password) {
+		super(email, password);
+	}
+
 	@Override
 	public void AddItem(Item item) {
 		

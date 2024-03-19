@@ -12,7 +12,8 @@ public class CartCaretaker {
     public void undo(Cart cart){
         if(!history.isEmpty()){
             cart.undo(history.pop());
-        }else{
+        }
+        else{
             System.out.println("The cart is already empty!!!");
         }
     }

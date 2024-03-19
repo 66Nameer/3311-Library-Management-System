@@ -1,21 +1,21 @@
 package api;
 
+import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
+
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.opencsv.CSVReader;
-import com.opencsv.CSVWriter;
-
 public final class Database {
 
     private static Database INSTANCE;
 
     private final static String userData = "";
-    private final String itemData = "";
-    private final String rentalData = "";
+    private final static String itemData = "";
+    private final static String rentalData = "";
 
     private Database() {}
 
@@ -65,23 +65,47 @@ public final class Database {
     	
         return userRentals;
     }
-    
-    
+
+
+	// I don't think we need user as a method param since rental has the associated data already
     
     public void pushRental(User user, Rental rental) {
-    	
-    	// Whenever a api.User rents an item, this api.Rental must be added to the DB
-    	
+		String ID = String.valueOf(rental.getItem().ID);
+		try {
+			CSVReader reader = new CSVReader(new FileReader(rentalData));
+			List<String[]> file = reader.readAll();
+			String[] newEntry = new String[]{
+					rental.getUser().getEmail(), ID, rental.getDueDate().toString()
+			};
+			file.add(newEntry);
+			CSVWriter writer = new CSVWriter(new FileWriter(rentalData));
+			writer.writeAll(file);
+		}
+        catch (Exception e) {
+			System.out.println(e.getMessage());
+        }
     }
     
-    
+    // TODO: Might need to add a "count" field to item
     public void pushItem(PhysicalItem item) {
-    	
+
     }
     
     
     public void pushUser(User user) {
-    	
+		try {
+			CSVReader reader = new CSVReader(new FileReader(userData));
+			List<String[]> file = reader.readAll();
+			String[] newEntry = new String[]{
+					user.getEmail(), user.getPassword()
+			};
+			file.add(newEntry);
+			CSVWriter writer = new CSVWriter(new FileWriter(userData));
+			writer.writeAll(file);
+		}
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
     }
     
     
@@ -90,8 +114,9 @@ public final class Database {
         return null;
     }
     
-    
 
+
+	// TODO: In order to instantiate users we need to have something in the database that distinguishes them, for example if the user is a student then write something in the db associated with that
     public User fetchUser(String userID) {
         return null;
     }
@@ -186,6 +211,4 @@ public final class Database {
         
         
     }
-
-
 }

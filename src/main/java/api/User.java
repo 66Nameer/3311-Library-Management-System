@@ -18,9 +18,21 @@ public abstract class User {
 	ArrayList<Rental> rentals = new ArrayList<>();
 	ArrayList<Request> request = new ArrayList<>();
 
+	public User(String email, String password) {
+		this.email = email;
+		this.password = password;
+	}
+
 	public ArrayList<Request> requests(){
 		return this.request;
-	
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public String getEmail() {
+		return this.email;
 	}
 
 	public void makeRequests(Item item) {
