@@ -116,7 +116,7 @@ public class RegisterPanel extends JPanel implements ActionListener {
 
 
             // Initialize CSVWriter object with FileWriter
-            CSVWriter csvWriter = new CSVWriter(new FileWriter("sec/main/java/Database/Users.csv", true));
+            CSVWriter csvWriter = new CSVWriter(new FileWriter("src/main/java/Database/Users.csv", true));
 
             // Create a string array to represent a single record
             String[] record = {username, email, password};
