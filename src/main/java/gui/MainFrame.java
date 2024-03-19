@@ -1,6 +1,7 @@
 package gui;
 
 import gui.panels.LoginPanel;
+import gui.panels.RegisterPanel;
 
 import javax.swing.*;
 
@@ -15,12 +16,14 @@ public class MainFrame extends JFrame {
     public MainFrame() {
         cardLayout = new CardLayout();
         cardPanel = new JPanel(cardLayout);
-        Image icon = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB_PRE);
-        this.setIconImage(icon);
 
         // Initialize the LoginPanel and add it to cardPanel with an identifier
-        LoginPanel loginPanel = new LoginPanel();
+        LoginPanel loginPanel = new LoginPanel(this); // Pass reference to MainFrame
         cardPanel.add(loginPanel, "LoginPanel");
+
+        // Initialize the RegisterPanel and add it to cardPanel with an identifier
+        RegisterPanel registerPanel = new RegisterPanel(this); // Pass reference to MainFrame
+        cardPanel.add(registerPanel, "RegisterPanel");
 
         // Setup the frame
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -34,5 +37,13 @@ public class MainFrame extends JFrame {
     // Methods to switch cards, if necessary
     public void showCard(String card) {
         cardLayout.show(cardPanel, card);
+    }
+
+    public static void main(String[] args) {
+        // Create and display the GUI
+        SwingUtilities.invokeLater(() -> {
+            MainFrame mainFrame = new MainFrame();
+            mainFrame.setVisible(true);
+        });
     }
 }

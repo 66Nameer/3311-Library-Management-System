@@ -2,6 +2,7 @@ package gui.panels;
 
 
 import api.Database;
+import gui.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,8 +16,10 @@ public class LoginPanel extends JPanel implements ActionListener {
     private JButton loginButton;
     private JLabel loginLabel;
     private JButton registerButton; // Register button
+    private MainFrame mainFrame;
 
-    public LoginPanel() {
+    public LoginPanel(MainFrame mainFrame) {
+        this.mainFrame = mainFrame;
         setLayout(new BorderLayout(10, 10)); // Use BorderLayout for the panel
 
         // Center panel to hold the username and password fields
@@ -58,6 +61,11 @@ public class LoginPanel extends JPanel implements ActionListener {
         // Register button at the bottom
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         registerButton = new JButton("Register");
+        registerButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                mainFrame.showCard("RegisterPanel"); // Switch to the RegisterPanel when register button is clicked
+            }
+        });
         bottomPanel.add(registerButton);
 
         // Add the bottom panel with the register button to the south of the main panel
@@ -65,11 +73,11 @@ public class LoginPanel extends JPanel implements ActionListener {
     }
 
 
+
+
     public void actionPerformed(ActionEvent e) {
         String email = usernameField.getText();
         String password = new String(passwordField.getPassword());
-
-
 
 
         boolean isVerified = Database.authenticateUser(email, password);
