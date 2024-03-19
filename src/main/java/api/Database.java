@@ -2,6 +2,7 @@ package api;
 
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,18 +33,29 @@ public final class Database {
     
     public ArrayList<Rental> fetchRentals(String userID) {
     	
-    	ArrayList<Rental> userRentals = new ArrayList<Rental>();
+    	ArrayList<Rental> userRentals = new ArrayList<Rental>();				// List of User's Rentals to be returned after searching Rentals DB
+    	int itemID;
     	
+    	User userTemp = fetchUser(userID);
+    	
+    	
+    	// fetch each rental associated with the userID
     	try {
     		CSVReader reader = new CSVReader(new FileReader(rentalData));
     		
     		String[] nextLine;
     		
     		while ((nextLine = reader.readNext()) != null) {
-    			if (nextLine[0].equals(userID)) {
+    						
+    			if (nextLine[0].equals(userID)) {							// if userID found in a rental entry, take the associated itemID and fetchItem() so the Item object can be instantiated and used to create Rental object
     				
-    				//userRentals.add(new api.Rental(userID, nextLine[1], nextLine[2]));		How are we returning a rental? Do we generate a new api.User and api.PhysicalItem everytime we fetch rental info from the DB?
+    				itemID = Integer.parseInt(nextLine[1]);
+    				Item itemTemp = fetchItem(itemID);
     				
+    				LocalDate date = LocalDate.parse(nextLine[2]);
+    				
+    				Rental rentalTemp = new Rental(userTemp, (PhysicalItem)itemTemp, date);
+    				userRentals.add(rentalTemp);
     			}
     		}
 
@@ -59,6 +71,16 @@ public final class Database {
     public void pushRental(User user, Rental rental) {
     	
     	// Whenever a api.User rents an item, this api.Rental must be added to the DB
+    	
+    }
+    
+    
+    public void pushItem(PhysicalItem item) {
+    	
+    }
+    
+    
+    public void pushUser(User user) {
     	
     }
     
@@ -160,7 +182,7 @@ public final class Database {
         	System.out.println(e.getMessage());
         }
 
-		return true;
+		return false;
         
         
     }
