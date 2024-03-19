@@ -92,7 +92,7 @@ public class RegisterPanel extends JPanel implements ActionListener {
 
 
 
-                if (saveUserToCSV(username, email, password)) {
+                if (saveUserToCSV(email, password)) {
                     // Registration successful
                     JOptionPane.showMessageDialog(this, "Registration successful!");
                     clearFields(); // Clear input fields after successful registration
@@ -110,7 +110,7 @@ public class RegisterPanel extends JPanel implements ActionListener {
         }
     }
 
-    private boolean saveUserToCSV(String username, String email, String password) {
+    private boolean saveUserToCSV(String email, String password) {
         try {
             // Initialize CSVWriter object with FileWriter
 
@@ -119,7 +119,7 @@ public class RegisterPanel extends JPanel implements ActionListener {
             CSVWriter csvWriter = new CSVWriter(new FileWriter("src/main/java/Database/Users.csv", true));
 
             // Create a string array to represent a single record
-            String[] record = {username, email, password};
+            String[] record = {email, password};
 
             // Write the record to the CSV file
             csvWriter.writeNext(record);
