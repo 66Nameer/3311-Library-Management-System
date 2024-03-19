@@ -1,13 +1,13 @@
-package src.main.java.gui.panels;
+package gui.panels;
 
 
-import src.main.java.Database;
+import api.Database;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
 public class LoginPanel extends JPanel implements ActionListener {
     private JTextField usernameField;
@@ -68,6 +68,8 @@ public class LoginPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String email = usernameField.getText();
         String password = new String(passwordField.getPassword());
+
+
 
 
         boolean isVerified = Database.authenticateUser(email, password);

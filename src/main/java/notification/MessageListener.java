@@ -1,4 +1,4 @@
-package src.main.java.notification;
+package notification;
 
 // Acts as the observer interface
 public interface MessageListener {

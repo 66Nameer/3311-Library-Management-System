@@ -1,4 +1,4 @@
-package src.main.java.notification.display.component;
+package notification.display.component;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;

@@ -1,6 +1,7 @@
-package src.main.java.notification.display;
+package notification.display;
 
-import src.main.java.notification.display.component.NotificationWindow;
+
+import notification.display.component.NotificationWindow;
 
 public class JFrameNotificationDisplay implements NotificationDisplay {
 

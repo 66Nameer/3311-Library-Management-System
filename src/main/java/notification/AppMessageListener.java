@@ -1,6 +1,7 @@
-package src.main.java.notification;
+package notification;
 
-import src.main.java.notification.display.NotificationDisplay;
+
+import notification.display.NotificationDisplay;
 
 // Acts as a concrete observer
 public class AppMessageListener implements MessageListener {

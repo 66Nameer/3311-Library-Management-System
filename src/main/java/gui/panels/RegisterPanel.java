@@ -1,5 +1,7 @@
-package src.main.java.gui.panels;
+package gui.panels;
 
+
+import gui.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;

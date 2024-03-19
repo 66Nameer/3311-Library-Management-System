@@ -1,10 +1,13 @@
-package src.main.java.gui;
+package gui;
+
+import gui.panels.LoginPanel;
 
 import javax.swing.*;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
-import src.main.java.gui.panels.LoginPanel;
+
 public class MainFrame extends JFrame {
     private CardLayout cardLayout;
     private JPanel cardPanel;
@@ -12,6 +15,8 @@ public class MainFrame extends JFrame {
     public MainFrame() {
         cardLayout = new CardLayout();
         cardPanel = new JPanel(cardLayout);
+        Image icon = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB_PRE);
+        this.setIconImage(icon);
 
         // Initialize the LoginPanel and add it to cardPanel with an identifier
         LoginPanel loginPanel = new LoginPanel();

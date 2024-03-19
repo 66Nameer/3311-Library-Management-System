@@ -1,8 +1,10 @@
-package src.main.java.gui.panels;
+package gui.panels;
+
+import api.Manager;
+import api.Textbook;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 public class PrivilegeUI extends Container {
     private JTextField itemIdField, itemNameField, messageField;
 
@@ -22,17 +24,17 @@ public class PrivilegeUI extends Container {
         itemNameField = new JTextField(20);
         messageField = new JTextField(20);
 
-        addButton = new JButton("Add Item");
-        enableButton = new JButton("Enable Item");
-        editButton = new JButton("Edit Item");
-        disableButton = new JButton("Disable Item");
+        addButton = new JButton("Add api.Item");
+        enableButton = new JButton("Enable api.Item");
+        editButton = new JButton("Edit api.Item");
+        disableButton = new JButton("Disable api.Item");
         validateButton = new JButton("Validate Registration");
         notificationButton = new JButton("Notify");
 
         // Add components to the panel
-        add(new JLabel("Item ID:"), gbc);
+        add(new JLabel("api.Item ID:"), gbc);
         add(itemIdField, gbc);
-        add(new JLabel("Item Name/Details:"), gbc);
+        add(new JLabel("api.Item Name/Details:"), gbc);
         add(itemNameField, gbc);
         add(addButton, gbc);
 
@@ -46,7 +48,9 @@ public class PrivilegeUI extends Container {
         add(validateButton, gbc);
 
         // Action listeners
+/*
         addButton.addActionListener(e -> manager.AddItem(new Textbook(itemIdField.getText(), itemNameField.getText())));
+*/
         enableButton.addActionListener(e -> manager.EnableItemForRent(Integer.parseInt(itemIdField.getText())));
         editButton.addActionListener(e -> manager.EditItemDetails(Integer.parseInt(itemIdField.getText()), itemNameField.getText()));
         disableButton.addActionListener(e -> manager.DisableItemForRent(Integer.parseInt(itemIdField.getText())));

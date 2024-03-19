@@ -1,4 +1,4 @@
-package src.main.java.notification.display;
+package notification.display;
 
 public interface NotificationDisplay {
     void displayNotification(String message);
