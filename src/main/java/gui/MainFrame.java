@@ -2,6 +2,7 @@ package gui;
 
 import gui.panels.LoginPanel;
 import gui.panels.RegisterPanel;
+import gui.panels.UserDashboardPanel;
 
 import javax.swing.*;
 
@@ -28,6 +29,10 @@ public class MainFrame extends JFrame {
         RegisterPanel registerPanel = new RegisterPanel(this); // Pass reference to MainFrame
         cardPanel.add(registerPanel, "RegisterPanel");
 
+        // Initialize the UserDashboardPanel and add it to cardPanel with an identifier
+        UserDashboardPanel userDashboardPanel = new UserDashboardPanel();
+        cardPanel.add(userDashboardPanel, "UserDashboardPanel");
+
         // Setup the frame
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(new Dimension(800, 600));
@@ -40,6 +45,10 @@ public class MainFrame extends JFrame {
     // Methods to switch cards, if necessary
     public void showCard(String card) {
         cardLayout.show(cardPanel, card);
+    }
+
+    public void showUserDashboard() {
+        cardLayout.show(cardPanel, "UserDashboardPanel");
     }
 
     public static void main(String[] args) {
