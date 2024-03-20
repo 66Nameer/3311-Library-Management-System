@@ -37,4 +37,8 @@ private HashMap<Item, Integer> items;
 	public void undo(CartMemento memento){
         	this.items=memento.getItems();
 	}
+
+	public HashMap<Item, Integer> getItems() {
+		return this.items;
+    }
 }
