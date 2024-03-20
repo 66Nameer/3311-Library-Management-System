@@ -35,11 +35,7 @@ public class RegisterPanel extends JPanel implements ActionListener {
         // Add some space at the top
         centerPanel.add(Box.createVerticalGlue()); // This will push the elements towards the center
 
-        // Username panel
-        JPanel usernamePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        usernameField = new JTextField(15);
-        usernamePanel.add(new JLabel("Username:"));
-        usernamePanel.add(usernameField);
+
 
         // Email panel
         JPanel emailPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -60,7 +56,7 @@ public class RegisterPanel extends JPanel implements ActionListener {
         userTypePanel.add(userTypeComboBox);
 
         // Add username, email, and password panels to the center panel
-        centerPanel.add(usernamePanel);
+
         centerPanel.add(emailPanel);
         centerPanel.add(passwordPanel);
         centerPanel.add(userTypePanel);
@@ -79,8 +75,7 @@ public class RegisterPanel extends JPanel implements ActionListener {
         // Add the center panel to the main panel
         add(centerPanel, BorderLayout.CENTER);
 
-        usernameField.setBackground(Color.WHITE);
-        usernameField.setForeground(Color.BLACK);
+
         emailField.setBackground(Color.WHITE);
         emailField.setForeground(Color.BLACK);
         passwordField.setBackground(Color.WHITE);
@@ -95,7 +90,7 @@ public class RegisterPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == create) {
-            String username = usernameField.getText();
+
             String email = emailField.getText();
             String password = new String(passwordField.getPassword());
             String userType = (String) userTypeComboBox.getSelectedItem();
@@ -103,7 +98,7 @@ public class RegisterPanel extends JPanel implements ActionListener {
             Database instance = Database.getInstance();
 
             // Validate input fields
-            if (!username.isEmpty() && !email.isEmpty() && !password.isEmpty()) {
+            if ( email.isEmpty() && !password.isEmpty()) {
 
 
                 switch (userType) {
@@ -171,7 +166,6 @@ public class RegisterPanel extends JPanel implements ActionListener {
 
 
     private void clearFields() {
-        usernameField.setText("");
         emailField.setText("");
         passwordField.setText("");
     }
