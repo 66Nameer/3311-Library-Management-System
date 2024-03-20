@@ -1,21 +1,16 @@
 package gui.panels;
 
 
-import com.opencsv.CSVReader;
+import api.*;
 import com.opencsv.CSVWriter;
-import com.opencsv.exceptions.CsvValidationException;
 import gui.MainFrame;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
+
 
 
 public class RegisterPanel extends JPanel implements ActionListener {
@@ -23,6 +18,7 @@ public class RegisterPanel extends JPanel implements ActionListener {
     private JTextField usernameField;
     private JTextField emailField;
     private JPasswordField passwordField;
+    private JComboBox<String> userTypeComboBox;
     private JButton create; // Register button
     private MainFrame mainFrame;
 
@@ -30,6 +26,7 @@ public class RegisterPanel extends JPanel implements ActionListener {
     public RegisterPanel(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
         setLayout(new BorderLayout(10, 10)); // Use BorderLayout for the panel
+
 
         JPanel centerPanel = new JPanel();
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
@@ -56,10 +53,18 @@ public class RegisterPanel extends JPanel implements ActionListener {
         passwordPanel.add(new JLabel("Password:"));
         passwordPanel.add(passwordField);
 
+        JPanel userTypePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        String[] userTypes = {"Student", "Faculty", "Staff", "Visitor", "Manager"};
+        userTypeComboBox = new JComboBox<>(userTypes);
+        userTypePanel.add(new JLabel("User Type:"));
+        userTypePanel.add(userTypeComboBox);
+
         // Add username, email, and password panels to the center panel
         centerPanel.add(usernamePanel);
         centerPanel.add(emailPanel);
         centerPanel.add(passwordPanel);
+        centerPanel.add(userTypePanel);
+
 
         // Register button
         create = new JButton("Create Account");
@@ -74,6 +79,15 @@ public class RegisterPanel extends JPanel implements ActionListener {
         // Add the center panel to the main panel
         add(centerPanel, BorderLayout.CENTER);
 
+        usernameField.setBackground(Color.WHITE);
+        usernameField.setForeground(Color.BLACK);
+        emailField.setBackground(Color.WHITE);
+        emailField.setForeground(Color.BLACK);
+        passwordField.setBackground(Color.WHITE);
+        passwordField.setForeground(Color.BLACK);
+        create.setBackground(Color.BLACK);
+        create.setForeground(Color.WHITE);
+
     }
 
 
@@ -84,22 +98,66 @@ public class RegisterPanel extends JPanel implements ActionListener {
             String username = usernameField.getText();
             String email = emailField.getText();
             String password = new String(passwordField.getPassword());
+            String userType = (String) userTypeComboBox.getSelectedItem();
 
-
+            Database instance = Database.getInstance();
 
             // Validate input fields
             if (!username.isEmpty() && !email.isEmpty() && !password.isEmpty()) {
 
 
+                switch (userType) {
+                    case "Student" -> {
+                        if (instance.pushUser(new Student(email, password), userType)) {
+                            // Registration successful
+                            JOptionPane.showMessageDialog(this, "Registration successful!");
+                            clearFields(); // Clear input fields after successful registration
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Registration incomplete: ERROR", "Registration Error", JOptionPane.ERROR_MESSAGE);
 
-                if (saveUserToCSV(email, password)) {
-                    // Registration successful
-                    JOptionPane.showMessageDialog(this, "Registration successful!");
-                    clearFields(); // Clear input fields after successful registration
+                        }
+                    }
+                    case "Faculty" -> {
+                        if (instance.pushUser(new Faculty(email, password), userType)) {
+                            // Registration successful
+                            JOptionPane.showMessageDialog(this, "Registration successful!");
+                            clearFields(); // Clear input fields after successful registration
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Registration incomplete: ERROR", "Registration Error", JOptionPane.ERROR_MESSAGE);
+
+                        }
+                    }
+                    case "Staff" -> {
+                        if (instance.pushUser(new Staff(email, password), userType)) {
+                            // Registration successful
+                            JOptionPane.showMessageDialog(this, "Registration successful!");
+                            clearFields(); // Clear input fields after successful registration
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Registration incomplete: ERROR", "Registration Error", JOptionPane.ERROR_MESSAGE);
+
+                        }
+                    }
+                    case "Visitor" -> {
+                        if (instance.pushUser(new Visitor(email, password), userType)) {
+                            // Registration successful
+                            JOptionPane.showMessageDialog(this, "Registration successful!");
+                            clearFields(); // Clear input fields after successful registration
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Registration incomplete: ERROR", "Registration Error", JOptionPane.ERROR_MESSAGE);
+
+                        }
+                    }
+                    case "Manager" -> {
+                        if (instance.pushUser(new Manager(email, password), userType)) {
+                            // Registration successful
+                            JOptionPane.showMessageDialog(this, "Registration successful!");
+                            clearFields(); // Clear input fields after successful registration
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Registration incomplete: ERROR", "Registration Error", JOptionPane.ERROR_MESSAGE);
+
+                        }
+                    }
                 }
-                // Proceed with registration logic
-                // For now, simply display a success message
-
 
                 // Optionally, switch back to the login panel after successful registration
                 mainFrame.showCard("LoginPanel");
@@ -110,29 +168,7 @@ public class RegisterPanel extends JPanel implements ActionListener {
         }
     }
 
-    private boolean saveUserToCSV(String email, String password) {
-        try {
-            // Initialize CSVWriter object with FileWriter
 
-
-            // Initialize CSVWriter object with FileWriter
-            CSVWriter csvWriter = new CSVWriter(new FileWriter("src/main/java/Database/Users.csv", true));
-
-            // Create a string array to represent a single record
-            String[] record = {email, password};
-
-            // Write the record to the CSV file
-            csvWriter.writeNext(record);
-
-            // Flush and close the writer
-            csvWriter.close();
-
-            return true;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
 
     private void clearFields() {
         usernameField.setText("");

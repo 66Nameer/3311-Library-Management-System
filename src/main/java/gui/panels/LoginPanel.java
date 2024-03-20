@@ -20,7 +20,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 
     public LoginPanel(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
-        setLayout(new BorderLayout(10, 10)); // Use BorderLayout for the panel
+        setLayout(new BorderLayout(20, 20)); // Use BorderLayout for the panel
 
         // Center panel to hold the username and password fields
         JPanel centerPanel = new JPanel();
@@ -61,6 +61,16 @@ public class LoginPanel extends JPanel implements ActionListener {
         // Register button at the bottom
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         registerButton = new JButton("Register");
+
+        usernameField.setBackground(Color.WHITE);
+        usernameField.setForeground(Color.BLACK);
+        passwordField.setBackground(Color.WHITE);
+        passwordField.setForeground(Color.BLACK);
+        loginButton.setBackground(Color.BLACK);
+        loginButton.setForeground(Color.WHITE);
+        registerButton.setBackground(Color.BLACK);
+        registerButton.setForeground(Color.WHITE);
+
         registerButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 mainFrame.showCard("RegisterPanel"); // Switch to the RegisterPanel when register button is clicked

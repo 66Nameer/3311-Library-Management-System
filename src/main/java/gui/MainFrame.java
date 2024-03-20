@@ -17,6 +17,9 @@ public class MainFrame extends JFrame {
         cardLayout = new CardLayout();
         cardPanel = new JPanel(cardLayout);
 
+        ImageIcon icon = new ImageIcon("src/main/java/gui/icon1.png"); // Replace "path_to_your_icon_image.png" with the path to your icon image file
+        setIconImage(icon.getImage());
+
         // Initialize the LoginPanel and add it to cardPanel with an identifier
         LoginPanel loginPanel = new LoginPanel(this); // Pass reference to MainFrame
         cardPanel.add(loginPanel, "LoginPanel");
