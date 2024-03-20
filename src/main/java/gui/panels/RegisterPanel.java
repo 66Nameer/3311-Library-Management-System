@@ -21,6 +21,7 @@ public class RegisterPanel extends JPanel implements ActionListener {
     private JComboBox<String> userTypeComboBox;
     private JButton create; // Register button
     private MainFrame mainFrame;
+    private JButton back;
 
 
     public RegisterPanel(MainFrame mainFrame) {
@@ -64,16 +65,28 @@ public class RegisterPanel extends JPanel implements ActionListener {
 
         // Register button
         create = new JButton("Create Account");
+        back=new JButton("Back");
         create.addActionListener(this);
+        back.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainFrame.showCard("LoginPanel");
+            }
+        });
         create.setAlignmentX(Component.CENTER_ALIGNMENT); // This will align the button to the center of the X axis
-
+        back.setAlignmentX(Component.CENTER_ALIGNMENT);
         // Add the create account button directly under the password panel
         JPanel createButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         createButtonPanel.add(create);
         centerPanel.add(createButtonPanel);
 
+        JPanel backButton=new JPanel(new FlowLayout(FlowLayout.CENTER));
+        backButton.add(back);
+        centerPanel.add(backButton);
+
         // Add the center panel to the main panel
         add(centerPanel, BorderLayout.CENTER);
+
 
 
         emailField.setBackground(Color.WHITE);
@@ -82,6 +95,8 @@ public class RegisterPanel extends JPanel implements ActionListener {
         passwordField.setForeground(Color.BLACK);
         create.setBackground(Color.BLACK);
         create.setForeground(Color.WHITE);
+        back.setBackground(Color.BLACK);
+        back.setForeground(Color.WHITE);
 
     }
 
@@ -152,6 +167,7 @@ public class RegisterPanel extends JPanel implements ActionListener {
 
                         }
                     }
+
                 }
 
                 // Optionally, switch back to the login panel after successful registration
