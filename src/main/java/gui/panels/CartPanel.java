@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.util.*;
 import java.util.Map;
 import api.*;
-public class CartPanel  extends  JFrame{
+public class CartPanel  extends  JFrame {
     private Cart cart = new Cart();
     private JTextField itemNameField, quantityField;
     private JTextArea cartContents;
@@ -82,3 +82,4 @@ public class CartPanel  extends  JFrame{
 //            JOptionPane.showMessageDialog(this, "Invalid number format");
 //        }
     }
+}

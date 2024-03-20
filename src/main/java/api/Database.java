@@ -6,6 +6,7 @@ import com.opencsv.CSVWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +15,9 @@ public final class Database {
 
 	private static Database INSTANCE;
 
-	private final static String userData = "src/main/java/Database/Users.csv";
-	private final static String itemData = "src/main/java/Database/Items.csv";
-	private final static String rentalData = "src/main/java/Database/Rentals.csv";
+	private final static String userData = "src/main/java/DatabaseFiles/Users.csv";
+	private final static String itemData = "src/main/java/DatabaseFiles/Items.csv";
+	private final static String rentalData = "src/main/java/DatabaseFiles/Rentals.csv";
 
 	private Database() {}
 
@@ -94,26 +95,50 @@ public final class Database {
 
 
 	public boolean pushUser(User user, String type) {
-		try {
-			// Initialize CSVWriter object with FileWriter
-			CSVWriter csvWriter = new CSVWriter(new FileWriter("src/main/java/Database/Users.csv", true));
-
-			// Create a string array to represent a single record
-			String[] record = {user.getEmail(), user.getPassword(), type};
+//		try {
+//			// Initialize CSVWriter object with FileWriter
+//			CSVWriter csvWriter = new CSVWriter(new FileWriter("src/main/java/DatabaseFiles/Users.csv", true));
+//
+//			// Create a string array to represent a single record
+//			String[] record = {user.getEmail(), user.getPassword(), type};
+//
+//			// Write the record to the CSV file
+//			csvWriter.writeNext(record);
+//
+//			// Flush and close the writer
+//			csvWriter.close();
+//
+//			return true;
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//			return false;
+//		}
+		// Writing to the Users.csv file
+		try (Writer writer = new FileWriter("src/main/java/DatabaseFiles/Users.csv", true)) {
+			// Create an instance of CSVWriter with specific settings
+				//Default Separator: Comma column separator
+				// No Quote Character: Will remove quote characters
+				// Default Escape Character: If there is a special character that needs to be escaped within an entry
+				// Default Line End: Systems default line separator to end lines
+			CSVWriter csvWriter = new CSVWriter(writer,
+					CSVWriter.DEFAULT_SEPARATOR,
+					CSVWriter.NO_QUOTE_CHARACTER,
+					CSVWriter.DEFAULT_ESCAPE_CHARACTER,
+					CSVWriter.DEFAULT_LINE_END);
+			// Creates an array of String which holds the user's email, password, and type
+			String[] record = { user.getEmail(), user.getPassword(), type };
 
 			// Write the record to the CSV file
 			csvWriter.writeNext(record);
 
-			// Flush and close the writer
-			csvWriter.close();
-
+			// flushed and closed automatically
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
 		}
-	}
 
+	}
 
 
 	public Item fetchItem(int itemID) {
@@ -172,26 +197,6 @@ public final class Database {
 	// Authentication for the GUI
 
 	public static boolean authenticateUser(String email, String password) {
-        /*try (
-                // Use the class loader to get the CSV file as an InputStream
-                InputStream inputStream = api.Database.class.getResourceAsStream("/users.csv");
-                // InputStreamReader to read from the InputStream
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                // OpenCSV CSVReader to read the CSV data
-                CSVReader reader = new CSVReader(inputStreamReader)
-        ) {
-            List<String[]> allUsers = reader.readAll();
-            for (String[] user : allUsers) {
-                if (user[0].equalsIgnoreCase(email) && user[1].equals(password)) {
-                    return true; // Authentication successful
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false; // Authentication failed */
-
-
 
 		// userData CSV format
 		// userID (email),password ???
@@ -203,13 +208,12 @@ public final class Database {
 			String[] nextLine;
 
 			while((nextLine = reader.readNext()) != null) {								// reader.hasNext() ??
-				if (nextLine[0].equals(email) && nextLine[1].equals(password)) {
-
+				if (email.equalsIgnoreCase(nextLine[0]) && password.equals(nextLine[1])) {
+					reader.close();
 					return true;
 				}
 			}
-			return false;
-
+			reader.close();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

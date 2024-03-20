@@ -92,7 +92,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 
         boolean isVerified = Database.authenticateUser(email, password);
         if (isVerified) {
-            // If
+            System.out.println("User Verified");
             mainFrame.showUserDashboard();
         }else {
             JOptionPane.showMessageDialog(this, "Invalid Username or Password", "Error", JOptionPane.ERROR_MESSAGE);
