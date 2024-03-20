@@ -9,6 +9,6 @@ public class Faculty extends User {
 
 
 	public Faculty(String email, String password) {
-		super(email, password);
+		super(email, password, UserType.FACULTY);
 	}
 }

@@ -16,6 +16,7 @@ public class Textbook extends PhysicalItem {
 	public Textbook(ItemAttributes attributes) {
 		this.name = attributes.name;
 		this.ID = attributes.ID;
+		this.count = attributes.count;
 		this.price = attributes.price;
 		this.canPurchase = attributes.canPurchase;
 		this.canRent = attributes.canRent;

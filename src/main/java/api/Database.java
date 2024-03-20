@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public final class Database {
@@ -28,50 +29,37 @@ public final class Database {
 		return INSTANCE;
 	}
 
-
-
 	// rentalData CSV format
 	// userID,itemID,dueDate ???
 
 	public ArrayList<Rental> fetchRentals(String userID) {
-
-		ArrayList<Rental> userRentals = new ArrayList<Rental>();				// List of User's Rentals to be returned after searching Rentals DB
+		ArrayList<Rental> userRentals = new ArrayList<>();				// List of User's Rentals to be returned after searching Rentals DB
 		int itemID;
-
 		User userTemp = fetchUser(userID);
-
-
 		// fetch each rental associated with the userID
 		try {
 			CSVReader reader = new CSVReader(new FileReader(rentalData));
-
 			String[] nextLine;
-
 			while ((nextLine = reader.readNext()) != null) {
-
 				if (nextLine[0].equals(userID)) {							// if userID found in a rental entry, take the associated itemID and fetchItem() so the Item object can be instantiated and used to create Rental object
-
 					itemID = Integer.parseInt(nextLine[1]);
 					Item itemTemp = fetchItem(itemID);
-
 					LocalDate date = LocalDate.parse(nextLine[2]);
-
 					Rental rentalTemp = new Rental(userTemp, (PhysicalItem)itemTemp, date);
 					userRentals.add(rentalTemp);
 				}
 			}
-
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-
 		return userRentals;
 	}
 
 
 	// I don't think we need user as a method param since rental has the associated data already
 
-	public void pushRental(User user, Rental rental) {
+	public void pushRental(Rental rental) {
 		String ID = String.valueOf(rental.getItem().ID);
 		try {
 			CSVReader reader = new CSVReader(new FileReader(rentalData));
@@ -90,29 +78,10 @@ public final class Database {
 
 	// TODO: Might need to add a "count" field to item
 	public void pushItem(PhysicalItem item) {
-
 	}
 
 
-	public boolean pushUser(User user, String type) {
-//		try {
-//			// Initialize CSVWriter object with FileWriter
-//			CSVWriter csvWriter = new CSVWriter(new FileWriter("src/main/java/DatabaseFiles/Users.csv", true));
-//
-//			// Create a string array to represent a single record
-//			String[] record = {user.getEmail(), user.getPassword(), type};
-//
-//			// Write the record to the CSV file
-//			csvWriter.writeNext(record);
-//
-//			// Flush and close the writer
-//			csvWriter.close();
-//
-//			return true;
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//			return false;
-//		}
+	public boolean pushUser(User user) {
 		// Writing to the Users.csv file
 		try (Writer writer = new FileWriter("src/main/java/DatabaseFiles/Users.csv", true)) {
 			// Create an instance of CSVWriter with specific settings
@@ -126,18 +95,15 @@ public final class Database {
 					CSVWriter.DEFAULT_ESCAPE_CHARACTER,
 					CSVWriter.DEFAULT_LINE_END);
 			// Creates an array of String which holds the user's email, password, and type
-			String[] record = { user.getEmail(), user.getPassword(), type };
-
+			String[] record = { user.getEmail(), user.getPassword(), user.getUserType().toString() };
 			// Write the record to the CSV file
 			csvWriter.writeNext(record);
-
-			// flushed and closed automatically
 			return true;
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			e.printStackTrace();
 			return false;
 		}
-
 	}
 
 
@@ -161,14 +127,10 @@ public final class Database {
 	// itemID of item whose stock needs to be updated
 	// amount by which the stock needs to be updated (if rented then -1, if returned then +1)
 	public void updateStock(int itemID, int amount) {
-
 		String ID = String.valueOf(itemID);
-
 		try {
 			CSVReader reader = new CSVReader(new FileReader(itemData));
-
 			List<String[]> file = reader.readAll();
-
 			for (String[] line: file) {									// Find line in itemData file with "itemID"
 				if (line[0].equals(ID)) {								// When found, update the stock value by adding "amount"
 					int newStock = Integer.parseInt(line[1]);
@@ -177,14 +139,12 @@ public final class Database {
 					break;
 				}
 			}
-
 			CSVWriter writer = new CSVWriter(new FileWriter(itemData));				// Write contents of itemData back into it with updated stock value included
 			writer.writeAll(file);
-
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-
 	}
 
 
@@ -203,7 +163,6 @@ public final class Database {
 		// Going to have to include type of api.User in the file so that the object can be recreated when necessary
 
 		try {
-
 			CSVReader reader = new CSVReader(new FileReader(userData));
 			String[] nextLine;
 
@@ -214,12 +173,10 @@ public final class Database {
 				}
 			}
 			reader.close();
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-
 		return false;
-
-
 	}
 }

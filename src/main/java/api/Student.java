@@ -13,6 +13,6 @@ public class Student extends User {
 	private Map<String , String > courses=new HashMap<String, String>();
 
 	public Student(String email, String password) {
-		super(email, password);
+		super(email, password, UserType.STUDENT);
 	}
 }

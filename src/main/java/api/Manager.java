@@ -4,7 +4,7 @@ public class Manager extends User implements PrivilegedUsers {
 
 
 	public Manager(String email, String password) {
-		super(email, password);
+		super(email, password, UserType.MANAGER);
 	}
 
 	@Override

@@ -18,7 +18,7 @@ public class RegisterPanel extends JPanel implements ActionListener {
     private JTextField usernameField;
     private JTextField emailField;
     private JPasswordField passwordField;
-    private JComboBox<String> userTypeComboBox;
+    private JComboBox<UserType> userTypeComboBox;
     private JButton create; // Register button
     private MainFrame mainFrame;
     private JButton back;
@@ -51,7 +51,7 @@ public class RegisterPanel extends JPanel implements ActionListener {
         passwordPanel.add(passwordField);
 
         JPanel userTypePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        String[] userTypes = {"Student", "Faculty", "Staff", "Visitor", "Manager"};
+        UserType[] userTypes = UserType.values();
         userTypeComboBox = new JComboBox<>(userTypes);
         userTypePanel.add(new JLabel("User Type:"));
         userTypePanel.add(userTypeComboBox);
@@ -67,12 +67,7 @@ public class RegisterPanel extends JPanel implements ActionListener {
         create = new JButton("Create Account");
         back=new JButton("Back");
         create.addActionListener(this);
-        back.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mainFrame.showCard("LoginPanel");
-            }
-        });
+        back.addActionListener(e -> mainFrame.showCard("LoginPanel"));
         create.setAlignmentX(Component.CENTER_ALIGNMENT); // This will align the button to the center of the X axis
         back.setAlignmentX(Component.CENTER_ALIGNMENT);
         // Add the create account button directly under the password panel
@@ -97,7 +92,6 @@ public class RegisterPanel extends JPanel implements ActionListener {
         create.setForeground(Color.WHITE);
         back.setBackground(Color.BLACK);
         back.setForeground(Color.WHITE);
-
     }
 
 
@@ -105,74 +99,25 @@ public class RegisterPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == create) {
-
             String email = emailField.getText();
             String password = new String(passwordField.getPassword());
-            String userType = (String) userTypeComboBox.getSelectedItem();
-
+            UserType userType = (UserType) userTypeComboBox.getSelectedItem();
             Database instance = Database.getInstance();
-
             // Validate input fields
-            if ( email.isEmpty() && !password.isEmpty()) {
-
-
-                switch (userType) {
-                    case "Student" -> {
-                        if (instance.pushUser(new Student(email, password), userType)) {
-                            // Registration successful
-                            JOptionPane.showMessageDialog(this, "Registration successful!");
-                            clearFields(); // Clear input fields after successful registration
-                        } else {
-                            JOptionPane.showMessageDialog(this, "Registration incomplete: ERROR", "Registration Error", JOptionPane.ERROR_MESSAGE);
-
-                        }
-                    }
-                    case "Faculty" -> {
-                        if (instance.pushUser(new Faculty(email, password), userType)) {
-                            // Registration successful
-                            JOptionPane.showMessageDialog(this, "Registration successful!");
-                            clearFields(); // Clear input fields after successful registration
-                        } else {
-                            JOptionPane.showMessageDialog(this, "Registration incomplete: ERROR", "Registration Error", JOptionPane.ERROR_MESSAGE);
-
-                        }
-                    }
-                    case "Staff" -> {
-                        if (instance.pushUser(new Staff(email, password), userType)) {
-                            // Registration successful
-                            JOptionPane.showMessageDialog(this, "Registration successful!");
-                            clearFields(); // Clear input fields after successful registration
-                        } else {
-                            JOptionPane.showMessageDialog(this, "Registration incomplete: ERROR", "Registration Error", JOptionPane.ERROR_MESSAGE);
-
-                        }
-                    }
-                    case "Visitor" -> {
-                        if (instance.pushUser(new Visitor(email, password), userType)) {
-                            // Registration successful
-                            JOptionPane.showMessageDialog(this, "Registration successful!");
-                            clearFields(); // Clear input fields after successful registration
-                        } else {
-                            JOptionPane.showMessageDialog(this, "Registration incomplete: ERROR", "Registration Error", JOptionPane.ERROR_MESSAGE);
-
-                        }
-                    }
-                    case "Manager" -> {
-                        if (instance.pushUser(new Manager(email, password), userType)) {
-                            // Registration successful
-                            JOptionPane.showMessageDialog(this, "Registration successful!");
-                            clearFields(); // Clear input fields after successful registration
-                        } else {
-                            JOptionPane.showMessageDialog(this, "Registration incomplete: ERROR", "Registration Error", JOptionPane.ERROR_MESSAGE);
-
-                        }
-                    }
-
+            if (email.isEmpty() && !password.isEmpty()) {
+                SimpleUserFactory factory = new SimpleUserFactory();
+                User user = factory.createUser(email, password, userType);
+                if (instance.pushUser(user)) {
+                    JOptionPane.showMessageDialog(this, "Registration successful!");
+                    clearFields();
                 }
-
+                else {
+                    JOptionPane.showMessageDialog(this,"Registration incomplete: ERROR", "Registration Error", JOptionPane.ERROR_MESSAGE);
+                }
                 // Optionally, switch back to the login panel after successful registration
                 mainFrame.showCard("LoginPanel");
-            } else {
+            }
+            else {
                 // Display error message if any field is empty
                 JOptionPane.showMessageDialog(this, "Please fill in all fields.", "Registration Error", JOptionPane.ERROR_MESSAGE);
             }

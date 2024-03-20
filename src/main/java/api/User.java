@@ -12,13 +12,15 @@ public abstract class User {
 
 	private String password;
 	private String email;
+
+	private UserType userType;
 	private NotificationManager notificationService = new NotificationManager();
 	protected Cart cart;
 	private int priority;
 	ArrayList<Rental> rentals = new ArrayList<>();
 	ArrayList<Request> request = new ArrayList<>();
 
-	public User(String email, String password) {
+	public User(String email, String password, UserType type) {
 		this.email = email;
 		this.password = password;
 	}
@@ -33,6 +35,10 @@ public abstract class User {
 
 	public String getEmail() {
 		return this.email;
+	}
+
+	public UserType getUserType() {
+		return userType;
 	}
 
 	public void makeRequests(Item item) {
