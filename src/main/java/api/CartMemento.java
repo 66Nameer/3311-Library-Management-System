@@ -8,7 +8,7 @@ public class CartMemento {
     private HashMap<Item, Integer> items;
 
     public CartMemento(HashMap<Item, Integer> items) {
-        this.items = new HashMap<Item, Integer>(items.size());
+        this.items = new HashMap<>(items.size());
         for (Map.Entry<Item, Integer> entry : items.entrySet()) {
             this.items.put(entry.getKey(), entry.getValue());
         }

@@ -1,5 +1,7 @@
 package api;
 
+import java.util.Objects;
+
 public class Book extends PhysicalItem {
 	// public int field;	Not sure what this was supposed to be
 	
@@ -19,6 +21,5 @@ public class Book extends PhysicalItem {
 		this.location = (String) attributes.getAdditionalAttributes().get("location");
 		this.ISBN = (String) attributes.getAdditionalAttributes().get("ISBN");
 	}
-	
 
 }
