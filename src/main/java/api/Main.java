@@ -1,6 +1,7 @@
 package api;
 
 
+import gui.MainFrame;
 import gui.panels.BrowsingPanel;
 
 import javax.swing.*;
@@ -10,10 +11,10 @@ public class Main {
     public static void main(String[] args) throws InterruptedException {
         User user = new Student("Email", "Password");
 
-//        MainFrame mainFrame = new MainFrame();
-//        mainFrame.setVisible(true);
+        MainFrame mainFrame = new MainFrame();
+        mainFrame.setVisible(true);
 
-        JFrame frame = new JFrame("Browsing");
+/*        JFrame frame = new JFrame("Browsing");
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -21,7 +22,7 @@ public class Main {
         frame.add(browsing);
 
         frame.pack();
-        frame.setVisible(true);
+        frame.setVisible(true);*/
 
     }
 }

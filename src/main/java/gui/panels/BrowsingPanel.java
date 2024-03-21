@@ -6,6 +6,7 @@ import api.ItemAttributes;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,7 +27,13 @@ public class BrowsingPanel extends JPanel {
         // Define the table model with columns
         String[] columnNames = {"ID", "Name", "Price", "ISBN"};
         tableModel = new DefaultTableModel(columnNames, 0);
-        table = new JTable(tableModel);
+        table = new JTable(tableModel) {
+            // So you cannot edit the cells
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
 
         // Initialize and add the Add to Cart button
         addToCartButton = new JButton("Add to Cart");

@@ -23,6 +23,7 @@ public abstract class User {
 	public User(String email, String password, UserType type) {
 		this.email = email;
 		this.password = password;
+		this.userType = type;
 		this.cart = new Cart();
 	}
 
