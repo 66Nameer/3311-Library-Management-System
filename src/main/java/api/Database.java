@@ -107,7 +107,25 @@ public final class Database {
 	}
 
 
+	// Waiting on final Item format before finishing this
 	public Item fetchItem(int itemID) {
+		
+		try {
+			
+			CSVReader reader = new CSVReader(new FileReader(itemData));
+			String[] nextLine;
+			String id = String.valueOf(itemID);
+			
+			while ((nextLine = reader.readNext()) != null) {
+				if (id.equals(nextLine[0])) {
+					
+				}
+			}
+			
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 
 		return null;
 	}
@@ -195,4 +213,42 @@ public final class Database {
 		}
 		return false;
 	}
+	
+	
+	
+	// Removes a rental from the DB (for after the item has been returned by the User)
+	
+	public void removeRental(Rental rental) {
+		
+		try {
+			
+			CSVReader reader = new CSVReader(new FileReader(rentalData));
+			List<String[]> file = reader.readAll();
+			
+			String uid = rental.getUser().getEmail();
+			String iid = String.valueOf(rental.getItem().getID());
+			String date = rental.getDueDate().toString();
+			
+			for (String[] line: file) {
+				if (line[0].equals(uid) && line[1].equals(iid) && line[2].equals(date)) {
+					file.remove(line);
+					break;
+				}
+			}
+			
+			CSVWriter writer = new CSVWriter(new FileWriter(rentalData));
+			writer.writeAll(file);
+			
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+	}
+	
+	
+	
+	
+	
+	
 }
