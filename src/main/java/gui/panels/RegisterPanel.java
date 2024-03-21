@@ -104,7 +104,7 @@ public class RegisterPanel extends JPanel implements ActionListener {
             UserType userType = (UserType) userTypeComboBox.getSelectedItem();
             Database instance = Database.getInstance();
             // Validate input fields
-            if (email.isEmpty() && !password.isEmpty()) {
+            if (!email.isEmpty() && !password.isEmpty()) {
                 SimpleUserFactory factory = new SimpleUserFactory();
                 User user = factory.createUser(email, password, userType);
                 if (instance.pushUser(user)) {
