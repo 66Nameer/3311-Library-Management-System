@@ -57,7 +57,7 @@ public class ItemAttributes {
         return this.discounted;
     }
 
-    public Map getAdditionalAttributes() {
+    public Map<String, Object> getAdditionalAttributes() {
         return this.additionalAttributes;
     }
 }

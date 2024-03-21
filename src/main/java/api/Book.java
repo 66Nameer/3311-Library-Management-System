@@ -1,5 +1,7 @@
 package api;
 
+import java.util.Objects;
+
 public class Book extends PhysicalItem {
 	// public int field;	Not sure what this was supposed to be
 	
