@@ -23,6 +23,7 @@ public abstract class User {
 	public User(String email, String password, UserType type) {
 		this.email = email;
 		this.password = password;
+		this.userType=type;
 	}
 
 	public ArrayList<Request> requests(){
@@ -30,7 +31,7 @@ public abstract class User {
 	}
 
 	public String getPassword() {
-		return password;
+		return this.password;
 	}
 
 	public String getEmail() {
@@ -38,7 +39,7 @@ public abstract class User {
 	}
 
 	public UserType getUserType() {
-		return userType;
+		return this.userType;
 	}
 
 	public void makeRequests(Item item) {
