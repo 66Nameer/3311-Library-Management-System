@@ -116,6 +116,21 @@ public final class Database {
 
 	// TODO: In order to instantiate users we need to have something in the database that distinguishes them, for example if the user is a student then write something in the db associated with that
 	public User fetchUser(String userID) {
+		try (CSVReader reader = new CSVReader(new FileReader(userData))) {
+			String[] nextLine;
+			while ((nextLine = reader.readNext()) != null) {
+				if (userID.equals(nextLine[0])) { // Assuming the first column is the userID
+					// Assuming CSV format: Email, Password, UserType
+					String email = nextLine[0];
+					String password = nextLine[1];
+					UserType userType = UserType.valueOf(nextLine[2].toUpperCase());
+					// Adjust user creation based on your User class structure
+					return SimpleUserFactory.createUser(email, password, userType); // Adjust constructor as needed
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("Error fetching user: " + e.getMessage());
+		}
 		return null;
 	}
 
