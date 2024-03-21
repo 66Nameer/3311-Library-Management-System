@@ -25,14 +25,25 @@ private HashMap<Item, Integer> items;
 		}
 	}
 	
-	public void removeItem(int itemId, int quantity) {
-		
+	public void removeItem(Item item, int quantity) {
+		if(items.containsKey(item)){
+			int currentQuantity = items.get(item);
+			if(quantity >= currentQuantity){
+				items.remove(item);
+			}else{
+				items.put(item, currentQuantity-quantity);
+			}
+		}
 		
 		
 	}
 	
 	public int getItemQuantity(int itemId) {
-		
+		for(Item item: items.keySet()){
+			if(item.ID==itemId){
+				return items.get(item);
+			}
+		}
 		return 0;
 	}
 	
