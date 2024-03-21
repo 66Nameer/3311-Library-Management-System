@@ -12,13 +12,13 @@ public class Newsletter extends VirtualItem {
 	
 	
 	public Newsletter (ItemAttributes attributes) {
-		this.name = attributes.name;
-		this.ID = attributes.ID;
-		this.price = attributes.price;
-		this.canPurchase = attributes.canPurchase;
-		this.canRent = attributes.canRent;
-		this.discounted = attributes.discounted;
-		this.publisher = (String) attributes.additionalAttributes.get("publisher");
+		this.name = attributes.getName();
+		this.ID = attributes.getID();
+		this.price = attributes.getPrice();
+		this.canPurchase = attributes.isCanPurchase();
+		this.canRent = attributes.isCanRent();
+		this.discounted = attributes.isDiscounted();
+		this.publisher = (String) attributes.getAdditionalAttributes().get("publisher");
 	}
 	
 	

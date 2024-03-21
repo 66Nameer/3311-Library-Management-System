@@ -15,16 +15,16 @@ public class Magazine extends PhysicalItem {
 	
 	
 	public Magazine(ItemAttributes attributes) {
-		this.name = attributes.name;
-		this.ID = attributes.ID;
-		this.count = attributes.count;
-		this.price = attributes.price;
-		this.canPurchase = attributes.canPurchase;
-		this.canRent = attributes.canRent;
-		this.discounted = attributes.discounted;
-		this.location = (String) attributes.additionalAttributes.get("location");
-		this.publisher = (String) attributes.additionalAttributes.get("publisher");
-		this.dateissued = (LocalDate) attributes.additionalAttributes.get("dateissued");
+		this.name = attributes.getName();
+		this.ID = attributes.getID();
+		this.count = attributes.getCount();
+		this.price = attributes.getPrice();
+		this.canPurchase = attributes.isCanPurchase();
+		this.canRent = attributes.isCanRent();
+		this.discounted = attributes.isDiscounted();
+		this.location = (String) attributes.getAdditionalAttributes().get("location");
+		this.publisher = (String) attributes.getAdditionalAttributes().get("publisher");
+		this.dateissued = (LocalDate) attributes.getAdditionalAttributes().get("dateissued");
 	}
 	
 	

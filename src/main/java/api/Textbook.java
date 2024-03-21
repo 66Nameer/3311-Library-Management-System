@@ -14,14 +14,14 @@ public class Textbook extends PhysicalItem {
 	
 	
 	public Textbook(ItemAttributes attributes) {
-		this.name = attributes.name;
-		this.ID = attributes.ID;
-		this.count = attributes.count;
-		this.price = attributes.price;
-		this.canPurchase = attributes.canPurchase;
-		this.canRent = attributes.canRent;
-		this.discounted = attributes.discounted;
-		this.location = (String) attributes.additionalAttributes.get("location");
+		this.name = attributes.getName();
+		this.ID = attributes.getID();
+		this.count = attributes.getCount();
+		this.price = attributes.getPrice();
+		this.canPurchase = attributes.isCanPurchase();
+		this.canRent = attributes.isCanRent();
+		this.discounted = attributes.isDiscounted();
+		this.location = (String) attributes.getAdditionalAttributes().get("location");
 	}
 	
 

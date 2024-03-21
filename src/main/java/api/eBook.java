@@ -14,14 +14,14 @@ public class eBook extends VirtualItem {
 	
 	
 	public eBook (ItemAttributes attributes) {
-		this.name = attributes.name;
-		this.ID = attributes.ID;
-		this.price = attributes.price;
-		this.canPurchase = attributes.canPurchase;
-		this.canRent = attributes.canRent;
-		this.discounted = attributes.discounted;
-		this.author = (String) attributes.additionalAttributes.get("author");
-		this.courses = (ArrayList<String>) attributes.additionalAttributes.get("courses");
+		this.name = attributes.getName();
+		this.ID = attributes.getID();
+		this.price = attributes.getPrice();
+		this.canPurchase = attributes.isCanPurchase();
+		this.canRent = attributes.isCanRent();
+		this.discounted = attributes.isDiscounted();
+		this.author = (String) attributes.getAdditionalAttributes().get("author");
+		this.courses = (ArrayList<String>) attributes.getAdditionalAttributes().get("courses");
 	}
 	
 	
