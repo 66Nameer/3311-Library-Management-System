@@ -1,64 +1,57 @@
 package api;
 
-import java.util.*;
+import javax.swing.*;
+import java.util.HashMap;
+import java.util.Map;
 
 
-public class Cart {
+public class Cart extends JPanel {
 	
 private HashMap<Item, Integer> items;
 
-	
-	public void addItem(int itemId, int quantity) {
-		Database db =Database.getInstance();
-		Item item =db.fetchItem(itemId);
-		if (item != null) {
-			items.put(item, quantity);
-			db.updateStock(itemId, item.count-quantity);
+	public Cart() {
+		items = new HashMap<>();
+	}
+
+	public void addItem(Item item, int quantity) {
+		// Check if the item already exists in the cart
+		if (items.containsKey(item)) {
+			// If it does, increase the quantity
+			int currentQuantity = items.get(item);
+			items.put(item, currentQuantity + quantity);
 		} else {
-			System.out.println("Item with ID " + itemId + " not found.");
+			// If it doesn't, add it to the cart with the given quantity
+			items.put(item, quantity);
 		}
 	}
 	
 	public void removeItem(int itemId, int quantity) {
-		Database db = Database.getInstance();
-		Item item = db.fetchItem(itemId);
-		if (item != null && items.containsKey(item)) {
-			int currentQuantity = items.get(item);
-			if (quantity >= currentQuantity) {
-				items.remove(item);
-			} else {
-				items.put(item, currentQuantity - quantity);
-			}
-		} else {
-			System.out.println("Item with ID " + itemId + " not found in the cart.");
-		}
+		
+		
+		
 	}
 	
 	public int getItemQuantity(int itemId) {
-		Database db = Database.getInstance();
-		Item item = db.fetchItem(itemId);
-		if (item != null && items.containsKey(item)) {
-			return items.get(item);
-		}
+		
 		return 0;
-
 	}
 	
 	public void displayCart() {
-		if (items.isEmpty()) {
-			System.out.println("The cart is empty.");
-			return;
+		StringBuilder cartContents = new StringBuilder();
+		for(Map.Entry<Item, Integer> entry : items.entrySet()) {
+			cartContents.append(entry.getKey().name)
+					.append(" - Quantity: ")
+					.append(entry.getValue())
+					.append("\n");
 		}
 
-		System.out.println("Cart Contents:");
-		for (Map.Entry<Item, Integer> entry : items.entrySet()) {
-			Item item = entry.getKey();
-			Integer quantity = entry.getValue();
-			System.out.println("Item ID: " + item.ID + ", Name: " + item.name + ", Quantity: " + quantity);
+		if(cartContents.length() == 0) {
+			cartContents.append("Your cart is empty.");
 		}
-		
+
+		System.out.println(cartContents);
+
 	}
-
 
 
 //Memento design pattern method implementation

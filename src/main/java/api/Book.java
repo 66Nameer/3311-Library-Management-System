@@ -19,6 +19,5 @@ public class Book extends PhysicalItem {
 		this.location = (String) attributes.getAdditionalAttributes().get("location");
 		this.ISBN = (String) attributes.getAdditionalAttributes().get("ISBN");
 	}
-	
 
 }
