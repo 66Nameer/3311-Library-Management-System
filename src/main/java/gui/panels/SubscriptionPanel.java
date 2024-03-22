@@ -15,10 +15,11 @@ public class SubscriptionPanel extends JPanel {
     private JButton subscribeButton = new JButton("Subscribe");
     private JButton cancelButton = new JButton("Cancel Subscription");
     private JButton back=new JButton("Back");
+    private JButton read=new JButton("Read");
     private JButton listSubscriptionsButton = new JButton("List My Subscriptions");
     private JLabel feedbackLabel = new JLabel(" ");
-    private MainFrame mainFrame; // Reference to the main application frame
-    private SubscriptionManager subscriptionManager;
+    private MainFrame mainFrame; 
+
     private Subscription sub;
 
 
@@ -30,21 +31,20 @@ public class SubscriptionPanel extends JPanel {
         newsStationUrls.put("Fox News", "https://www.foxnews.com");
         newsStationUrls.put("CTV", "https://www.ctvnews.ca");
         this.mainFrame = mainFrame;
-        this.subscriptionManager=subscriptionManager;
+
 
         setLayout(new BorderLayout(10, 10));
 
-        // Panel for station buttons
-        JPanel stationPanel = new JPanel(new GridLayout(0, 1)); // 1 column, dynamic rows
+    
+        JPanel stationPanel = new JPanel(new GridLayout(0, 1)); 
 
-        // Sample news stations
+   
         String[] stations = {"CNN", "NY Times", "Fox News", "CTV"};
 
-        // Create a radio button for each station
         for (String station : stations) {
             JRadioButton stationButton = new JRadioButton(station);
-            stationButton.setActionCommand(station); // Set the action command to the station's name
-            stationGroup.add(stationButton); // Add the button to the group for exclusive selection
+            stationButton.setActionCommand(station); 
+            stationGroup.add(stationButton); 
             stationPanel.add(stationButton);
         }
 
@@ -53,35 +53,38 @@ public class SubscriptionPanel extends JPanel {
 
         subscribeButton.addActionListener(e -> {
             String selectedStation = stationGroup.getSelection().getActionCommand();
+
             for(Subscription sub2: SubscriptionData.getInstance().getUser().getSubscriptions() ){
                 if(sub2.getServiceName() == selectedStation){
                     feedbackLabel.setText("You already subscribed to this!");
                     return;
                 }
             }
+            boolean subexist =  SubscriptionManager.subscriptionExists(SubscriptionData.getInstance().getUser().getEmail(), selectedStation);
+            if(subexist==true){
+                feedbackLabel.setText("You already subscribed to this!");
+                return;
+            }
 
             if (selectedStation != null && newsStationUrls.containsKey(selectedStation)) {
                 String url = newsStationUrls.get(selectedStation);
                 try {
-//                    Subscription newSubscription = new Subscription(selectedStation, true);
-//                    subscriptionManager.subscribe(selectedStation, SubscriptionData.getInstance());
+
                     SubscriptionDialog dialog = new SubscriptionDialog(
-                            (Frame)SwingUtilities.getWindowAncestor(this), // Owner window
-                            "Subscription Confirmation", // Dialog title
+                            (Frame)SwingUtilities.getWindowAncestor(this), 
+                            "Subscription Confirmation", 
                             true, // Modal
-                            selectedStation, // Station name
-                            url// URL
+                            selectedStation, 
+                            url,
+                            mainFrame
                     );
-                    dialog.setVisible(true); // Show the dialog
-                    EventQueue.invokeLater(() -> {
-                        WebBrowserWindow browserWindow = new WebBrowserWindow(url);
-                        browserWindow.setVisible(true);
-                    });
+                    dialog.setVisible(true);
+
                     sub=new Subscription(selectedStation,true);
                     SubscriptionData.getInstance().addSubscription(sub);
-                    System.out.println(SubscriptionData.getInstance().getUser().getSubscriptions());
 
-                    feedbackLabel.setText("Subscribed successfully to " + selectedStation + ".");
+
+
                 } catch (Exception ex) {
                     feedbackLabel.setText("Failed to subscribe to " + selectedStation + ".");
                 }
@@ -93,18 +96,46 @@ public class SubscriptionPanel extends JPanel {
         back.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 mainFrame.showCard("UserDashboardPanel");
             }
         });
         cancelButton.addActionListener(e -> cancelSubscription());
 
-        // Panel for subscribe button and feedback label
+        read.addActionListener(e-> {
+                String selectedStation = stationGroup.getSelection().getActionCommand();
+                boolean subexist1 =  SubscriptionManager.subscriptionExists(SubscriptionData.getInstance().getUser().getEmail(), selectedStation);
+                if(subexist1==false){
+                    feedbackLabel.setText("You have to subscribe to read this!");
+                    return;
+                }
+
+                if (selectedStation != null && newsStationUrls.containsKey(selectedStation)) {
+                    String url = newsStationUrls.get(selectedStation);
+                    try {
+
+
+                        EventQueue.invokeLater(() -> {
+                            WebBrowserWindow browserWindow = new WebBrowserWindow(url);
+                            browserWindow.setVisible(true);
+                        });
+                    } catch (Exception ex) {
+                        feedbackLabel.setText("Failed to open " + selectedStation + ".");
+                    }
+                } else {
+                    feedbackLabel.setText("Please select a station to read.");
+                }
+
+        });
+
+    
         JPanel actionPanel = new JPanel();
         actionPanel.add(subscribeButton);
+        actionPanel.add(read);
         actionPanel.add(back);
         actionPanel.add(listSubscriptionsButton);
         actionPanel.add(feedbackLabel);
-        actionPanel.add(cancelButton); // Add the cancel button to your panel
+        actionPanel.add(cancelButton); 
 
 
         listSubscriptionsButton.addActionListener(e -> listUserSubscriptions());
@@ -112,22 +143,23 @@ public class SubscriptionPanel extends JPanel {
     }
 
 
-    private void subscribeSubscription(){
 
-    }
+
+
 
     private void cancelSubscription() {
-        // Move the action listener setup to the constructor or an initialization method
+
+
+     
         if(SubscriptionData.getInstance().getUser().getSubscriptions().isEmpty()){
-            feedbackLabel.setText("You have no sub to cancel!!");
+            feedbackLabel.setText("You have no subscription to cancel!!");
             return;
         }
         cancelButton.addActionListener(e -> {
             String selectedStation = stationGroup.getSelection().getActionCommand();
             if (selectedStation != null && confirmCancellation()) {
-                SubscriptionData.getInstance().removeSubscription(sub);
-                System.out.println(SubscriptionData.getInstance().getUser().getSubscriptions().isEmpty());
-//                subscriptionManager.unsubscribe(selectedStation, SubscriptionData.getInstance());
+               SubscriptionManager.removeSubscription(SubscriptionData.getInstance().getUser().getEmail(), selectedStation);
+                SubscriptionData.getInstance().removeSubscription( sub.getServiceName());
                 feedbackLabel.setText(selectedStation + " subscription cancelled.");
             } else {
                 feedbackLabel.setText("Please select a station to cancel.");
@@ -149,7 +181,7 @@ public class SubscriptionPanel extends JPanel {
                 subscriptionList.append(subscription.getServiceName())
                         .append(" - ")
                         .append(subscription.isActive() ? "Active" : "Inactive")
-                        .append("<br>"); // Adding a line break for HTML formatting
+                        .append("<br>"); 
             }
             subscriptionList.append("</html>");
 
@@ -163,6 +195,8 @@ public class SubscriptionPanel extends JPanel {
         } else {
             JOptionPane.showMessageDialog(this, "No subscriptions found or not logged in.", "My Subscriptions", JOptionPane.WARNING_MESSAGE);
         }
+
     }
+
 
 }
