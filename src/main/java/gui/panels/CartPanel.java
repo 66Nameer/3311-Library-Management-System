@@ -4,12 +4,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 import java.util.List;
 import java.util.Map;
 import api.*;
 import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
 
 public class CartPanel  extends  JFrame {
@@ -63,7 +65,15 @@ public class CartPanel  extends  JFrame {
             // Extract just the item names from the cartContents
             List<String> itemNames = Arrays.asList(cartContents.getText().split("\n"));
             double total = calculateTotalPrice(itemNames);
-            JOptionPane.showMessageDialog(this, "Total Price: $" + String.format("%.2f", total), "Checkout", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Total Price: $" + String.format("%.2f", total),
+                    "Checkout", JOptionPane.INFORMATION_MESSAGE);
+
+            // Confirm button -  If the user presses yes, then clear their cart
+            int confirm = JOptionPane.showConfirmDialog(this, "Proceed to checkout?", "Confirm Checkout", JOptionPane.YES_NO_OPTION);
+            if (confirm == JOptionPane.YES_OPTION) {
+                clearUserCart(currentUser.getEmail());
+                cartContents.setText(""); // Clear the cart display
+            }
         });
 
         //setVisible(true);
@@ -161,6 +171,33 @@ public class CartPanel  extends  JFrame {
         }
 
         return totalPrice;
+
+    }
+
+
+    // Also this method should also be added to the database class, but it is here for testing
+    private void clearUserCart(String userEmail) {
+        String fileName = "src/main/java/DatabaseFiles/userCart.csv";
+        List<String[]> allRowsWithoutUser = new ArrayList<>();
+
+        try (CSVReader reader = new CSVReader(new FileReader(fileName))) {
+            List<String[]> allRows = reader.readAll();
+            // Filter out the rows that don't belong to the current user
+            for (String[] row : allRows) {
+                if (!row[0].equalsIgnoreCase(userEmail)) {
+                    allRowsWithoutUser.add(row);
+                }
+            }
+        } catch (IOException | CsvException e) {
+            e.printStackTrace();
+        }
+
+        // Rewrite the file without the user's rows
+        try (CSVWriter writer = new CSVWriter(new FileWriter(fileName))) {
+            writer.writeAll(allRowsWithoutUser);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 }
