@@ -44,10 +44,14 @@ public class PaymentMethodDialog extends JDialog {
             // For simplicity, just show a message and close
             JOptionPane.showMessageDialog(this, "Payment successful for " + stationName);
             dispose();
-            EventQueue.invokeLater(() -> {
-                        WebBrowserWindow browserWindow = new WebBrowserWindow(url);
-                        browserWindow.setVisible(true);
-                    });
+            if(url!=null) {
+                EventQueue.invokeLater(() -> {
+                    WebBrowserWindow browserWindow = new WebBrowserWindow(url);
+                    browserWindow.setVisible(true);
+                });
+            }
+
+
             });
 
         cancelPaymentButton.addActionListener(e -> dispose());
