@@ -1,6 +1,7 @@
 package gui.panels;
 
-import api.Cart;
+import api.SessionManager;
+import api.SubscriptionData;
 import api.User;
 import gui.MainFrame;
 
@@ -29,14 +30,21 @@ public class UserDashboardPanel extends JPanel {
         JButton rentItemButton = new JButton("Rent Item");
         JButton subscribeNewsletterButton = new JButton("Subscribe to Newsletter");
         JButton searchBooksButton = new JButton("Search for Books");
+        JButton logoutButton = new JButton("Logout");
+
         buttonPanel.add(rentItemButton);
         buttonPanel.add(subscribeNewsletterButton);
         buttonPanel.add(searchBooksButton);
+        buttonPanel.add(logoutButton);
 
         JTextArea userInformationTextArea = new JTextArea();
         userInformationTextArea.setEditable(false);
-        userInformationTextArea.setText("User Information:\nName: John Doe\nType: Student\nEmail: john.doe@example.com");
+        userInformationTextArea.setText("User Information:\nName:" +" John Doe\nType: Student\nEmail: john.doe@example.com");
 
+    //   User currentUser = SessionManager.getInstance().getCurrentUser();
+//        if (currentUser != null) {
+//            userInformationTextArea.setText("User Information:\nName: " + currentUser.getEmail() + "\nType: " + currentUser.getUserType() + "\nEmail: " + currentUser.getEmail());
+//        }
         // Add UI components to the panel
         add(welcomeLabel, BorderLayout.NORTH);
         add(buttonPanel, BorderLayout.CENTER);
@@ -54,11 +62,27 @@ public class UserDashboardPanel extends JPanel {
 
         });
 
-           subscribeNewsletterButton.addActionListener(new ActionListener() {
+        subscribeNewsletterButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mainFrame.showCard("SubscribePanel");
             }
         });
+
+        logoutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                logout();
+            }
+        });
+
+
+    }
+    private void logout() {
+        // Implement logout logic here
+        SessionManager.getInstance().logoutUser(); // Logout the current user
+        SubscriptionData.getInstance().logoutUser();
+        mainFrame.showCard("LoginPanel"); // Switch back to the login panel
+        // You may also want to clear or reset certain states or UI components if necessary
     }
 }
