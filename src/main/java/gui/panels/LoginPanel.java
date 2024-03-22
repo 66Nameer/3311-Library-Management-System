@@ -114,6 +114,7 @@ public class LoginPanel extends JPanel implements ActionListener {
             User user = Database.getInstance().fetchUser(email); // Fetch the user after successful authentication
             if(user != null){
                 SessionManager.getInstance().loginUser(user); // Set the user session
+                SubscriptionData.getInstance().loginUser(user);
                 System.out.println("User Verified");
                 mainFrame.showUserDashboard(); // Navigate to the dashboard
             } else {
