@@ -13,7 +13,15 @@ public abstract class Item {
 	public boolean discounted;
 
 
-
+	public Item(ItemBuilder builder) {
+		this.name = builder.name;
+		this.ID = builder.ID;
+		this.count = builder.count;
+		this.price = builder.price;
+		this.canPurchase = builder.canPurchase;
+		this.canRent = builder.canRent;
+		this.discounted = builder.discounted;
+	}
 
 
 
