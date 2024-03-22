@@ -21,6 +21,7 @@ public final class Database {
 	private final static String userData = "src/main/java/DatabaseFiles/Users.csv";
 	private final static String itemData = "src/main/java/DatabaseFiles/Items.csv";
 	private final static String rentalData = "src/main/java/DatabaseFiles/Rentals.csv";
+	private final static String userCart = "src/main/java/DatabaseFiles/userCart.csv";
 
 	private Database() {}
 
