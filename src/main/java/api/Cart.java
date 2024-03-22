@@ -6,10 +6,9 @@ import java.util.Map;
 
 
 public class Cart extends JPanel {
-	
-private HashMap<Item, Integer> items;
+	private HashMap<Item, Integer> items;
 
-private static Item lastAdded;
+	private Item lastAdded;
 
 	public Cart() {
 		items = new HashMap<>();
@@ -21,15 +20,15 @@ private static Item lastAdded;
 			// If it does, increase the quantity
 			int currentQuantity = items.get(item);
 			items.put(item, currentQuantity + quantity);
-		} else {
+		}
+		else {
 			// If it doesn't, add it to the cart with the given quantity
 			items.put(item, quantity);
 		}
-
 		lastAdded = item;
 	}
 
-	public static Item getLastAdded() {
+	public Item getLastAdded() {
 		return lastAdded;
 	}
 	
