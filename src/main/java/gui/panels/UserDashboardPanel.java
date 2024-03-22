@@ -53,5 +53,12 @@ public class UserDashboardPanel extends JPanel {
             mainFrame.showBrowsingPanel();
 
         });
+
+           subscribeNewsletterButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainFrame.showCard("SubscribePanel");
+            }
+        });
     }
 }
