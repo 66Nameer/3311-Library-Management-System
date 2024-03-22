@@ -33,7 +33,7 @@ public class SubscriptionPanel extends JPanel {
         setLayout(new BorderLayout(10, 10));
 
        
-        JPanel stationPanel = new JPanel(new GridLayout(0, 1)); // 1 column, dynamic rows
+        JPanel stationPanel = new JPanel(new GridLayout(0, 1)); 
 
      
         String[] stations = {"CNN", "NY Times", "Fox News", "CTV"};
@@ -67,7 +67,7 @@ public class SubscriptionPanel extends JPanel {
                     browserWindow.setVisible(true);
                 });
 
-                dialog.setVisible(true); // Show the dialog
+                dialog.setVisible(true); 
             } else {
                 feedbackLabel.setText("Please select a station to subscribe.");
             }
@@ -81,7 +81,7 @@ public class SubscriptionPanel extends JPanel {
         });
         cancelButton.addActionListener(e -> cancelSubscription());
 
-        // Panel for subscribe button and feedback label
+       
         JPanel actionPanel = new JPanel();
         actionPanel.add(subscribeButton);
         actionPanel.add(back);
