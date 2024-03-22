@@ -2,6 +2,7 @@ package api;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
+import com.opencsv.exceptions.CsvException;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -11,6 +12,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public final class Database {
 
@@ -19,6 +21,7 @@ public final class Database {
 	private final static String userData = "src/main/java/DatabaseFiles/Users.csv";
 	private final static String itemData = "src/main/java/DatabaseFiles/Items.csv";
 	private final static String rentalData = "src/main/java/DatabaseFiles/Rentals.csv";
+	private final static String userCart = "src/main/java/DatabaseFiles/userCart.csv";
 
 	private Database() {}
 
@@ -115,8 +118,43 @@ public final class Database {
 
 
 	// TODO: In order to instantiate users we need to have something in the database that distinguishes them, for example if the user is a student then write something in the db associated with that
-	public User fetchUser(String userID) {
-		return null;
+	public User fetchUser(String email) {
+			try (CSVReader reader = new CSVReader(new FileReader(userData))) {
+				String[] nextLine;
+
+				while ((nextLine = reader.readNext()) != null) {
+					if (email.equalsIgnoreCase(nextLine[0])) {
+						String password = nextLine[1];
+						UserType userType = UserType.valueOf(nextLine[2]); // This is where the error might occur
+
+						switch (userType) {
+							case STUDENT:
+								return new Student(email, password);
+							case FACULTY:
+								return new Faculty(email, password);
+							case STAFF:
+								return new Staff(email, password);
+							case VISITOR:
+								return new Visitor(email, password);
+							case MANAGER:
+								return new Manager(email, password);
+							default:
+								throw new IllegalArgumentException("Unknown user type: " + nextLine[2]);
+						}
+					}
+				}
+				System.out.println("No user found with email: " + email);
+			} catch (IllegalArgumentException e) {
+				System.out.println("Invalid user type in CSV: " + e.getMessage());
+				e.printStackTrace();
+			} catch (IOException e) {
+				System.out.println("Error reading from CSV file: " + e.getMessage());
+				e.printStackTrace();
+			} catch (Exception e) {
+				System.out.println("An error occurred: " + e.getMessage());
+				e.printStackTrace();
+			}
+			return null;
 	}
 
 
@@ -180,4 +218,118 @@ public final class Database {
 		}
 		return false;
 	}
+	
+	
+	
+	// Removes a rental from the DB (for after the item has been returned by the User)
+	
+	public void removeRental(Rental rental) {
+		
+		try {
+			
+			CSVReader reader = new CSVReader(new FileReader(rentalData));
+			List<String[]> file = reader.readAll();
+			
+			String uid = rental.getUser().getEmail();
+			String iid = String.valueOf(rental.getItem().getID());
+			String date = rental.getDueDate().toString();					// Have to test this to see if toString() matches format of stored date
+			
+			for (String[] line: file) {
+				if (line[0].equals(uid) && line[1].equals(iid) && line[2].equals(date)) {
+					file.remove(line);
+					break;
+				}
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+					
+
+
+
+	public static boolean saveUserCart(User user, Cart cart) {
+		String userEmail = user.getEmail();
+		List<String> cartItems = new ArrayList<>();
+		cartItems.add(userEmail); // Add user email as the first entry
+
+		for (Map.Entry<Item, Integer> entry : cart.getItems().entrySet()) {
+			cartItems.add(entry.getKey().name); // Add book name
+			cartItems.add(entry.getValue().toString()); // Add quantity right after book name
+		}
+
+		List<String[]> allCarts = new ArrayList<>();
+
+		// Read the existing carts
+		try (CSVReader reader = new CSVReader(new FileReader(userCart))) {
+			allCarts = reader.readAll();
+		} catch (IOException | CsvException e) {
+			e.printStackTrace();
+			return false;
+		}
+
+		// Write the updated carts, including the new or updated cart for the current user
+		try (CSVWriter writer = new CSVWriter(new FileWriter(userCart),
+				CSVWriter.DEFAULT_SEPARATOR,
+				CSVWriter.NO_QUOTE_CHARACTER,
+				CSVWriter.DEFAULT_ESCAPE_CHARACTER,
+				CSVWriter.DEFAULT_LINE_END)) {
+			// Look for an existing cart for the user
+			boolean found = false;
+			for (int i = 0; i < allCarts.size(); i++) {
+				if (allCarts.get(i)[0].equalsIgnoreCase(userEmail)) {
+					allCarts.set(i, cartItems.toArray(new String[0]));
+					found = true;
+
+					break;
+				}
+			}
+			if (!found) {
+				// Add a new cart if one doesn't exist
+				allCarts.add(cartItems.toArray(new String[0]));
+			}
+
+			writer.writeAll(allCarts);
+			writer.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+
+		return true;
+	}
+
+	
+	
+	// Not sure if we even need this but figured I'd add it just in case
+	public void removeUser(User user) {
+		
+		try {
+			
+			CSVReader reader = new CSVReader(new FileReader(userData));
+			List<String[]> file = reader.readAll();
+			
+			String uid = user.getEmail();
+			String pass = user.getPassword();
+			String type = user.getUserType().toString();					// Have to test this to see if toString matches format of stored type
+			
+			for (String[] line: file) {
+				if (line[0].equals(uid) && line[1].equals(pass) && line[2].equals(type)) {
+					file.remove(line);
+					break;
+				}
+			}
+			
+			CSVWriter writer = new CSVWriter(new FileWriter(userData));
+			writer.writeAll(file);
+
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+
+	}
+	
+	
 }
