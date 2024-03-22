@@ -10,9 +10,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 public final class Database {
 
@@ -129,9 +127,16 @@ public final class Database {
 					ItemType type = ItemType.valueOf(nextLine[4]);
 					int count = Integer.parseInt(nextLine[5]);
 					// TODO: include stock in the item creation or only deal with it in DB class? int stock = Integer.parseInt(nextLine[5]);
+					ItemAttributes attributes = ItemAttributes.builder()
+							.setID(itemID)
+							.setName(itemName)
+							.setPrice(price)
+							.setISBN(isbn)
+							.setCount(count)
+							.setType(type)
+							.build();
 					ItemFactory fact = new ItemFactory();
-
-					return fact.getItem(type, null);			// Don't think getItem() should be static??
+					return fact.getItem(attributes);			// Don't think getItem() should be static??
 				}
 			}
 		}
@@ -172,9 +177,6 @@ public final class Database {
 			}
 			return null;
 	}
-
-
-
 
 	// itemData CSV format
 	// itemID,ItemName,Price,ISBN,ItemType,Stock
@@ -235,8 +237,6 @@ public final class Database {
 		}
 		return false;
 	}
-
-
 
 	public boolean saveUserCart(User user, Cart cart) {
 		String userEmail = user.getEmail();

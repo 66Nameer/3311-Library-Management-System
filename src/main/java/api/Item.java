@@ -12,6 +12,10 @@ public abstract class Item {
 	public boolean canRent;
 	public boolean discounted;
 
+	public ItemType type;
+
+	public String ISBN;
+
 
 	public Item(ItemAttributes builder) {
 		this.name = builder.getName();
@@ -21,6 +25,8 @@ public abstract class Item {
 		this.canPurchase = builder.isCanPurchase();
 		this.canRent = builder.isCanRent();
 		this.discounted = builder.isDiscounted();
+		this.type = builder.getType();
+		this.ISBN = builder.getISBN();
 	}
 
 

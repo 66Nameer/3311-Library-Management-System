@@ -11,50 +11,70 @@ public class ItemAttributesBuilder {
     boolean canPurchase;
     boolean canRent;
     boolean discounted;
+    String ISBN;
     Map<String, Object> additionalAttributes = new HashMap<>();
+    ItemType type;
 
-    public void setName(String name) {
+    public ItemAttributesBuilder setName(String name) {
         this.name = name;
-
+        return this;
     }
 
-    public void setID(int ID) {
+    public ItemAttributesBuilder setID(int ID) {
         this.ID = ID;
-
+        return this;
     }
 
-    public void setCount(int count) {
+    public ItemAttributesBuilder setCount(int count) {
         this.count = count;
-
+        return this;
     }
 
-    public void setPrice(double price) {
+    public ItemAttributesBuilder setPrice(double price) {
         this.price = price;
-
+        return this;
     }
 
-    public void setCanPurchase(boolean canPurchase) {
+    public ItemAttributesBuilder setCanPurchase(boolean canPurchase) {
         this.canPurchase = canPurchase;
-
+        return this;
     }
 
-    public void setCanRent(boolean canRent) {
+    public ItemAttributesBuilder setCanRent(boolean canRent) {
         this.canRent = canRent;
-
+        return this;
     }
 
-    public void setDiscounted(boolean discounted) {
+    public ItemAttributesBuilder setDiscounted(boolean discounted) {
         this.discounted = discounted;
-
+        return this;
     }
 
-    public void setAdditionalAttributes(Map<String, Object> additionalAttributes) {
+    public ItemAttributesBuilder setAdditionalAttributes(Map<String, Object> additionalAttributes) {
         this.additionalAttributes = additionalAttributes;
-
+        return this;
     }
 
-    public void addAdditionalAttribute(String key, Object value) {
+    public ItemAttributesBuilder addAdditionalAttribute(String key, Object value) {
         this.additionalAttributes.put(key, value);
+        return this;
+    }
 
+    public ItemAttributesBuilder setISBN(String isbn) {
+        this.ISBN = isbn;
+        return this;
+    }
+
+    public ItemAttributesBuilder setType(ItemType type) {
+        this.type = type;
+        return this;
+    }
+
+    public ItemAttributesBuilder self() {
+        return this;
+    }
+
+    public ItemAttributes build() {
+        return new ItemAttributes(this);
     }
 }

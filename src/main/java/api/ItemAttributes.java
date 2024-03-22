@@ -1,6 +1,5 @@
 package api;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class ItemAttributes {
@@ -12,6 +11,9 @@ public class ItemAttributes {
     private final boolean canPurchase;
     private final boolean canRent;
     private final boolean discounted;
+
+    private final String ISBN;
+    private final ItemType type;
 
     // Additional attributes as a map to accommodate various types
     private final Map<String, Object> additionalAttributes;
@@ -25,6 +27,8 @@ public class ItemAttributes {
         this.canRent = builder.canRent;
         this.discounted = builder.discounted;
         this.additionalAttributes = builder.additionalAttributes;
+        this.type = builder.type;
+        this.ISBN = builder.ISBN;
     }
 
     public String getName() {
@@ -59,9 +63,15 @@ public class ItemAttributes {
         return additionalAttributes;
     }
 
+    public ItemType getType()  {
+        return this.type;
+    }
+
+    public String getISBN() {
+        return this.ISBN;
+    }
+
     public static ItemAttributesBuilder builder() {
         return new ItemAttributesBuilder();
     }
-
-
 }

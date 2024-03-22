@@ -13,7 +13,7 @@ public class CartCaretaker {
         if(!history.isEmpty()){
             cart.undo(history.pop());
         }
-        else{
+        else {
             System.out.println("The cart is already empty!!!");
         }
     }
