@@ -19,6 +19,7 @@ public class SubscriptionPanel extends JPanel {
     private JLabel feedbackLabel = new JLabel(" ");
     private MainFrame mainFrame; // Reference to the main application frame
     private SubscriptionManager subscriptionManager;
+    private Subscription sub;
 
 
 
@@ -52,11 +53,16 @@ public class SubscriptionPanel extends JPanel {
 
         subscribeButton.addActionListener(e -> {
             String selectedStation = stationGroup.getSelection().getActionCommand();
+            for(Subscription sub2: SubscriptionData.getInstance().getUser().getSubscriptions() ){
+                if(sub2.getServiceName() == selectedStation){
+                    feedbackLabel.setText("You already subscribed to this!");
+                    return;
+                }
+            }
+
             if (selectedStation != null && newsStationUrls.containsKey(selectedStation)) {
                 String url = newsStationUrls.get(selectedStation);
                 try {
-                    SubscriptionData.getInstance().addSubscription(selectedStation, true);
-//
 //                    Subscription newSubscription = new Subscription(selectedStation, true);
 //                    subscriptionManager.subscribe(selectedStation, SubscriptionData.getInstance());
                     SubscriptionDialog dialog = new SubscriptionDialog(
@@ -71,6 +77,10 @@ public class SubscriptionPanel extends JPanel {
                         WebBrowserWindow browserWindow = new WebBrowserWindow(url);
                         browserWindow.setVisible(true);
                     });
+                    sub=new Subscription(selectedStation,true);
+                    SubscriptionData.getInstance().addSubscription(sub);
+                    System.out.println(SubscriptionData.getInstance().getUser().getSubscriptions());
+
                     feedbackLabel.setText("Subscribed successfully to " + selectedStation + ".");
                 } catch (Exception ex) {
                     feedbackLabel.setText("Failed to subscribe to " + selectedStation + ".");
@@ -102,13 +112,22 @@ public class SubscriptionPanel extends JPanel {
     }
 
 
+    private void subscribeSubscription(){
+
+    }
+
     private void cancelSubscription() {
         // Move the action listener setup to the constructor or an initialization method
+        if(SubscriptionData.getInstance().getUser().getSubscriptions().isEmpty()){
+            feedbackLabel.setText("You have no sub to cancel!!");
+            return;
+        }
         cancelButton.addActionListener(e -> {
             String selectedStation = stationGroup.getSelection().getActionCommand();
             if (selectedStation != null && confirmCancellation()) {
-                SubscriptionData.getInstance().removeSubscription(selectedStation);
-                subscriptionManager.unsubscribe(selectedStation, SubscriptionData.getInstance()); // Ensure global state is updated too
+                SubscriptionData.getInstance().removeSubscription(sub);
+                System.out.println(SubscriptionData.getInstance().getUser().getSubscriptions().isEmpty());
+//                subscriptionManager.unsubscribe(selectedStation, SubscriptionData.getInstance());
                 feedbackLabel.setText(selectedStation + " subscription cancelled.");
             } else {
                 feedbackLabel.setText("Please select a station to cancel.");
@@ -135,9 +154,13 @@ public class SubscriptionPanel extends JPanel {
             subscriptionList.append("</html>");
 
             // Display the subscriptions in a dialog
-            JOptionPane.showMessageDialog(this, subscriptionList.toString(), "My Subscriptions", JOptionPane.INFORMATION_MESSAGE);
-        } else {
+            if(SubscriptionData.getInstance().getUser().getSubscriptions().isEmpty()){
+                JOptionPane.showMessageDialog(this, "You do not have any sub", "My Subscriptions", JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                JOptionPane.showMessageDialog(this, subscriptionList.toString(), "My Subscriptions", JOptionPane.INFORMATION_MESSAGE);
+            }
 
+        } else {
             JOptionPane.showMessageDialog(this, "No subscriptions found or not logged in.", "My Subscriptions", JOptionPane.WARNING_MESSAGE);
         }
     }
