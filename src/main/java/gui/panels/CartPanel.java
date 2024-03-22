@@ -3,15 +3,23 @@ package gui.panels;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
+import java.util.List;
 import java.util.Map;
 import api.*;
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvException;
+
 public class CartPanel  extends  JFrame {
     private Cart cart = new Cart();
+    private User currentUser;
     private JTextField itemNameField, quantityField;
     private JTextArea cartContents;
 
-    public CartPanel() {
+    public CartPanel(User user) {
+        this.currentUser = user;
         setTitle("Cart GUI");
         setSize(300, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -46,7 +54,7 @@ public class CartPanel  extends  JFrame {
         add(inputPanel, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
 
-        setVisible(true);
+        //setVisible(true);
 
     }
 
@@ -67,7 +75,37 @@ public class CartPanel  extends  JFrame {
 
         cartDialog.setLocationRelativeTo(this);
         cartDialog.setVisible(true);
+        loadAndDisplayCart();
 
+
+
+    }
+
+    private void loadAndDisplayCart() {
+        String userEmail = currentUser.getEmail();
+        List<String> itemsForUser = new ArrayList<>();
+
+        // Replace this with the actual path to your CSV file
+        String fileName = "src/main/java/DatabaseFiles/userCart.csv";
+        try (CSVReader reader = new CSVReader(new FileReader(fileName))) {
+            List<String[]> allRows = reader.readAll();
+            // Loop through all rows in the CSV
+            for (String[] row : allRows) {
+                // Check if the first element is the user's email
+                if (row[0].equalsIgnoreCase(userEmail)) {
+                    // Skip the email and go through the items
+                    for (int i = 1; i < row.length; i += 2) { // Assuming every item is followed by a quantity
+                        String itemName = row[i];
+                        itemsForUser.add(itemName + ", Quantity: " + row[i + 1]);
+                    }
+                }
+            }
+        } catch (IOException | CsvException e) {
+            e.printStackTrace();
+        }
+
+        // Now display these items in the cartContents text area
+        cartContents.setText(String.join("\n", itemsForUser));
     }
 
 

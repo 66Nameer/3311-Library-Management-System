@@ -23,7 +23,7 @@ public final class Database {
 	private final static String rentalData = "src/main/java/DatabaseFiles/Rentals.csv";
 	private final static String userCart = "src/main/java/DatabaseFiles/userCart.csv";
 
-	private Database() {}
+	public Database() {}
 
 	public static Database getInstance() {
 		if (INSTANCE == null) {
@@ -218,49 +218,22 @@ public final class Database {
 		}
 		return false;
 	}
-	
-	
-	
-	// Removes a rental from the DB (for after the item has been returned by the User)
-	
-	public void removeRental(Rental rental) {
-		
-		try {
-			
-			CSVReader reader = new CSVReader(new FileReader(rentalData));
-			List<String[]> file = reader.readAll();
-			
-			String uid = rental.getUser().getEmail();
-			String iid = String.valueOf(rental.getItem().getID());
-			String date = rental.getDueDate().toString();					// Have to test this to see if toString() matches format of stored date
-			
-			for (String[] line: file) {
-				if (line[0].equals(uid) && line[1].equals(iid) && line[2].equals(date)) {
-					file.remove(line);
-					break;
-				}
-			}
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-	}
-					
 
 
 
-	public static boolean saveUserCart(User user, Cart cart) {
+	public boolean saveUserCart(User user, Cart cart) {
 		String userEmail = user.getEmail();
-		List<String> cartItems = new ArrayList<>();
-		cartItems.add(userEmail); // Add user email as the first entry
+		Item lastAddedItem = cart.getLastAdded();
 
-		for (Map.Entry<Item, Integer> entry : cart.getItems().entrySet()) {
-			cartItems.add(entry.getKey().name); // Add book name
-			cartItems.add(entry.getValue().toString()); // Add quantity right after book name
+		// If the user did not add anything to their Cart
+		if (lastAddedItem == null) {
+			return false;
 		}
 
 		List<String[]> allCarts = new ArrayList<>();
-
-		// Read the existing carts
+		String[] cartEntry = new String[] {userEmail, lastAddedItem.name, "1"};
+//
+		// Read the existing cart from the userCart csv file
 		try (CSVReader reader = new CSVReader(new FileReader(userCart))) {
 			allCarts = reader.readAll();
 		} catch (IOException | CsvException e) {
@@ -268,28 +241,18 @@ public final class Database {
 			return false;
 		}
 
-		// Write the updated carts, including the new or updated cart for the current user
-		try (CSVWriter writer = new CSVWriter(new FileWriter(userCart),
+		// We will only write the last item that the user added to their cart
+			// With this, we will not be updating the existing cart, rather just keep adding
+				// items to a new line everytime the user adds something to their cart
+					// To fix the issue of duplicating items(when the user goes through the checkout and adds items again)
+						// we can just delete the items associating to the userEmail once the user has paid
+							// This will reset their entire cart and start from a fresh cart
+		try (CSVWriter writer = new CSVWriter(new FileWriter(userCart, true),
 				CSVWriter.DEFAULT_SEPARATOR,
 				CSVWriter.NO_QUOTE_CHARACTER,
 				CSVWriter.DEFAULT_ESCAPE_CHARACTER,
 				CSVWriter.DEFAULT_LINE_END)) {
-			// Look for an existing cart for the user
-			boolean found = false;
-			for (int i = 0; i < allCarts.size(); i++) {
-				if (allCarts.get(i)[0].equalsIgnoreCase(userEmail)) {
-					allCarts.set(i, cartItems.toArray(new String[0]));
-					found = true;
-
-					break;
-				}
-			}
-			if (!found) {
-				// Add a new cart if one doesn't exist
-				allCarts.add(cartItems.toArray(new String[0]));
-			}
-
-			writer.writeAll(allCarts);
+			writer.writeNext(cartEntry);
 			writer.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -298,38 +261,4 @@ public final class Database {
 
 		return true;
 	}
-
-	
-	
-	// Not sure if we even need this but figured I'd add it just in case
-	public void removeUser(User user) {
-		
-		try {
-			
-			CSVReader reader = new CSVReader(new FileReader(userData));
-			List<String[]> file = reader.readAll();
-			
-			String uid = user.getEmail();
-			String pass = user.getPassword();
-			String type = user.getUserType().toString();					// Have to test this to see if toString matches format of stored type
-			
-			for (String[] line: file) {
-				if (line[0].equals(uid) && line[1].equals(pass) && line[2].equals(type)) {
-					file.remove(line);
-					break;
-				}
-			}
-			
-			CSVWriter writer = new CSVWriter(new FileWriter(userData));
-			writer.writeAll(file);
-
-			
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		
-
-	}
-	
-	
 }

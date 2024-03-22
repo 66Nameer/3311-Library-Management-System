@@ -1,10 +1,19 @@
 package gui.panels;
 
+import api.Cart;
+import api.User;
+import gui.MainFrame;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 
 public class UserDashboardPanel extends JPanel {
-    public UserDashboardPanel() {
+    private MainFrame mainFrame;
+    public UserDashboardPanel(MainFrame mainFrame) {
+        this.mainFrame = mainFrame;
         initComponents();
     }
 
@@ -36,5 +45,13 @@ public class UserDashboardPanel extends JPanel {
         // Add additional functionalities according to the requirements
         // For example, action listeners for buttons to perform respective tasks
         // You can also add more UI components based on other requirements
+
+        //--------------------------
+        // Switch to Browsing Page
+        //--------------------------
+        searchBooksButton.addActionListener(e -> {
+            mainFrame.showBrowsingPanel();
+
+        });
     }
 }

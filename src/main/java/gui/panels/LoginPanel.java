@@ -3,6 +3,8 @@ package gui.panels;
 
 import api.Database;
 import gui.MainFrame;
+import api.SessionManager;
+import api.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -83,19 +85,22 @@ public class LoginPanel extends JPanel implements ActionListener {
     }
 
 
-
-
     public void actionPerformed(ActionEvent e) {
         String email = usernameField.getText();
         String password = new String(passwordField.getPassword());
-
-
         boolean isVerified = Database.authenticateUser(email, password);
+
         if (isVerified) {
-            System.out.println("User Verified");
-            mainFrame.showUserDashboard();
-        }else {
-            JOptionPane.showMessageDialog(this, "Invalid Username or Password", "Error", JOptionPane.ERROR_MESSAGE);
+            User user = Database.getInstance().fetchUser(email); // Fetch the user after successful authentication
+            if(user != null){
+                SessionManager.getInstance().loginUser(user); // Set the user session
+                System.out.println("User Verified");
+                mainFrame.showUserDashboard(); // Navigate to the dashboard
+            }else {
+                JOptionPane.showMessageDialog(this, "User data could not be retrieved.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Invalid username or password.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 

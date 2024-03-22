@@ -9,6 +9,8 @@ public class Cart extends JPanel {
 	
 private HashMap<Item, Integer> items;
 
+private static Item lastAdded;
+
 	public Cart() {
 		items = new HashMap<>();
 	}
@@ -23,6 +25,12 @@ private HashMap<Item, Integer> items;
 			// If it doesn't, add it to the cart with the given quantity
 			items.put(item, quantity);
 		}
+
+		lastAdded = item;
+	}
+
+	public static Item getLastAdded() {
+		return lastAdded;
 	}
 	
 	public void removeItem(Item item, int quantity) {
@@ -34,7 +42,6 @@ private HashMap<Item, Integer> items;
 				items.put(item, currentQuantity-quantity);
 			}
 		}
-		
 		
 	}
 	

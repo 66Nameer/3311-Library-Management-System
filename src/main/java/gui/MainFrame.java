@@ -1,5 +1,6 @@
 package gui;
 
+import gui.panels.BrowsingPanel;
 import gui.panels.LoginPanel;
 import gui.panels.RegisterPanel;
 import gui.panels.UserDashboardPanel;
@@ -30,8 +31,12 @@ public class MainFrame extends JFrame {
         cardPanel.add(registerPanel, "RegisterPanel");
 
         // Initialize the UserDashboardPanel and add it to cardPanel with an identifier
-        UserDashboardPanel userDashboardPanel = new UserDashboardPanel();
+        UserDashboardPanel userDashboardPanel = new UserDashboardPanel(this);
         cardPanel.add(userDashboardPanel, "UserDashboardPanel");
+
+        // Initialize the browsingPanel and add it to cardPanel with an identifier
+        BrowsingPanel browsingPanel = new BrowsingPanel();
+        cardPanel.add(browsingPanel, "BrowsingPanel");
 
         // Setup the frame
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -49,6 +54,9 @@ public class MainFrame extends JFrame {
 
     public void showUserDashboard() {
         cardLayout.show(cardPanel, "UserDashboardPanel");
+    }
+    public void showBrowsingPanel() {
+        cardLayout.show(cardPanel, "BrowsingPanel");
     }
 
     public static void main(String[] args) {
