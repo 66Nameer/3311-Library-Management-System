@@ -89,17 +89,27 @@ public abstract class User {
 	}
 
 	public void addSubscription(Subscription subscription) {
-
-		if(!sub.contains(subscription)){
+		boolean contain = false;
+		for(Subscription sub2: sub){
+			if(sub2.getServiceName() == subscription.getServiceName()){
+				contain=true;
+			}
+		}
+		if(contain==false){
 			sub.add(subscription);
 		}
 	}
 
 
 	public void removeSubscription(Subscription subscription) {
-		if(sub.contains(subscription)){
-			sub.remove(subscription);
+
+		for(Subscription sub2: sub){
+			if(sub2.getServiceName() == subscription.getServiceName()){
+				sub.remove(sub2);
+			}
 		}
+
+
 	}
 
 	public ArrayList<Subscription> getSubscriptions(){
