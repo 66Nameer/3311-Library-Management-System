@@ -88,6 +88,8 @@ public abstract class User {
 		return notificationService;
 	}
 
+
+
 	public void addSubscription(Subscription subscription) {
 		boolean contain = false;
 		for(Subscription sub2: sub){
@@ -101,10 +103,10 @@ public abstract class User {
 	}
 
 
-	public void removeSubscription(Subscription subscription) {
+	public void removeSubscription(String serviceName) {
 
 		for(Subscription sub2: sub){
-			if(sub2.getServiceName() == subscription.getServiceName()){
+			if(sub2.getServiceName() == serviceName){
 				sub.remove(sub2);
 			}
 		}
@@ -114,5 +116,9 @@ public abstract class User {
 
 	public ArrayList<Subscription> getSubscriptions(){
 		return new ArrayList<>(this.sub);
+	}
+
+	public void setSubscriptions(List<Subscription> loadSubscriptions) {
+		this.sub = new ArrayList<>(loadSubscriptions);
 	}
 }
