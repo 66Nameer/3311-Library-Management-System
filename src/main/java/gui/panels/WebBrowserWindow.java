@@ -6,15 +6,15 @@ public class WebBrowserWindow extends JFrame {
 
     public WebBrowserWindow(String url) {
         setTitle("Web Browser");
-        setSize(800, 600); // Set the size of the browser window
-        setLocationRelativeTo(null); // Center on screen
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE); // Close the window without exiting the app
+        setSize(800, 600); 
+        setLocationRelativeTo(null); 
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE); 
 
-        // Initialize the NewsletterBrowserPanel with the URL
+      
         browserPanel = new NewsletterBrowserPanel();
-        browserPanel.loadURL(url); // Load the desired URL
+        browserPanel.loadURL(url); 
 
-        // Add the browser panel to the window
+     
         getContentPane().add(browserPanel, BorderLayout.CENTER);
     }
 }
