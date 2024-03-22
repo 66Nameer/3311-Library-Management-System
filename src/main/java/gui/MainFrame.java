@@ -38,6 +38,15 @@ public class MainFrame extends JFrame {
         BrowsingPanel browsingPanel = new BrowsingPanel();
         cardPanel.add(browsingPanel, "BrowsingPanel");
 
+
+        SubscriptionPanel subscribePanel = new SubscriptionPanel(this, subscriptionManager);
+        cardPanel.add(subscribePanel, "SubscribePanel");
+
+        NewsletterBrowserPanel browserPanel = new NewsletterBrowserPanel();
+        browserPanel.loadURL("https://www.nytimes.com"); // Example URL
+        cardPanel.add(browserPanel, "NewsBrowser");
+
+        
         // Set up the frame
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(new Dimension(800, 600));
@@ -54,6 +63,13 @@ public class MainFrame extends JFrame {
 
     public void showUserDashboard() {
         cardLayout.show(cardPanel, "UserDashboardPanel");
+    }
+
+      public void showNewsBrowser(String url) {
+        NewsletterBrowserPanel browserPanel = new NewsletterBrowserPanel();
+        browserPanel.loadURL(url);
+        cardPanel.add(browserPanel, "NewsBrowser");
+        cardLayout.show(cardPanel, "NewsBrowser");
     }
 
     public void showBrowsingPanel() {
