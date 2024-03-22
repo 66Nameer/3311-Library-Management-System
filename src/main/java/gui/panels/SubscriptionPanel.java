@@ -22,7 +22,7 @@ public class SubscriptionPanel extends JPanel {
 
 
 
-    public SubscriptionPanel(MainFrame mainFrame, SubscriptionManager subscriptionManager) {
+    public SubscriptionPanel(MainFrame mainFrame) {
         HashMap<String, String> newsStationUrls = new HashMap<>();
         newsStationUrls.put("CNN", "https://www.cnn.com");
         newsStationUrls.put("NY Times", "https://www.nytimes.com");
@@ -56,9 +56,22 @@ public class SubscriptionPanel extends JPanel {
                 String url = newsStationUrls.get(selectedStation);
                 try {
                     SubscriptionData.getInstance().addSubscription(selectedStation, true);
-                    // Assuming SubscriptionManager is refactored to handle Subscription objects correctly
-                    Subscription newSubscription = new Subscription(selectedStation, true);
-                    subscriptionManager.subscribe(selectedStation, SubscriptionData.getInstance()); // Ensure this is the correct call
+//
+//                    Subscription newSubscription = new Subscription(selectedStation, true);
+//                    subscriptionManager.subscribe(selectedStation, SubscriptionData.getInstance());
+                    SubscriptionDialog dialog = new SubscriptionDialog(
+                            (Frame)SwingUtilities.getWindowAncestor(this), // Owner window
+                            "Subscription Confirmation", // Dialog title
+                            true, // Modal
+                            selectedStation, // Station name
+                            url// URL
+
+                    );
+                    dialog.setVisible(true); // Show the dialog
+                    EventQueue.invokeLater(() -> {
+                        WebBrowserWindow browserWindow = new WebBrowserWindow(url);
+                        browserWindow.setVisible(true);
+                    });
                     feedbackLabel.setText("Subscribed successfully to " + selectedStation + ".");
                 } catch (Exception ex) {
                     feedbackLabel.setText("Failed to subscribe to " + selectedStation + ".");
@@ -112,6 +125,7 @@ public class SubscriptionPanel extends JPanel {
     private void listUserSubscriptions() {
         User currentUser = SubscriptionData.getInstance().getUser();
         if (currentUser != null) {
+            
             StringBuilder subscriptionList = new StringBuilder("<html>");
             for (Subscription subscription : currentUser.getSubscriptions()) {
                 subscriptionList.append(subscription.getServiceName())
@@ -124,7 +138,7 @@ public class SubscriptionPanel extends JPanel {
             // Display the subscriptions in a dialog
             JOptionPane.showMessageDialog(this, subscriptionList.toString(), "My Subscriptions", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            // Handle case where no user is logged in or no subscriptions exist
+
             JOptionPane.showMessageDialog(this, "No subscriptions found or not logged in.", "My Subscriptions", JOptionPane.WARNING_MESSAGE);
         }
     }
