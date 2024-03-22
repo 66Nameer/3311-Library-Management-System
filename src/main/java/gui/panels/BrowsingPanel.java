@@ -44,7 +44,7 @@ public class BrowsingPanel extends JPanel {
                 int selectedRow = table.getSelectedRow();
                 if (selectedRow >= 0) {
                     // Columns are: ID, Name, Price, ISBN
-                    ItemAttributes.ItemAttributesBuilder itemBuilder = new ItemAttributes.ItemAttributesBuilder();
+                    ItemAttributesBuilder itemBuilder = new ItemAttributesBuilder();
                     int id = Integer.parseInt((String) table.getValueAt(selectedRow, 0)); // ID
                     String name = (String) table.getValueAt(selectedRow, 1);
                     double price = Double.parseDouble((String) table.getValueAt(selectedRow, 2));
