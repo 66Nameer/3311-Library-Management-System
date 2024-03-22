@@ -14,10 +14,14 @@ public class SubscriptionData {
 
     public void loginUser(User user) {
         this.user = user;
-        this.subscription = new Subscription(); // Or retrieve an existing cart for the user
+        this.user.setSubscriptions(SubscriptionManager.loadSubscriptions(user.getEmail()));
+        this.subscription = new Subscription(); 
     }
 
     public void logoutUser() {
+        if(this.user!=null){
+            SubscriptionManager.saveSubscriptions(this.user);
+        }
         this.user = null;
         this.subscription = null;
         // Also handle persistence if necessary
@@ -30,17 +34,18 @@ public class SubscriptionData {
         return subscription;
     }
 
-    // Assume Subscription class now includes a boolean 'active' field
     public void addSubscription(Subscription subscription) {
         if (user != null) {
 
             user.addSubscription(subscription);
+
         }
     }
 
-    public void removeSubscription(Subscription subscription) {
+    public void removeSubscription(String serviceName) {
         if (user != null) {
-            user.removeSubscription(subscription);
+            user.removeSubscription(serviceName);
+            this.user.setSubscriptions(SubscriptionManager.loadSubscriptions(user.getEmail()));
         }
     }
 }
