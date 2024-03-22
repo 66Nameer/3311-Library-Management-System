@@ -67,20 +67,34 @@ public final class Database {
 		try {
 			CSVReader reader = new CSVReader(new FileReader(rentalData));
 			List<String[]> file = reader.readAll();
-			String[] newEntry = new String[]{
-					rental.getUser().getEmail(), ID, rental.getDueDate().toString()
-			};
+			String[] newEntry = new String[]{rental.getUser().getEmail(), ID, rental.getDueDate().toString()};
+			
 			file.add(newEntry);
 			CSVWriter writer = new CSVWriter(new FileWriter(rentalData));
 			writer.writeAll(file);
+			return;
 		}
 		catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 	}
 
-	// TODO: Might need to add a "count" field to item
+	
 	public void pushItem(PhysicalItem item) {
+		
+		try {
+			
+			CSVWriter writer = new CSVWriter(new FileWriter(itemData));
+			String[] newItem = {String.valueOf(item.getID()), item.getName(), String.valueOf(item.getPrice()), item.getISBN(), "20"};			// TODO: Need to get ItemType, not currently stored with the PhysicalItem. Use ItemAttributes to implement this if possible, not really sure what it does tbh
+			
+			writer.writeNext(newItem);
+			return;
+			
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
 	}
 
 
@@ -105,14 +119,40 @@ public final class Database {
 		}
 		catch (IOException e) {
 			e.printStackTrace();
-			return false;
 		}
+		return false;
 	}
 
 
+	// Item format: ID,name,price,ISBN,type,stock
+	
 	public Item fetchItem(int itemID) {
+		
+		try {
+			
+			CSVReader reader = new CSVReader(new FileReader(itemData));
+			String[] nextLine;
+			
+			String iid = String.valueOf(itemID);
+			
+			while ((nextLine = reader.readNext()) != null) {
+				if (iid.equals(nextLine[0])) {
+					String itemName = nextLine[1];
+					double price = Double.parseDouble(nextLine[2]);
+					String isbn = nextLine[3];
+					ItemType type = ItemType.valueOf(nextLine[4]);
+					//TODO: include stock in the item creation or only deal with it in DB class? int stock = Integer.parseInt(nextLine[5]);
+					
+					ItemFactory fact = new ItemFactory();
+					return fact.getItem(type, null);			// Don't think getItem() should be static??
+					
+				}
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 
-		return null;
+		return null;		// Item not found in DB
 	}
 
 
@@ -126,21 +166,10 @@ public final class Database {
 					if (email.equalsIgnoreCase(nextLine[0])) {
 						String password = nextLine[1];
 						UserType userType = UserType.valueOf(nextLine[2]); // This is where the error might occur
-
-						switch (userType) {
-							case STUDENT:
-								return new Student(email, password);
-							case FACULTY:
-								return new Faculty(email, password);
-							case STAFF:
-								return new Staff(email, password);
-							case VISITOR:
-								return new Visitor(email, password);
-							case MANAGER:
-								return new Manager(email, password);
-							default:
-								throw new IllegalArgumentException("Unknown user type: " + nextLine[2]);
-						}
+						
+						
+						SimpleUserFactory fact = new SimpleUserFactory();
+						return fact.createUser(email, password, userType);
 					}
 				}
 				System.out.println("No user found with email: " + email);
@@ -153,7 +182,8 @@ public final class Database {
 			} catch (Exception e) {
 				System.out.println("An error occurred: " + e.getMessage());
 				e.printStackTrace();
-			}
+			}	
+						
 			return null;
 	}
 
@@ -161,7 +191,7 @@ public final class Database {
 
 
 	// itemData CSV format
-	// itemID,stock	???
+	// itemID,ItemName,Price,ISBN,ItemType,Stock
 
 	// itemID of item whose stock needs to be updated
 	// amount by which the stock needs to be updated (if rented then -1, if returned then +1)
@@ -172,9 +202,12 @@ public final class Database {
 			List<String[]> file = reader.readAll();
 			for (String[] line: file) {									// Find line in itemData file with "itemID"
 				if (line[0].equals(ID)) {								// When found, update the stock value by adding "amount"
-					int newStock = Integer.parseInt(line[1]);
+					int newStock = Integer.parseInt(line[5]);
 					newStock = newStock + amount;
-					line[1] = String.valueOf(newStock);
+					if (newStock == -1) {
+						// TODO: Need logic for item being rented, this determines whether or not the item is currently in stock or not
+					}
+					line[5] = String.valueOf(newStock);
 					break;
 				}
 			}
@@ -188,7 +221,7 @@ public final class Database {
 
 
 	public void prioritizeRequests() {
-
+	// TODO: Figure out what this is supposed to do?
 
 	}
 
@@ -205,7 +238,7 @@ public final class Database {
 			CSVReader reader = new CSVReader(new FileReader(userData));
 			String[] nextLine;
 
-			while((nextLine = reader.readNext()) != null) {								// reader.hasNext() ??
+			while((nextLine = reader.readNext()) != null) {
 				if (email.equalsIgnoreCase(nextLine[0]) && password.equals(nextLine[1])) {
 					reader.close();
 					return true;
@@ -261,4 +294,34 @@ public final class Database {
 
 		return true;
 	}
+
+	// Not sure if we even need this but figured I'd add it just in case
+	public void removeUser(User user) {
+		
+		try {
+			
+			CSVReader reader = new CSVReader(new FileReader(userData));
+			List<String[]> file = reader.readAll();
+			
+			String uid = user.getEmail();
+			String pass = user.getPassword();
+			String type = user.getUserType().toString();					// Have to test this to see if toString matches format of stored type
+			
+			for (String[] line: file) {
+				if (line[0].equals(uid) && line[1].equals(pass) && line[2].equals(type)) {
+					file.remove(line);
+					break;
+				}
+			}
+			
+			CSVWriter writer = new CSVWriter(new FileWriter(userData));
+			writer.writeAll(file);
+
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	
+	}
+
 }
