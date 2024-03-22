@@ -49,27 +49,20 @@ public class SubscriptionPanel extends JPanel {
 
         add(stationPanel, BorderLayout.CENTER);
 
-        // Subscribe button action
-        subscribeButton.addActionListener(e->{
+
+        subscribeButton.addActionListener(e -> {
             String selectedStation = stationGroup.getSelection().getActionCommand();
             if (selectedStation != null && newsStationUrls.containsKey(selectedStation)) {
                 String url = newsStationUrls.get(selectedStation);
-                // Open the subscription dialog
-
-                SubscriptionDialog dialog = new SubscriptionDialog(
-                        (Frame) SwingUtilities.getWindowAncestor(this), // Owner window
-                        "Subscription Confirmation", // Dialog title
-                        true, // Modal
-                        selectedStation, // Station name
-                        url, // URL
-                        subscriptionManager // Subscription manager
-                );
-                EventQueue.invokeLater(() -> {
-                    WebBrowserWindow browserWindow = new WebBrowserWindow(url);
-                    browserWindow.setVisible(true);
-                });
-
-                dialog.setVisible(true); // Show the dialog
+                try {
+                    SubscriptionData.getInstance().addSubscription(selectedStation, true);
+                    // Assuming SubscriptionManager is refactored to handle Subscription objects correctly
+                    Subscription newSubscription = new Subscription(selectedStation, true);
+                    subscriptionManager.subscribe(selectedStation, SubscriptionData.getInstance()); // Ensure this is the correct call
+                    feedbackLabel.setText("Subscribed successfully to " + selectedStation + ".");
+                } catch (Exception ex) {
+                    feedbackLabel.setText("Failed to subscribe to " + selectedStation + ".");
+                }
             } else {
                 feedbackLabel.setText("Please select a station to subscribe.");
             }
@@ -98,14 +91,17 @@ public class SubscriptionPanel extends JPanel {
 
 
     private void cancelSubscription() {
-        String selectedStation = stationGroup.getSelection().getActionCommand();
-        if (selectedStation != null && confirmCancellation()) {
-            subscriptionManager.unsubscribe(selectedStation);
-            feedbackLabel.setText(selectedStation + " subscription cancelled.");
-            // Refresh subscription list or UI as needed
-        } else {
-            feedbackLabel.setText("Please select a station to cancel.");
-        }
+        // Move the action listener setup to the constructor or an initialization method
+        cancelButton.addActionListener(e -> {
+            String selectedStation = stationGroup.getSelection().getActionCommand();
+            if (selectedStation != null && confirmCancellation()) {
+                SubscriptionData.getInstance().removeSubscription(selectedStation);
+                subscriptionManager.unsubscribe(selectedStation, SubscriptionData.getInstance()); // Ensure global state is updated too
+                feedbackLabel.setText(selectedStation + " subscription cancelled.");
+            } else {
+                feedbackLabel.setText("Please select a station to cancel.");
+            }
+        });
     }
 
     private boolean confirmCancellation() {
