@@ -12,8 +12,8 @@ public class SubscriptionDialog extends JDialog {
 
     public SubscriptionDialog(Frame owner, String title, boolean modal, String stationName, String url, SubscriptionManager subscriptionManager) {
         super(owner, title, modal);
-        setSize(300, 200); // Set dialog size or pack() for automatic sizing based on contents
-        setLocationRelativeTo(owner); // Center the dialog relative to the owner
+        setSize(300, 200); 
+        setLocationRelativeTo(owner); 
 
         setLayout(new BorderLayout());
 
@@ -29,11 +29,11 @@ public class SubscriptionDialog extends JDialog {
 
         confirmButton.addActionListener(e -> {
             subscriptionManager.subscribe(stationName, new Subscription(stationName, true));
-            // Optionally: Load the content in the main application window
+           
             JOptionPane.showMessageDialog(this, "Subscribed successfully to " + stationName);
-            dispose(); // Close the dialog
+            dispose(); 
         });
 
-        cancelButton.addActionListener(e -> dispose()); // Just close the dialog without subscribing
+        cancelButton.addActionListener(e -> dispose()); 
     }
 }
