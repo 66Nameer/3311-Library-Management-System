@@ -125,7 +125,7 @@ public class SubscriptionPanel extends JPanel {
     private void listUserSubscriptions() {
         User currentUser = SubscriptionData.getInstance().getUser();
         if (currentUser != null) {
-            
+
             StringBuilder subscriptionList = new StringBuilder("<html>");
             for (Subscription subscription : currentUser.getSubscriptions()) {
                 subscriptionList.append(subscription.getServiceName())
