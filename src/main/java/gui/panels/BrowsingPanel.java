@@ -43,6 +43,7 @@ public class BrowsingPanel extends JPanel {
                 int selectedRow = table.getSelectedRow();
                 if (selectedRow >= 0) {
                     // Assuming the first column is ID, second is Name, third is Price, and fourth is ISBN
+                    ItemAttributes.ItemAttributesBuilder itemBuilder = new ItemAttributes.ItemAttributesBuilder();
                     String name = (String) table.getValueAt(selectedRow, 1);
                     String isbn = (String) table.getValueAt(selectedRow, 3);
                     double price = Double.parseDouble((String) table.getValueAt(selectedRow, 2));
@@ -50,11 +51,13 @@ public class BrowsingPanel extends JPanel {
                     // Create a Book object and add it to the cart
                     // You'll need to define how you create a Book instance from the selected row
                     // Create an ItemAttributes object for the Book
-                    Map<String, Object> additionalAttributes = new HashMap<>();
-                    additionalAttributes.put("Location", ""); // Assuming location is not in the table, set a default or retrieve if available
-                    additionalAttributes.put("ISBN", isbn);
-                    ItemAttributes attributes = new ItemAttributes(name, id, 2, price, true,
-                            false, true, additionalAttributes); // Adjust boolean values according to your design
+                    itemBuilder.setName(name);
+                    itemBuilder.setID(id);
+                    itemBuilder.setPrice(price);
+                    itemBuilder.addAdditionalAttribute("Location", ""); // Assuming location is not in the table, set a default or retrieve if available
+                    itemBuilder.addAdditionalAttribute("ISBN", isbn);
+
+                    ItemAttributes attributes = new ItemAttributes(itemBuilder); // Adjust boolean values according to your design
                     Book book = new Book(attributes);
                     cart.addItem(book, 1);
                     JOptionPane.showMessageDialog(BrowsingPanel.this, name + " added to cart!");
