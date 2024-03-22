@@ -2,7 +2,7 @@ package api;
 
 import java.util.ArrayList;
 
-public class CDBuilder extends ItemBuilder{
+public class CDBuilder extends Item.ItemBuilder{
      String artist;
      ArrayList<String> songs = new ArrayList<>();
 
@@ -17,4 +17,13 @@ public class CDBuilder extends ItemBuilder{
     }
 
 
+    @Override
+    public CD build() {
+        return new CD(this);
+    }
+
+    @Override
+    protected CDBuilder self() {
+        return this;
+    }
 }

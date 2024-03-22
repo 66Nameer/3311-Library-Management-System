@@ -11,7 +11,7 @@ public class eBook extends VirtualItem {
 
 
 
-	private eBook(eBookBuilder builder) {
+	public eBook(eBookBuilder builder) {
 		super(builder);
 		this.author = builder.author;
 		this.courses = builder.courses;

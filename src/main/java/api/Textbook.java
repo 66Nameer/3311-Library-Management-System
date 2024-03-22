@@ -10,7 +10,7 @@ public class Textbook extends PhysicalItem {
 	// default constructor
 
 
-	private Textbook(TextbookBuilder builder) {
+	public Textbook(TextbookBuilder builder) {
 		super(builder);
 		this.edition = builder.edition;
 		this.authors = builder.authors;

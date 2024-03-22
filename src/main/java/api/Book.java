@@ -8,7 +8,7 @@ public class Book extends PhysicalItem {
 	// default constructor
 
 
-	private Book(BookBuilder builder) {
+	public Book(BookBuilder builder) {
         super(builder);
 		this.ISBN = builder.ISBN;
 		this.location = builder.location;

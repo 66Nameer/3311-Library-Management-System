@@ -12,7 +12,7 @@ public class Magazine extends PhysicalItem {
 
 
 
-	private Magazine(MagazineBuilder builder) {
+	public Magazine(MagazineBuilder builder) {
 		super(builder);
 		this.publisher = builder.publisher;
 		this.dateissued = builder.dateIssued;

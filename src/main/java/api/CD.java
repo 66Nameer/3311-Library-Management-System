@@ -9,7 +9,7 @@ public class CD extends PhysicalItem {
 	
 
 
-	private CD(CDBuilder builder) {
+	public CD(CDBuilder builder) {
 		super(builder);
 		this.artist = builder.artist;
 		this.songs = builder.songs;

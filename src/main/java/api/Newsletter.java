@@ -9,7 +9,7 @@ public class Newsletter extends VirtualItem {
 
 
 
-	private Newsletter(NewsletterBuilder builder) {
+	public Newsletter(NewsletterBuilder builder) {
 		super(builder);
 		this.publisher = builder.publisher;
 	}

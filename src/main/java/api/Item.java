@@ -41,5 +41,53 @@ public abstract class Item {
 		return Objects.hash(ID); // or ISBN
 	}
 
+	public static abstract  class ItemBuilder {
+		String name;
+		int ID;
+		int count;
+		double price;
+		boolean canPurchase;
+		boolean canRent;
+		boolean discounted;
+
+		public ItemBuilder setName(String name) {
+			this.name = name;
+			return this;
+		}
+
+		public ItemBuilder setID(int ID) {
+			this.ID = ID;
+			return this;
+		}
+
+		public ItemBuilder setCount(int count) {
+			this.count = count;
+			return this;
+		}
+
+		public ItemBuilder setPrice(double price) {
+			this.price = price;
+			return this;
+		}
+
+		public ItemBuilder setCanPurchase(boolean canPurchase) {
+			this.canPurchase = canPurchase;
+			return this;
+		}
+
+		public ItemBuilder setCanRent(boolean canRent) {
+			this.canRent = canRent;
+			return this;
+		}
+
+		public ItemBuilder setDiscounted(boolean discounted) {
+			this.discounted = discounted;
+			return this;
+		}
+
+		public abstract Item build();
+		protected abstract ItemBuilder self();
+
+	}
 
 }

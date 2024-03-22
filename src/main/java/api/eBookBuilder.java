@@ -2,7 +2,7 @@ package api;
 
 import java.util.ArrayList;
 
-public  class eBookBuilder extends ItemBuilder {
+public  class eBookBuilder extends Item.ItemBuilder {
      String author;
      ArrayList<String> courses = new ArrayList<>();
 
@@ -17,4 +17,13 @@ public  class eBookBuilder extends ItemBuilder {
     }
 
 
+    @Override
+    public eBook build() {
+        return new eBook(this);
+    }
+
+    @Override
+    protected eBookBuilder self() {
+        return this;
+    }
 }

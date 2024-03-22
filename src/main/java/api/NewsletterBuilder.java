@@ -1,6 +1,6 @@
 package api;
 
-public  class NewsletterBuilder extends ItemBuilder {
+public  class NewsletterBuilder extends Item.ItemBuilder {
      String publisher;
 
     public void setPublisher(String publisher) {
@@ -9,4 +9,13 @@ public  class NewsletterBuilder extends ItemBuilder {
     }
 
 
+    @Override
+    public Newsletter build() {
+        return new Newsletter(this);
+    }
+
+    @Override
+    protected NewsletterBuilder self() {
+        return this;
+    }
 }

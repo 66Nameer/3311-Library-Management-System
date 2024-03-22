@@ -2,7 +2,7 @@ package api;
 
 import java.time.LocalDate;
 
-public  class MagazineBuilder extends ItemBuilder {
+public  class MagazineBuilder extends Item.ItemBuilder {
      String publisher;
      LocalDate dateIssued;
 
@@ -17,4 +17,13 @@ public  class MagazineBuilder extends ItemBuilder {
     }
 
 
+    @Override
+    public Magazine build() {
+        return new Magazine(this);
+    }
+
+    @Override
+    protected MagazineBuilder self() {
+        return this;
+    }
 }
