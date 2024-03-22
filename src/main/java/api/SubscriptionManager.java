@@ -1,37 +1,45 @@
 package api;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class SubscriptionManager {
-    private Map<String, Subscription> subscriptions = new HashMap<>();
+    // Maps service names to users subscribed to those services
+    private Map<String, SubscriptionData> serviceSubscriptions = new HashMap<>();
 
+    private static final SubscriptionManager instance = new SubscriptionManager();
 
-    private static SubscriptionManager instance=new SubscriptionManager();
-    // Subscribe or update an existing subscription
-    public void subscribe(String serviceName, Subscription subscription) {
-        subscriptions.put(serviceName, subscription);
+    public  SubscriptionManager() {}
+
+    public static SubscriptionManager getInstance() {
+        return instance;
+    }
+
+    // Subscribe a user to a service
+    public void subscribe(String serviceName, SubscriptionData sub) {
+        serviceSubscriptions.put(serviceName,sub);
+    }
+
+    // Unsubscribe a user from a service
+    public void unsubscribe(String serviceName, SubscriptionData sub) {
+        serviceSubscriptions.remove(serviceName,sub);
     }
 
     // Check if a subscription exists for a given service
     public boolean isSubscribed(String serviceName) {
-        return subscriptions.containsKey(serviceName);
-    }
-
-    // Unsubscribe from a given service
-    public void unsubscribe(String serviceName) {
-        subscriptions.remove(serviceName);
+        return serviceSubscriptions.containsKey(serviceName);
     }
 
     // Get a subscription for a given service
-    public Subscription getSubscription(String serviceName) {
-        return subscriptions.get(serviceName);
+    public SubscriptionData getSubscription(String serviceName) {
+        return serviceSubscriptions.get(serviceName);
     }
 
     // List all subscriptions
-    public Map<String, Subscription> getAllSubscriptions() {
-        return new HashMap<>(subscriptions);
+    public Map<String, SubscriptionData> getAllSubscriptions() {
+        return new HashMap<>(serviceSubscriptions);
     }
 
-    // Additional methods as needed...
 }

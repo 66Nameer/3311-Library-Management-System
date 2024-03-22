@@ -28,7 +28,8 @@ public class SubscriptionDialog extends JDialog {
         add(buttonPanel, BorderLayout.SOUTH);
 
         confirmButton.addActionListener(e -> {
-            subscriptionManager.subscribe(stationName, new Subscription(stationName, true));
+
+            subscriptionManager.subscribe(stationName, SubscriptionData.getInstance());
             // Optionally: Load the content in the main application window
             JOptionPane.showMessageDialog(this, "Subscribed successfully to " + stationName);
             dispose(); // Close the dialog
