@@ -85,7 +85,7 @@ public final class Database {
 		try {
 			
 			CSVWriter writer = new CSVWriter(new FileWriter(itemData));
-			String[] newItem = {String.valueOf(item.getID()), item.getName(), String.valueOf(item.getPrice()), item.getISBN(), "20"};			// TODO: Need to get ItemType, not currently stored with the PhysicalItem. Use ItemAttributes to implement this if possible, not really sure what it does tbh
+			String[] newItem = {String.valueOf(item.getID()), item.name, String.valueOf(item.price), item.ISBN, "20"};			// TODO: Need to get ItemType, not currently stored with the PhysicalItem. Use ItemAttributes to implement this if possible, not really sure what it does tbh
 			
 			writer.writeNext(newItem);
 			return;

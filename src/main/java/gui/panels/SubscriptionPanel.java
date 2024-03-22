@@ -65,7 +65,6 @@ public class SubscriptionPanel extends JPanel {
                             true, // Modal
                             selectedStation, // Station name
                             url// URL
-
                     );
                     dialog.setVisible(true); // Show the dialog
                     EventQueue.invokeLater(() -> {
