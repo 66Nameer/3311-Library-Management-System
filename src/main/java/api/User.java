@@ -87,4 +87,7 @@ public abstract class User {
 		return notificationService;
 	}
 
+	public Subscription[] getSubscriptions() {
+		return null;
+	}
 }

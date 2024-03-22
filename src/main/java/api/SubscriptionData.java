@@ -29,4 +29,10 @@ public class SubscriptionData {
     public Subscription getSubscription() {
         return subscription;
     }
+
+    public void addSubscription(String selectedStation, boolean b) {
+    }
+
+    public void removeSubscription(String selectedStation) {
+    }
 }

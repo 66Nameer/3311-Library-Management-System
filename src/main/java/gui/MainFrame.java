@@ -35,7 +35,7 @@ public class MainFrame extends JFrame {
         cardPanel.add(userDashboardPanel, "UserDashboardPanel");
 
         // Initialize the browsingPanel and add it to cardPanel with an identifier
-        BrowsingPanel browsingPanel = new BrowsingPanel();
+        BrowsingPanel browsingPanel = new BrowsingPanel(this);
         cardPanel.add(browsingPanel, "BrowsingPanel");
 
         // Setup the frame

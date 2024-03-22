@@ -28,22 +28,22 @@ public class CartPanel  extends  JFrame {
         setLayout(new BorderLayout());
 
         JPanel inputPanel = new JPanel(new GridLayout(0, 2));
-        itemNameField = new JTextField();
-        quantityField = new JTextField();
-        JButton addButton = new JButton("Add");
-        JButton removeButton = new JButton("Remove");
-        JButton undoButton = new JButton("Undo");
-        JButton showCartButton = new JButton("Show Cart");
+//        itemNameField = new JTextField();
+//        quantityField = new JTextField();
+//        JButton addButton = new JButton("Add");
+//        JButton removeButton = new JButton("Remove");
+//        JButton undoButton = new JButton("Undo");
+//        JButton showCartButton = new JButton("Show Cart");
         JButton checkoutButton = new JButton("Checkout");
 
-        inputPanel.add(new JLabel("Item Name:"));
-        inputPanel.add(itemNameField);
-        inputPanel.add(new JLabel("Quantity:"));
-        inputPanel.add(quantityField);
-        inputPanel.add(addButton);
-        inputPanel.add(removeButton);
-        inputPanel.add(undoButton);
-        inputPanel.add(showCartButton);
+//        inputPanel.add(new JLabel("Item Name:"));
+//        inputPanel.add(itemNameField);
+//        inputPanel.add(new JLabel("Quantity:"));
+//        inputPanel.add(quantityField);
+//        inputPanel.add(addButton);
+//        inputPanel.add(removeButton);
+//        inputPanel.add(undoButton);
+//        inputPanel.add(showCartButton);
         inputPanel.add(checkoutButton);
 
         cartContents = new JTextArea(10, 30);
@@ -53,10 +53,12 @@ public class CartPanel  extends  JFrame {
 //        addButton.addActionListener(this::addItem);
 //        removeButton.addActionListener(this::removeItem);
 //        undoButton.addActionListener(this::undoLastAction);
-        showCartButton.addActionListener(this::showCart);
+//        showCartButton.addActionListener(this::showCart);
 
         add(inputPanel, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
+
+        displayCart();
 
         //=======================
         //  Checkout Button
