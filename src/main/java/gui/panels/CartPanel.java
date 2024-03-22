@@ -75,6 +75,10 @@ public class CartPanel  extends  JFrame {
             if (confirm == JOptionPane.YES_OPTION) {
                 clearUserCart(currentUser.getEmail());
                 cartContents.setText(""); // Clear the cart display
+                 EventQueue.invokeLater(() -> {
+                    PaymentMethodDialog paymentDialog = new PaymentMethodDialog(this, "User Cart", null); // Assuming 'null' for the URL parameter as it may not be needed here
+                    paymentDialog.setVisible(true);
+                });
             }
         });
 
