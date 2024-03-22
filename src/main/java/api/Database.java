@@ -227,7 +227,7 @@ public final class Database {
 			
 			String uid = rental.getUser().getEmail();
 			String iid = String.valueOf(rental.getItem().getID());
-			String date = rental.getDueDate().toString();
+			String date = rental.getDueDate().toString();					// Have to test this to see if toString() matches format of stored date
 			
 			for (String[] line: file) {
 				if (line[0].equals(uid) && line[1].equals(iid) && line[2].equals(date)) {
@@ -244,6 +244,37 @@ public final class Database {
 			System.out.println(e.getMessage());
 		}
 		
+	}
+	
+	
+	// Not sure if we even need this but figured I'd add it just in case
+	public void removeUser(User user) {
+		
+		try {
+			
+			CSVReader reader = new CSVReader(new FileReader(userData));
+			List<String[]> file = reader.readAll();
+			
+			String uid = user.getEmail();
+			String pass = user.getPassword();
+			String type = user.getUserType().toString();					// Have to test this to see if toString matches format of stored type
+			
+			for (String[] line: file) {
+				if (line[0].equals(uid) && line[1].equals(pass) && line[2].equals(type)) {
+					file.remove(line);
+					break;
+				}
+			}
+			
+			CSVWriter writer = new CSVWriter(new FileWriter(userData));
+			writer.writeAll(file);
+
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+
 	}
 	
 	
