@@ -65,14 +65,9 @@ public final class Database {
 	public void pushRental(Rental rental) {
 		String ID = String.valueOf(rental.getItem().ID);
 		try {
-			CSVReader reader = new CSVReader(new FileReader(rentalData));
-			List<String[]> file = reader.readAll();
 			String[] newEntry = new String[]{rental.getUser().getEmail(), ID, rental.getDueDate().toString()};
-			
-			file.add(newEntry);
 			CSVWriter writer = new CSVWriter(new FileWriter(rentalData));
-			writer.writeAll(file);
-			return;
+			writer.writeNext(newEntry);
 		}
 		catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -81,17 +76,12 @@ public final class Database {
 
 	
 	public void pushItem(PhysicalItem item) {
-		
 		try {
-			
 			CSVWriter writer = new CSVWriter(new FileWriter(itemData));
 			String[] newItem = {String.valueOf(item.getID()), item.name, String.valueOf(item.price), item.ISBN, "20"};			// TODO: Need to get ItemType, not currently stored with the PhysicalItem. Use ItemAttributes to implement this if possible, not really sure what it does tbh
-			
 			writer.writeNext(newItem);
-			return;
-			
-			
-		} catch (Exception e) {
+        }
+		catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 		
@@ -127,28 +117,25 @@ public final class Database {
 	// Item format: ID,name,price,ISBN,type,stock
 	
 	public Item fetchItem(int itemID) {
-		
 		try {
-			
 			CSVReader reader = new CSVReader(new FileReader(itemData));
 			String[] nextLine;
-			
-			String iid = String.valueOf(itemID);
-			
+			String id = String.valueOf(itemID);
 			while ((nextLine = reader.readNext()) != null) {
-				if (iid.equals(nextLine[0])) {
+				if (id.equals(nextLine[0])) {
 					String itemName = nextLine[1];
 					double price = Double.parseDouble(nextLine[2]);
 					String isbn = nextLine[3];
 					ItemType type = ItemType.valueOf(nextLine[4]);
-					//TODO: include stock in the item creation or only deal with it in DB class? int stock = Integer.parseInt(nextLine[5]);
-					
+					int count = Integer.parseInt(nextLine[5]);
+					// TODO: include stock in the item creation or only deal with it in DB class? int stock = Integer.parseInt(nextLine[5]);
 					ItemFactory fact = new ItemFactory();
+
 					return fact.getItem(type, null);			// Don't think getItem() should be static??
-					
 				}
 			}
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 
@@ -161,29 +148,28 @@ public final class Database {
 	public User fetchUser(String email) {
 			try (CSVReader reader = new CSVReader(new FileReader(userData))) {
 				String[] nextLine;
-
 				while ((nextLine = reader.readNext()) != null) {
 					if (email.equalsIgnoreCase(nextLine[0])) {
 						String password = nextLine[1];
 						UserType userType = UserType.valueOf(nextLine[2]); // This is where the error might occur
-						
-						
 						SimpleUserFactory fact = new SimpleUserFactory();
 						return fact.createUser(email, password, userType);
 					}
 				}
 				System.out.println("No user found with email: " + email);
-			} catch (IllegalArgumentException e) {
+			}
+			catch (IllegalArgumentException e) {
 				System.out.println("Invalid user type in CSV: " + e.getMessage());
 				e.printStackTrace();
-			} catch (IOException e) {
+			}
+			catch (IOException e) {
 				System.out.println("Error reading from CSV file: " + e.getMessage());
 				e.printStackTrace();
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				System.out.println("An error occurred: " + e.getMessage());
 				e.printStackTrace();
-			}	
-						
+			}
 			return null;
 	}
 
@@ -229,11 +215,9 @@ public final class Database {
 	// Authentication for the GUI
 
 	public static boolean authenticateUser(String email, String password) {
-
 		// userData CSV format
 		// userID (email),password ???
 		// Going to have to include type of api.User in the file so that the object can be recreated when necessary
-
 		try {
 			CSVReader reader = new CSVReader(new FileReader(userData));
 			String[] nextLine;
@@ -257,15 +241,12 @@ public final class Database {
 	public boolean saveUserCart(User user, Cart cart) {
 		String userEmail = user.getEmail();
 		Item lastAddedItem = cart.getLastAdded();
-
 		// If the user did not add anything to their Cart
 		if (lastAddedItem == null) {
 			return false;
 		}
-
 		List<String[]> allCarts = new ArrayList<>();
 		String[] cartEntry = new String[] {userEmail, lastAddedItem.name, "1"};
-//
 		// Read the existing cart from the userCart csv file
 		try (CSVReader reader = new CSVReader(new FileReader(userCart))) {
 			allCarts = reader.readAll();
@@ -273,7 +254,6 @@ public final class Database {
 			e.printStackTrace();
 			return false;
 		}
-
 		// We will only write the last item that the user added to their cart
 			// With this, we will not be updating the existing cart, rather just keep adding
 				// items to a new line everytime the user adds something to their cart
@@ -287,41 +267,33 @@ public final class Database {
 				CSVWriter.DEFAULT_LINE_END)) {
 			writer.writeNext(cartEntry);
 			writer.flush();
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			e.printStackTrace();
 			return false;
 		}
-
 		return true;
 	}
 
 	// Not sure if we even need this but figured I'd add it just in case
 	public void removeUser(User user) {
-		
 		try {
-			
 			CSVReader reader = new CSVReader(new FileReader(userData));
 			List<String[]> file = reader.readAll();
-			
 			String uid = user.getEmail();
 			String pass = user.getPassword();
 			String type = user.getUserType().toString();					// Have to test this to see if toString matches format of stored type
-			
 			for (String[] line: file) {
 				if (line[0].equals(uid) && line[1].equals(pass) && line[2].equals(type)) {
 					file.remove(line);
 					break;
 				}
 			}
-			
 			CSVWriter writer = new CSVWriter(new FileWriter(userData));
 			writer.writeAll(file);
-
-			
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-	
 	}
-
 }

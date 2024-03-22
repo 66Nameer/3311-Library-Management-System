@@ -9,6 +9,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BrowsingPanel extends JPanel {
     private JTable table;
@@ -129,26 +131,30 @@ public class BrowsingPanel extends JPanel {
         add(buttonPanel, BorderLayout.NORTH);
 
         // Load the books from the CSV into the table
+
         loadBooksFromCSV();
     }
 
     // Method to load books from the CSV file and add them to the table model
-    private void loadBooksFromCSV() {
+    private List<String[]> loadBooksFromCSV() {
         // first load the Items.csv file
                 // Since we are using a single file to load the items/books, we don't need to pass the file name,
                 // rather we can just specify which file we need inside the method
             // loop through it to add information to the columns
+
+        List<String[]> bookDataList = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader("src/main/java/DatabaseFiles/Items.csv"))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] bookData = line.split(",");
                 // Only display the name and the price
-                tableModel.addRow(bookData); // Add the parsed data to the table model
+                bookDataList.add(bookData);
             }
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this, "Error loading books from CSV file: " + e.getMessage(),
                     "Error", JOptionPane.ERROR_MESSAGE);
         }
+        return bookDataList;
     }
 }

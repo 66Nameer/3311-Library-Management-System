@@ -10,7 +10,7 @@ public class Student extends User {
 
 	private boolean enrolled =false;
 	private ArrayList<Date> examDates=new ArrayList<Date>();
-	private Map<String , String > courses=new HashMap<String, String>();
+	private Map<String , String> courses= new HashMap<>();
 
 	public Student(String email, String password) {
 		super(email, password, UserType.STUDENT);
