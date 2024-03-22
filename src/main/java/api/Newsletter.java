@@ -6,13 +6,16 @@ public class Newsletter extends VirtualItem {
 	
 
 	// default constructor
-
-
-
-	public Newsletter(NewsletterBuilder builder) {
-		super(builder);
-		this.publisher = builder.publisher;
+	public Newsletter() {
+		this(null);
 	}
+	
+	
+	public Newsletter (ItemAttributes attributes) {
+        super(attributes);
+		this.publisher = (String) attributes.getAdditionalAttributes().get("publisher");
+	}
+	
 	
 
 }

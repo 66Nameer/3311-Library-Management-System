@@ -1,17 +1,20 @@
 package api;
 
-import java.util.Objects;
-
 public class Book extends PhysicalItem {
+	
+	public String ISBN;
 	// public int field;	Not sure what this was supposed to be
 	
 	// default constructor
-
-
-	public Book(BookBuilder builder) {
-        super(builder);
-		this.ISBN = builder.ISBN;
-		this.location = builder.location;
+	public Book() {
+		this(null);
 	}
+	
+	public Book(ItemAttributes attributes) {
+        super(attributes);
+		this.location = (String) attributes.getAdditionalAttributes().get("location");
+		this.ISBN = (String) attributes.getAdditionalAttributes().get("ISBN");
+	}
+	
 
 }

@@ -8,12 +8,16 @@ public class Textbook extends PhysicalItem {
 	public ArrayList<String> authors;
 	
 	// default constructor
-
-
-	public Textbook(TextbookBuilder builder) {
-		super(builder);
-		this.edition = builder.edition;
-		this.authors = builder.authors;
+	public Textbook() {
+		this(null);
+	}
+	
+	
+	public Textbook(ItemAttributes attributes) {
+        super(attributes);
+		this.location = (String) attributes.getAdditionalAttributes().get("location");
+		this.edition = (int) attributes.getAdditionalAttributes().get("edition");
+		this.authors = (ArrayList<String>) attributes.getAdditionalAttributes().get("authors");
 	}
 	
 

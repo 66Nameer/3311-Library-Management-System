@@ -8,13 +8,15 @@ public class eBook extends VirtualItem {
 	public ArrayList<String> courses;
 	
 	// default constructor
-
-
-
-	public eBook(eBookBuilder builder) {
-		super(builder);
-		this.author = builder.author;
-		this.courses = builder.courses;
+	public eBook() {
+		this(null);
+	}
+	
+	
+	public eBook (ItemAttributes attributes) {
+        super(attributes);
+		this.author = (String) attributes.getAdditionalAttributes().get("author");
+		this.courses = (ArrayList<String>) attributes.getAdditionalAttributes().get("courses");
 	}
 	
 	

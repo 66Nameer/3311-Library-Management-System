@@ -5,13 +5,13 @@ import java.util.Map;
 
 public class ItemAttributesBuilder {
     String name;
-     int ID;
-     int count;
-     double price;
-     boolean canPurchase;
-     boolean canRent;
-     boolean discounted;
-     Map<String, Object> additionalAttributes = new HashMap<>();
+    int ID;
+    int count;
+    double price;
+    boolean canPurchase;
+    boolean canRent;
+    boolean discounted;
+    Map<String, Object> additionalAttributes = new HashMap<>();
 
     public void setName(String name) {
         this.name = name;
@@ -58,5 +58,3 @@ public class ItemAttributesBuilder {
 
     }
 }
-
-
