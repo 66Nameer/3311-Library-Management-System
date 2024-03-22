@@ -14,7 +14,7 @@ public class SubscriptionData {
 
     public void loginUser(User user) {
         this.user = user;
-        this.subscription = new Subscription(); // Or retrieve an existing cart for the user
+        this.subscription = new Subscription(); 
     }
 
     public void logoutUser() {
@@ -30,9 +30,17 @@ public class SubscriptionData {
         return subscription;
     }
 
-    public void addSubscription(String selectedStation, boolean b) {
+  
+    public void addSubscription(String serviceName, boolean isActive) {
+        if (user != null) {
+            Subscription subscription = new Subscription(serviceName, isActive);
+            user.addSubscription(subscription);
+        }
     }
 
-    public void removeSubscription(String selectedStation) {
+    public void removeSubscription(String serviceName) {
+        if (user != null) {
+            user.removeSubscription(new Subscription(serviceName,true));
+        }
     }
 }
