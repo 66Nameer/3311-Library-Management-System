@@ -17,6 +17,7 @@ public abstract class User {
 	private NotificationManager notificationService = new NotificationManager();
 	protected Cart cart;
 	private int priority;
+	ArrayList<Subscription> sub=new ArrayList<>();
 	ArrayList<Rental> rentals = new ArrayList<>();
 	ArrayList<Request> request = new ArrayList<>();
 
@@ -87,7 +88,21 @@ public abstract class User {
 		return notificationService;
 	}
 
-	public Subscription[] getSubscriptions() {
-		return null;
+	public void addSubscription(Subscription subscription) {
+
+		if(!sub.contains(subscription)){
+			sub.add(subscription);
+		}
+	}
+
+
+	public void removeSubscription(Subscription subscription) {
+		if(sub.contains(subscription)){
+			sub.remove(subscription);
+		}
+	}
+
+	public ArrayList<Subscription> getSubscriptions(){
+		return new ArrayList<>(this.sub);
 	}
 }
