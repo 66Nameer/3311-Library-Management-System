@@ -43,6 +43,10 @@ public abstract class User {
 		return userType;
 	}
 
+	public Cart getCart() {
+		return cart;
+	}
+
 	public void makeRequests(Item item) {
 		if(item instanceof Textbook){
 			priority = 1;

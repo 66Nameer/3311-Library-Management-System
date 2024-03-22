@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.util.*;
 import java.util.Map;
 import api.*;
+
 public class CartPanel  extends  JFrame {
     private Cart cart = new Cart();
     private JTextField itemNameField, quantityField;
@@ -46,7 +47,7 @@ public class CartPanel  extends  JFrame {
         add(inputPanel, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
 
-        setVisible(true);
+        //setVisible(true);
 
     }
 
