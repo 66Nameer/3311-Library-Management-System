@@ -24,7 +24,7 @@ public class CartPanel  extends  JFrame {
         this.currentUser = user;
         setTitle("Cart GUI");
         setSize(300, 400);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
 
         JPanel inputPanel = new JPanel(new GridLayout(0, 2));

@@ -5,6 +5,7 @@ import gui.MainFrame;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,11 +20,19 @@ public class BrowsingPanel extends JPanel {
     private JButton viewCartButton;
     private JButton returnToDashboard;
     private MainFrame mainFrame;
+    private JTextField searchField;
+    private JButton searchButton;
 
     public BrowsingPanel(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
         setLayout(new BorderLayout());
-        JPanel buttonPanel = new JPanel(new GridLayout(3, 1, 5, 5));
+        JPanel bottomPanel = new JPanel(new GridLayout(1, 2, 5, 5));
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEADING));
+
+        searchField = new JTextField(20);
+        searchButton = new JButton("Search");
+
+
         // =================================================
         //                   Table Setup
         // =================================================
@@ -45,38 +54,8 @@ public class BrowsingPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 int selectedRow = table.getSelectedRow();
                 if (selectedRow >= 0) {
-                    // Columns are: ID, Name, Price, ISBN
-//                    ItemAttributesBuilder itemBuilder = new ItemAttributesBuilder();
-                    int id = Integer.parseInt((String) table.getValueAt(selectedRow, 0)); // ID
-//                    String name = (String) table.getValueAt(selectedRow, 1);
-//                    double price = Double.parseDouble((String) table.getValueAt(selectedRow, 2));
-//                    String isbn = (String) table.getValueAt(selectedRow, 3);
-//                    String itemType = (String) table.getValueAt(selectedRow, 4);
-
+                    int id = Integer.parseInt((String) table.getValueAt(selectedRow, 0));
                     Item currentItem = Database.getInstance().fetchItem(id);
-
-                    // Create a Book object and add it to the cart
-                        // Create an ItemAttributes object for the Book
-//                    itemBuilder.setName(name);
-//                    itemBuilder.setID(id);
-//                    itemBuilder.setPrice(price);
-//                    itemBuilder.addAdditionalAttribute("Location", ""); // Assuming location is not in the table, set a default or retrieve if available
-//                    itemBuilder.addAdditionalAttribute("ISBN", isbn);
-//
-//                    ItemAttributes attributes = new ItemAttributes(itemBuilder); // Adjust boolean values according to your design
-//                    Item item;
-//                    switch (itemType) {
-//                        case " BOOK":
-//                            item = new Book(attributes);
-//                            break;
-//                        case " MAGAZINE":
-//                            item = new Magazine(attributes);
-//                            break;
-//                        default:
-//                            JOptionPane.showMessageDialog(BrowsingPanel.this, "Unknown item type.");
-//                            return; // Exit early if the item type is not recognized
-//                    }
-
                     // Get the User and their cart
                     api.Database databaseInstance = new api.Database();
                     User currentUser = api.SessionManager.getInstance().getCurrentUser();
@@ -90,7 +69,6 @@ public class BrowsingPanel extends JPanel {
                     } else {
                         System.out.println("Saved Not Cart");
                     }
-
                     JOptionPane.showMessageDialog(BrowsingPanel.this, currentItem.name + " added to cart!");
                     currentCart.displayCart();
                 } else {
@@ -117,7 +95,7 @@ public class BrowsingPanel extends JPanel {
         //==========================================
         // Return to DashBoard button
         // ========================================
-        returnToDashboard = new JButton("DashBoard");
+        returnToDashboard = new JButton("Back");
         returnToDashboard.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -126,16 +104,23 @@ public class BrowsingPanel extends JPanel {
         });
 
         // Add the table and the button to the panel
+        add(topPanel, BorderLayout.NORTH); // Add the search panel at the top
         add(new JScrollPane(table), BorderLayout.CENTER);
-        buttonPanel.add(addToCartButton);
-        buttonPanel.add(viewCartButton);
-        buttonPanel.add(returnToDashboard);
-        add(buttonPanel, BorderLayout.NORTH);
+        bottomPanel.add(addToCartButton);
+        topPanel.add(returnToDashboard);
+        topPanel.add(new JLabel("Search: "));
+        topPanel.add(searchField);
+        topPanel.add(searchButton);
+        bottomPanel.add(viewCartButton);
+        add(bottomPanel, BorderLayout.SOUTH);
 
         // Load the books from the CSV into the table
 
         loadBooksFromCSV();
+
+        searchButton.addActionListener(e -> filterItems(searchField.getText()));
     }
+
 
     // Method to load books from the CSV file and add them to the table model
     private void loadBooksFromCSV() {
@@ -158,4 +143,15 @@ public class BrowsingPanel extends JPanel {
                     "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-}
+
+private void filterItems(String query) {
+    TableRowSorter<DefaultTableModel> rowSorter = new TableRowSorter<>(tableModel);
+    table.setRowSorter(rowSorter);
+
+    if (query.trim().length() == 0) {
+        rowSorter.setRowFilter(null);
+    } else {
+        // Assuming book name is in the 2nd column (index 1)
+        rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + query, 1));
+    }
+}}
