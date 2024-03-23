@@ -39,7 +39,7 @@ public class UserDashboardPanel extends JPanel {
 
         JTextArea userInformationTextArea = new JTextArea();
         userInformationTextArea.setEditable(false);
-        userInformationTextArea.setText("User Information:\nName:" +" John Doe\nType: Student\nEmail: john.doe@example.com");
+        userInformationTextArea.setText("User Information:\nEmail: user@example.com\nType: Student");
 
     //   User currentUser = SessionManager.getInstance().getCurrentUser();
 //        if (currentUser != null) {
