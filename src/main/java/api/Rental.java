@@ -37,15 +37,4 @@ public class Rental {
     	return this.dueDate;
     }
     
-    /*
-    public void extendDueDate(int days) {						// give users option to extend due dates?
-    	this.dueDate = this.dueDate.plusDays(days);
-    }
-    */
-    
-    
-    
-    
-    
-    
 }

@@ -27,7 +27,7 @@ public class RentalsPanel extends JPanel {
         rentSelectedItemButton = new JButton("Rent Selected Item");
         viewRentedItemsButton = new JButton("View Rented Items");
         JPanel topPanel = new JPanel(new FlowLayout((FlowLayout.LEADING)));
-        JPanel buttonsPanel = new JPanel(new GridLayout(1, 2, 10, 0)); // 10 is the horizontal gap between buttons
+        JPanel buttonsPanel = new JPanel(new GridLayout(1, 2, 10, 0));
 
         // Add the buttons to the buttonsPanel
         buttonsPanel.add(rentSelectedItemButton);

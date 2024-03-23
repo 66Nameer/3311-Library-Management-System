@@ -17,7 +17,7 @@ public class SessionManager {
 
     public void loginUser(User user) {
         currentUser = user;
-        currentCart = new api.Cart(); // Or retrieve an existing cart for the user
+        currentCart = new api.Cart();
 
     }
 
@@ -27,7 +27,6 @@ public class SessionManager {
     public void logoutUser() {
         this.currentUser = null;
         this.currentCart = null;
-        // Also handle persistence if necessary
     }
 
     public User getCurrentUser() {

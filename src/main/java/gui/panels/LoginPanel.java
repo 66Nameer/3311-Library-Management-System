@@ -54,7 +54,7 @@ public class LoginPanel extends JPanel implements ActionListener {
         // Login button
         loginButton = new JButton("Login");
         loginButton.addActionListener(this);
-        loginButton.setAlignmentX(Component.CENTER_ALIGNMENT); // This will align the button to the center of the X axis
+        loginButton.setAlignmentX(Component.CENTER_ALIGNMENT); // This will align the button to the center
 
         // Add the login button directly under the password panel
         JPanel loginButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -121,12 +121,12 @@ public class LoginPanel extends JPanel implements ActionListener {
         } else {
             JOptionPane.showMessageDialog(this, "Invalid Username or Password", "Error", JOptionPane.ERROR_MESSAGE);
 
-            User user = Database.getInstance().fetchUser(email); // Fetch the user after successful authentication
+            User user = Database.getInstance().fetchUser(email); // Get the user after successful authentication
             if(user != null){
                 SessionManager.getInstance().loginUser(user); // Set the user session
                 SubscriptionData.getInstance().loginUser(user);
                 System.out.println("User Verified");
-                mainFrame.showUserDashboard(); // Navigate to the dashboard
+                mainFrame.showUserDashboard(); //  to the dashboard
             } else {
                 JOptionPane.showMessageDialog(this, "User data could not be retrieved.", "Error", JOptionPane.ERROR_MESSAGE);
 

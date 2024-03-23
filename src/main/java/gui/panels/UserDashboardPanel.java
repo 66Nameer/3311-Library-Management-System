@@ -41,18 +41,11 @@ public class UserDashboardPanel extends JPanel {
         userInformationTextArea.setEditable(false);
         userInformationTextArea.setText("User Information:\nEmail: user@example.com\nType: Student");
 
-    //   User currentUser = SessionManager.getInstance().getCurrentUser();
-//        if (currentUser != null) {
-//            userInformationTextArea.setText("User Information:\nName: " + currentUser.getEmail() + "\nType: " + currentUser.getUserType() + "\nEmail: " + currentUser.getEmail());
-//        }
         // Add UI components to the panel
         add(welcomeLabel, BorderLayout.NORTH);
         add(buttonPanel, BorderLayout.CENTER);
         add(new JScrollPane(userInformationTextArea), BorderLayout.SOUTH);
 
-        // Add additional functionalities according to the requirements
-        // For example, action listeners for buttons to perform respective tasks
-        // You can also add more UI components based on other requirements
 
         //--------------------------
         // Switch to Browsing Page
@@ -92,6 +85,5 @@ public class UserDashboardPanel extends JPanel {
         SessionManager.getInstance().logoutUser(); // Logout the current user
         SubscriptionData.getInstance().logoutUser();
         mainFrame.showCard("LoginPanel"); // Switch back to the login panel
-        // You may also want to clear or reset certain states or UI components if necessary
     }
 }

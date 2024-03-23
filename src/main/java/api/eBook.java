@@ -19,10 +19,4 @@ public class eBook extends VirtualItem {
 		this.courses = (ArrayList<String>) attributes.getAdditionalAttributes().get("courses");
 	}
 	
-	
-	/*public void addCourse (String course) {
-		this.courses.add(course);
-	}*/
-
-	
 }
