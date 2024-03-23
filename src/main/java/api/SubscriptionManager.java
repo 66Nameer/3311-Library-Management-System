@@ -21,7 +21,7 @@ public class SubscriptionManager {
         try (CSVReader reader = new CSVReader(new FileReader(CSV_FILE_PATH))) {
             String[] nextLine;
             while ((nextLine = reader.readNext()) != null) {
-                // Keep only rows that do not belong to the current user
+          
                 if (!nextLine[0].equals(user.getEmail())) {
                     allRows.add(nextLine);
                 }
@@ -32,12 +32,12 @@ public class SubscriptionManager {
             e.printStackTrace();
         }
 
-        // Add the current user's subscriptions
+
         for (Subscription subscription : user.getSubscriptions()) {
             allRows.add(new String[]{user.getEmail(), subscription.getServiceName(), String.valueOf(subscription.isActive())});
         }
 
-        // Rewrite the CSV with the updated data
+  
         try (CSVWriter writer = new CSVWriter(new FileWriter(CSV_FILE_PATH))) {
             writer.writeAll(allRows);
         } catch (IOException e) {
@@ -65,13 +65,13 @@ public class SubscriptionManager {
     }
 
 
-    // Method to remove a subscription for a specific user
+  
     public static void removeSubscription(String username, String serviceName) {
         List<String[]> allRows = new ArrayList<>();
         try (CSVReader reader = new CSVReader(new FileReader(CSV_FILE_PATH))) {
             String[] nextLine;
             while ((nextLine = reader.readNext()) != null) {
-                // Add all rows that don't match the user-service combination to be removed
+           
                 if (!(nextLine[0].equals(username) && nextLine[1].equals(serviceName))) {
                     allRows.add(nextLine);
                 }
@@ -82,7 +82,7 @@ public class SubscriptionManager {
             e.printStackTrace();
         }
 
-        // Rewrite the CSV without the removed subscription
+    
         try (CSVWriter writer = new CSVWriter(new FileWriter(CSV_FILE_PATH))) {
             writer.writeAll(allRows);
         } catch (IOException e) {
@@ -97,7 +97,7 @@ public class SubscriptionManager {
             String[] nextLine;
             while ((nextLine = reader.readNext()) != null) {
                 if (nextLine[0].equals(email) && nextLine[1].equals(selectedStation)) {
-                    return true; // Found a matching row
+                    return true; 
                 }
             }
         } catch (IOException e) {
@@ -105,7 +105,7 @@ public class SubscriptionManager {
         } catch (CsvValidationException e) {
             e.printStackTrace();
         }
-        return false; // No matching row found
+        return false; 
     }
 
 }
