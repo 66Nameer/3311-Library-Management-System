@@ -18,6 +18,7 @@ public class RentalsPanel extends JPanel {
     private MainFrame mainFrame;
     private JButton rentSelectedItemButton;
     private JButton viewRentedItemsButton;
+    private JButton returnToDashboard;
 
 
     public RentalsPanel(MainFrame mainFrame) {
@@ -25,6 +26,7 @@ public class RentalsPanel extends JPanel {
         setLayout(new BorderLayout());
         rentSelectedItemButton = new JButton("Rent Selected Item");
         viewRentedItemsButton = new JButton("View Rented Items");
+        JPanel topPanel = new JPanel(new FlowLayout((FlowLayout.LEADING)));
         JPanel buttonsPanel = new JPanel(new GridLayout(1, 2, 10, 0)); // 10 is the horizontal gap between buttons
 
         // Add the buttons to the buttonsPanel
@@ -73,7 +75,17 @@ public class RentalsPanel extends JPanel {
         //=================================
         // Go Back to DashBoard
         //=================================
+        returnToDashboard = new JButton("Back");
 
+        returnToDashboard.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainFrame.showUserDashboard();
+            }
+        });
+
+        add(topPanel, BorderLayout.NORTH);
+        topPanel.add(returnToDashboard);
     }
 
     private void initRentalsTable() {
