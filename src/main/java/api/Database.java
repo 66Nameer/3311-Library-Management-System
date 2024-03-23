@@ -121,11 +121,11 @@ public final class Database {
 			String id = String.valueOf(itemID);
 			while ((nextLine = reader.readNext()) != null) {
 				if (id.equals(nextLine[0])) {
-					String itemName = nextLine[1];
-					double price = Double.parseDouble(nextLine[2]);
-					String isbn = nextLine[3];
-					ItemType type = ItemType.valueOf(nextLine[4]);
-					int count = Integer.parseInt(nextLine[5]);
+					String itemName = nextLine[1].trim();
+					double price = Double.parseDouble(nextLine[2].trim());
+					String isbn = nextLine[3].trim();
+					ItemType type = ItemType.valueOf(nextLine[4].trim());
+					int count = Integer.parseInt(nextLine[5].trim());
 					// TODO: include stock in the item creation or only deal with it in DB class? int stock = Integer.parseInt(nextLine[5]);
 					ItemAttributes attributes = ItemAttributes.builder()
 							.setID(itemID)

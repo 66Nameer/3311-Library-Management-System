@@ -10,10 +10,9 @@ import javax.swing.*;
 public class Main {
 
     public static void main(String[] args) throws InterruptedException {
-        User user = new Student("Email", "Password");
 
-       MainFrame mainFrame = new MainFrame();
-       mainFrame.setVisible(true);
+       Item item = Database.getInstance().fetchItem(2);
+        System.out.println(item);
 
     }
 }
