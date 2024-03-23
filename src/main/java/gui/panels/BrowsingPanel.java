@@ -9,6 +9,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BrowsingPanel extends JPanel {
     private JTable table;
@@ -25,7 +27,7 @@ public class BrowsingPanel extends JPanel {
         // =================================================
         //                   Table Setup
         // =================================================
-        String[] columnNames = { "ID","Name", "Price", "ISBN", "Type"};
+        String[] columnNames = { "ID","Name", "Price", "Type"};
         tableModel = new DefaultTableModel(columnNames, 0);
         table = new JTable(tableModel) {
             // So you cannot edit the cells
@@ -44,41 +46,43 @@ public class BrowsingPanel extends JPanel {
                 int selectedRow = table.getSelectedRow();
                 if (selectedRow >= 0) {
                     // Columns are: ID, Name, Price, ISBN
-                    ItemAttributesBuilder itemBuilder = new ItemAttributesBuilder();
+//                    ItemAttributesBuilder itemBuilder = new ItemAttributesBuilder();
                     int id = Integer.parseInt((String) table.getValueAt(selectedRow, 0)); // ID
-                    String name = (String) table.getValueAt(selectedRow, 1);
-                    double price = Double.parseDouble((String) table.getValueAt(selectedRow, 2));
-                    String isbn = (String) table.getValueAt(selectedRow, 3);
-                    String itemType = (String) table.getValueAt(selectedRow, 4);
+//                    String name = (String) table.getValueAt(selectedRow, 1);
+//                    double price = Double.parseDouble((String) table.getValueAt(selectedRow, 2));
+//                    String isbn = (String) table.getValueAt(selectedRow, 3);
+//                    String itemType = (String) table.getValueAt(selectedRow, 4);
+
+                    Item currentItem = Database.getInstance().fetchItem(id);
 
                     // Create a Book object and add it to the cart
                         // Create an ItemAttributes object for the Book
-                    itemBuilder.setName(name);
-                    itemBuilder.setID(id);
-                    itemBuilder.setPrice(price);
-                    itemBuilder.addAdditionalAttribute("location", ""); // Assuming location is not in the table, set a default or retrieve if available
-                    itemBuilder.addAdditionalAttribute("ISBN", isbn);
-
-                    ItemAttributes attributes = new ItemAttributes(itemBuilder); // Adjust boolean values according to your design
-                    Item item;
-                    switch (itemType) {
-                        case " Book":
-                            item = new Book(attributes);
-                            break;
-                        case " Magazine":
-                            item = new Magazine(attributes);
-                            break;
-                        default:
-                            JOptionPane.showMessageDialog(BrowsingPanel.this, "Unknown item type.");
-                            return; // Exit early if the item type is not recognized
-                    }
+//                    itemBuilder.setName(name);
+//                    itemBuilder.setID(id);
+//                    itemBuilder.setPrice(price);
+//                    itemBuilder.addAdditionalAttribute("Location", ""); // Assuming location is not in the table, set a default or retrieve if available
+//                    itemBuilder.addAdditionalAttribute("ISBN", isbn);
+//
+//                    ItemAttributes attributes = new ItemAttributes(itemBuilder); // Adjust boolean values according to your design
+//                    Item item;
+//                    switch (itemType) {
+//                        case " BOOK":
+//                            item = new Book(attributes);
+//                            break;
+//                        case " MAGAZINE":
+//                            item = new Magazine(attributes);
+//                            break;
+//                        default:
+//                            JOptionPane.showMessageDialog(BrowsingPanel.this, "Unknown item type.");
+//                            return; // Exit early if the item type is not recognized
+//                    }
 
                     // Get the User and their cart
                     api.Database databaseInstance = new api.Database();
                     User currentUser = api.SessionManager.getInstance().getCurrentUser();
                     api.Cart currentCart = api.SessionManager.getInstance().getCurrentCart();
                     // Add the selected book to the cart
-                    currentCart.addItem(item, 1);
+                    currentCart.addItem(currentItem, 1);
                     // Run a check to see if the cart was saved
                     boolean cartSaved = databaseInstance.saveUserCart(currentUser, currentCart);
                     if (cartSaved) {
@@ -87,7 +91,7 @@ public class BrowsingPanel extends JPanel {
                         System.out.println("Saved Not Cart");
                     }
 
-                    JOptionPane.showMessageDialog(BrowsingPanel.this, name + " added to cart!");
+                    JOptionPane.showMessageDialog(BrowsingPanel.this, currentItem.name + " added to cart!");
                     currentCart.displayCart();
                 } else {
                     JOptionPane.showMessageDialog(BrowsingPanel.this, "Please select an item to "
@@ -129,6 +133,7 @@ public class BrowsingPanel extends JPanel {
         add(buttonPanel, BorderLayout.NORTH);
 
         // Load the books from the CSV into the table
+
         loadBooksFromCSV();
     }
 
@@ -139,12 +144,14 @@ public class BrowsingPanel extends JPanel {
                 // rather we can just specify which file we need inside the method
             // loop through it to add information to the columns
 
+        List<String[]> bookDataList = new ArrayList<>();
+
         try (BufferedReader br = new BufferedReader(new FileReader("src/main/java/DatabaseFiles/Items.csv"))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] bookData = line.split(",");
                 // Only display the name and the price
-                tableModel.addRow(bookData); // Add the parsed data to the table model
+                tableModel.addRow(new String[]{bookData[0], bookData[1], bookData[2], bookData[4],});
             }
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this, "Error loading books from CSV file: " + e.getMessage(),

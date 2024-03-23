@@ -1,3 +1,3 @@
-01, example book, 5, 0000, Book
-02, another book, 1, 0001, Book
-03, calculus, 2, 0002, Book
+1, example book, 5, 0000, BOOK, 20,PHYSICAL,29-03-24
+2, another book, 1, 0001, BOOK, 20,PHYSICAL,29-03-24
+3, calculus, 2, 0002, BOOK, 20,NON-PHYSICAL,29-03-24

@@ -76,6 +76,15 @@ public class UserDashboardPanel extends JPanel {
             }
         });
 
+        //--------------------------
+        // Switch to Rentals Page
+        //--------------------------
+        rentItemButton.addActionListener(e -> {
+            mainFrame.showRentalsPanel();
+            System.out.println("Rent Item Button");
+        });
+
+
 
     }
     private void logout() {

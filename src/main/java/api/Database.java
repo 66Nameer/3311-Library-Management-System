@@ -113,7 +113,7 @@ public final class Database {
 
 
 	// Item format: ID,name,price,ISBN,type,stock
-	
+
 	public Item fetchItem(int itemID) {
 		try {
 			CSVReader reader = new CSVReader(new FileReader(itemData));
@@ -136,7 +136,7 @@ public final class Database {
 							.setType(type)
 							.build();
 					ItemFactory fact = new ItemFactory();
-					return fact.getItem(attributes);			// Don't think getItem() should be static??
+					return fact.getItem(attributes);            // Don't think getItem() should be static??
 				}
 			}
 		}
@@ -144,7 +144,7 @@ public final class Database {
 			System.out.println(e.getMessage());
 		}
 
-		return null;		// Item not found in DB
+		return null;        // Item not found in DB
 	}
 
 
