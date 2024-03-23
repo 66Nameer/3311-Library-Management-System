@@ -24,7 +24,7 @@ public class SubscriptionData {
         }
         this.user = null;
         this.subscription = null;
-        // Also handle persistence if necessary
+     
     }
     public User getUser() {
         return user;
