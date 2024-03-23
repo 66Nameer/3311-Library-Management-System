@@ -5,6 +5,10 @@ import api.*;
 import gui.MainFrame;
 import api.SessionManager;
 import api.User;
+import notification.AppMessageListener;
+import notification.NotificationManager;
+import notification.NotifyType;
+import notification.display.JFrameNotificationDisplay;
 
 import javax.swing.*;
 import java.awt.*;
@@ -92,6 +96,12 @@ public class LoginPanel extends JPanel implements ActionListener {
         boolean isVerified = Database.authenticateUser(email, password);
 
         if (isVerified) {
+            NotificationManager manager = new NotificationManager();
+            manager.addNotification(NotifyType.APPROACHING_OVERDUE, new AppMessageListener(new JFrameNotificationDisplay(),
+                    "Example Book"));
+            manager.addNotification(NotifyType.APPROACHING_OVERDUE, new AppMessageListener(new JFrameNotificationDisplay(),
+                    "Another Book"));
+            manager.notify(NotifyType.APPROACHING_OVERDUE);
 
             // Fetch the user after they're authenticated
         	
@@ -119,8 +129,6 @@ public class LoginPanel extends JPanel implements ActionListener {
                 mainFrame.showUserDashboard(); // Navigate to the dashboard
             } else {
                 JOptionPane.showMessageDialog(this, "User data could not be retrieved.", "Error", JOptionPane.ERROR_MESSAGE);
-            //} else {
-            //JOptionPane.showMessageDialog(this, "Invalid username or password.", "Error", JOptionPane.ERROR_MESSAGE);
 
             }
         }
