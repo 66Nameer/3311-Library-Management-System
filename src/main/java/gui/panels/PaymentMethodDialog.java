@@ -14,7 +14,7 @@ public class PaymentMethodDialog extends JDialog {
         super(owner, "Select Payment Method", true);
         setSize(400, 300);
         setLocationRelativeTo(owner);
-        setLayout(new GridLayout(5, 1)); // 5 rows for components and spacing
+        setLayout(new GridLayout(5, 1)); 
 
         JLabel selectMethodLabel = new JLabel("Select Payment Method:");
         add(selectMethodLabel);
@@ -40,8 +40,7 @@ public class PaymentMethodDialog extends JDialog {
         add(buttonPanel);
 
         confirmPaymentButton.addActionListener(e -> {
-            // Handle payment confirmation logic here
-            // For simplicity, just show a message and close
+        
             JOptionPane.showMessageDialog(this, "Payment successful for " + stationName);
             dispose();
             if(url!=null) {
