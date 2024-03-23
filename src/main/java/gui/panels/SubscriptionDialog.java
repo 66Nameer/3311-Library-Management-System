@@ -34,7 +34,7 @@ public class SubscriptionDialog extends JDialog {
 
 
 
-            dispose(); // Close the dialog
+            dispose(); 
             EventQueue.invokeLater(() -> {
                 PaymentMethodDialog paymentDialog = new PaymentMethodDialog((Frame) SubscriptionDialog.this.getOwner(), stationName,url);
                 paymentDialog.setVisible(true);
