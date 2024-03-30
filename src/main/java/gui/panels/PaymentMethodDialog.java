@@ -49,9 +49,7 @@ public class PaymentMethodDialog extends JDialog {
                     browserWindow.setVisible(true);
                 });
             }
-
-
-            });
+        });
 
         cancelPaymentButton.addActionListener(e -> dispose());
     }

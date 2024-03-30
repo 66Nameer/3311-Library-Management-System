@@ -104,14 +104,10 @@ public class LoginPanel extends JPanel implements ActionListener {
             manager.notify(NotifyType.APPROACHING_OVERDUE);
 
             // Fetch the user after they're authenticated
-        	
-        	// TODO: Do we need a getInstance() call here?
         	Database db = Database.getInstance();
         	User user = db.fetchUser(email);
-            //User user = Database.fetchUser(email);
             if (user != null) {
                 SessionManager.getInstance().loginUser(user);
-
                 SubscriptionData.getInstance().loginUser(user);
                 System.out.println("User Verified");
                 mainFrame.showUserDashboard();

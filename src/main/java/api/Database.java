@@ -126,7 +126,6 @@ public final class Database {
 					String isbn = nextLine[3].trim();
 					ItemType type = ItemType.valueOf(nextLine[4].trim());
 					int count = Integer.parseInt(nextLine[5].trim());
-					// TODO: include stock in the item creation or only deal with it in DB class? int stock = Integer.parseInt(nextLine[5]);
 					ItemAttributes attributes = ItemAttributes.builder()
 							.setID(itemID)
 							.setName(itemName)
@@ -136,7 +135,7 @@ public final class Database {
 							.setType(type)
 							.build();
 					ItemFactory fact = new ItemFactory();
-					return fact.getItem(attributes);            // Don't think getItem() should be static??
+					return fact.getItem(attributes);
 				}
 			}
 		}
@@ -148,8 +147,6 @@ public final class Database {
 	}
 
 
-
-	// TODO: In order to instantiate users we need to have something in the database that distinguishes them, for example if the user is a student then write something in the db associated with that
 	public User fetchUser(String email) {
 			try (CSVReader reader = new CSVReader(new FileReader(userData))) {
 				String[] nextLine;
@@ -193,7 +190,7 @@ public final class Database {
 					int newStock = Integer.parseInt(line[5]);
 					newStock = newStock + amount;
 					if (newStock == -1) {
-						// TODO: Need logic for item being rented, this determines whether or not the item is currently in stock or not
+
 					}
 					line[5] = String.valueOf(newStock);
 					break;
@@ -208,10 +205,7 @@ public final class Database {
 	}
 
 
-	public void prioritizeRequests() {
-	// TODO: Figure out what this is supposed to do?
-
-	}
+	public void prioritizeRequests() {}
 
 
 	// Authentication for the GUI
