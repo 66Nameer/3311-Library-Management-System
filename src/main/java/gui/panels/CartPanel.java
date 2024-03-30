@@ -28,32 +28,15 @@ public class CartPanel  extends  JFrame {
         setLayout(new BorderLayout());
 
         JPanel inputPanel = new JPanel(new GridLayout(0, 2));
-//        itemNameField = new JTextField();
-//        quantityField = new JTextField();
-//        JButton addButton = new JButton("Add");
-//        JButton removeButton = new JButton("Remove");
-//        JButton undoButton = new JButton("Undo");
-//        JButton showCartButton = new JButton("Show Cart");
+
         JButton checkoutButton = new JButton("Checkout");
 
-//        inputPanel.add(new JLabel("Item Name:"));
-//        inputPanel.add(itemNameField);
-//        inputPanel.add(new JLabel("Quantity:"));
-//        inputPanel.add(quantityField);
-//        inputPanel.add(addButton);
-//        inputPanel.add(removeButton);
-//        inputPanel.add(undoButton);
-//        inputPanel.add(showCartButton);
         inputPanel.add(checkoutButton);
 
         cartContents = new JTextArea(10, 30);
         cartContents.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(cartContents);
 
-//        addButton.addActionListener(this::addItem);
-//        removeButton.addActionListener(this::removeItem);
-//        undoButton.addActionListener(this::undoLastAction);
-//        showCartButton.addActionListener(this::showCart);
 
         add(inputPanel, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
@@ -76,33 +59,15 @@ public class CartPanel  extends  JFrame {
                 clearUserCart(currentUser.getEmail());
                 cartContents.setText(""); // Clear the cart display
                  EventQueue.invokeLater(() -> {
-                    PaymentMethodDialog paymentDialog = new PaymentMethodDialog(this, "User Cart", null); // Assuming 'null' for the URL parameter as it may not be needed here
+                    PaymentMethodDialog paymentDialog = new PaymentMethodDialog(this, "User Cart", null);
                     paymentDialog.setVisible(true);
                 });
             }
         });
-
-        //setVisible(true);
-
     }
 
     private void showCart(ActionEvent actionEvent) {
-//        JDialog cartDialog = new JDialog(this, "Cart Contents", true); // true for modal
-//        cartDialog.setSize(300, 200);
-//        JTextArea cartContentArea = new JTextArea(10, 25);
-//        cartContentArea.setEditable(false);
-//
-//        StringBuilder sb = new StringBuilder();
-//        for (Map.Entry<Item, Integer> entry : cart.getItems().entrySet()) {
-//            sb.append(entry.getKey()).append(" - Quantity: ").append(entry.getValue()).append("\n");
-//        }
-//
-//        cartContentArea.setText(sb.toString());
-//        JScrollPane scrollPane = new JScrollPane(cartContentArea);
-//        cartDialog.add(scrollPane);
-//
-//        cartDialog.setLocationRelativeTo(this);
-//        cartDialog.setVisible(true);
+
         displayCart();
 
 
@@ -113,7 +78,6 @@ public class CartPanel  extends  JFrame {
         String userEmail = currentUser.getEmail();
         List<String> itemsForUser = new ArrayList<>();
 
-        // Replace this with the actual path to your CSV file
         String fileName = "src/main/java/DatabaseFiles/userCart.csv";
         try (CSVReader reader = new CSVReader(new FileReader(fileName))) {
             List<String[]> allRows = reader.readAll();
@@ -122,7 +86,7 @@ public class CartPanel  extends  JFrame {
                 // Check if the first element is the user's email
                 if (row[0].equalsIgnoreCase(userEmail)) {
                     // Skip the email and go through the items
-                    for (int i = 1; i < row.length; i += 2) { // Assuming every item is followed by a quantity
+                    for (int i = 1; i < row.length; i += 2) {
                         String itemName = row[i];
                         itemsForUser.add(itemName + ", Quantity: " + row[i + 1]);
                     }
@@ -161,13 +125,13 @@ public class CartPanel  extends  JFrame {
 
             // Process the Items.csv and store item prices in a map
             for (String[] item : allItems) {
-                // Assuming that the item CSV structure is: ID, Name, Price, Other
+
                 itemPrices.put(item[1].trim(), Double.parseDouble(item[2]));
             }
 
             // Calculate the total price by looking up the price for each item name
             for (String itemName : items) {
-                String cleanItemName = itemName.split(",")[0].trim(); // Clean item name without quantity
+                String cleanItemName = itemName.split(",")[0].trim();
                 if (itemPrices.containsKey(cleanItemName)) {
                     totalPrice += itemPrices.get(cleanItemName); // Add the price to the total
                 }

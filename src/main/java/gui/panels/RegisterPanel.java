@@ -114,7 +114,7 @@ public class RegisterPanel extends JPanel implements ActionListener {
                 else {
                     JOptionPane.showMessageDialog(this,"Registration incomplete: ERROR", "Registration Error", JOptionPane.ERROR_MESSAGE);
                 }
-                // Optionally, switch back to the login panel after successful registration
+                //switch back to the login panel after successful registration
                 mainFrame.showCard("LoginPanel");
             }
             else {
@@ -132,5 +132,4 @@ public class RegisterPanel extends JPanel implements ActionListener {
     }
 }
 
-// Set the layout manager for this panel
 

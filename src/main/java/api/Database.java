@@ -12,6 +12,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+// Does this work now??
+
 public final class Database {
 
 	private static Database INSTANCE;
@@ -29,9 +31,6 @@ public final class Database {
 		}
 		return INSTANCE;
 	}
-
-	// rentalData CSV format
-	// userID,itemID,dueDate ???
 
 	public ArrayList<Rental> fetchRentals(String userID) {
 		ArrayList<Rental> userRentals = new ArrayList<>();				// List of User's Rentals to be returned after searching Rentals DB
@@ -56,9 +55,6 @@ public final class Database {
 		}
 		return userRentals;
 	}
-
-
-	// I don't think we need user as a method param since rental has the associated data already
 
 	public void pushRental(Rental rental) {
 		String ID = String.valueOf(rental.getItem().ID);
@@ -212,7 +208,7 @@ public final class Database {
 
 	public static boolean authenticateUser(String email, String password) {
 		// userData CSV format
-		// userID (email),password ???
+		// userID (email),password
 		// Going to have to include type of api.User in the file so that the object can be recreated when necessary
 		try {
 			CSVReader reader = new CSVReader(new FileReader(userData));
@@ -269,7 +265,6 @@ public final class Database {
 		return true;
 	}
 
-	// Not sure if we even need this but figured I'd add it just in case
 	public void removeUser(User user) {
 		try {
 			CSVReader reader = new CSVReader(new FileReader(userData));

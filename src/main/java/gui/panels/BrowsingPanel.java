@@ -151,7 +151,6 @@ private void filterItems(String query) {
     if (query.trim().length() == 0) {
         rowSorter.setRowFilter(null);
     } else {
-        // Assuming book name is in the 2nd column (index 1)
         rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + query, 1));
     }
 }}

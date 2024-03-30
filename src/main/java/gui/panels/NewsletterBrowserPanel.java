@@ -46,7 +46,7 @@ public class NewsletterBrowserPanel extends JPanel {
             // Create an instance of the NewsletterBrowserPanel
             NewsletterBrowserPanel browserPanel = new NewsletterBrowserPanel();
 
-            // Optionally, load a specific URL. You can change this URL to any website you wish to display.
+            // Optional URL
             browserPanel.loadURL("https://www.nytimes.com");
 
             // Add the NewsletterBrowserPanel to the frame

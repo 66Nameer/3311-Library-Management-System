@@ -50,8 +50,8 @@ public class UserRentalsPanel extends JFrame {
 
 
 
-        // Implement logic for returnButton which involves removing items from the Rentals.csv
-//        returnButton.addActionListener(this::returnRentalItem);
+        //  logic for returnButton which involves removing items from the Rentals.csv
+
 
         viewRentalsButton.addActionListener(this::loadAndDisplayRentals);
         returnButton.addActionListener(this::returnRentalItem);
