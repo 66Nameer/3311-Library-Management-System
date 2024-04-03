@@ -118,6 +118,10 @@ public abstract class User {
 		return new ArrayList<>(this.sub);
 	}
 
+	public ArrayList<Rental> getRentals(){
+		return new ArrayList<>(this.rentals);
+	}
+
 	public void setSubscriptions(List<Subscription> loadSubscriptions) {
 		this.sub = new ArrayList<>(loadSubscriptions);
 	}
