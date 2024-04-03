@@ -11,4 +11,8 @@ public class Faculty extends User {
 	public Faculty(String email, String password) {
 		super(email, password, UserType.FACULTY);
 	}
+
+	public Map<String,String> getCourses(){
+		return this.courses;
+	}
 }
