@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Textbook extends PhysicalItem {
 	
-	public int edition;
+	public String edition;
 	public ArrayList<String> authors;
 	
 	// default constructor
@@ -16,7 +16,7 @@ public class Textbook extends PhysicalItem {
 	public Textbook(ItemAttributes attributes) {
         super(attributes);
 		this.location = (String) attributes.getAdditionalAttributes().get("location");
-		this.edition = (int) attributes.getAdditionalAttributes().get("edition");
+		this.edition = (String) attributes.getAdditionalAttributes().get("edition");
 		this.authors = (ArrayList<String>) attributes.getAdditionalAttributes().get("authors");
 	}
 	
