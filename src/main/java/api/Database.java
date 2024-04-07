@@ -179,13 +179,14 @@ public final class Database {
 			
 			throw new Exception("User not found");
 	}
+	
 
 	// itemData CSV format
 	// itemID,ItemName,Price,ISBN,ItemType,Stock
 
 	// itemID of item whose stock needs to be updated
 	// amount by which the stock needs to be updated (if rented then -1, if returned then +1)
-	public void updateStock(int itemID, int amount) {
+	public void updateStock(int itemID, int amount) throws Exception {
 		String ID = String.valueOf(itemID);
 		try {
 			CSVReader reader = new CSVReader(new FileReader(itemData));
@@ -195,7 +196,7 @@ public final class Database {
 					int newStock = Integer.parseInt(line[5]);
 					newStock = newStock + amount;
 					if (newStock == -1) {
-						throw new Exception("Item not in stock!");			// Rental created with 0 itemID left in stock
+						throw new Exception("Item not in stock!");			// Rental created with 0 itemID left in stock, won't go through
 					}
 					line[5] = String.valueOf(newStock);
 					break;
@@ -206,6 +207,7 @@ public final class Database {
 		}
 		catch (Exception e) {
 			System.out.println(e.getMessage());
+			throw e;
 		}
 	}
 
@@ -236,16 +238,20 @@ public final class Database {
 		}
 		return false;
 	}
+	
 
 	public boolean saveUserCart(User user, Cart cart) {
 		String userEmail = user.getEmail();
 		Item lastAddedItem = cart.getLastAdded();
+		
 		// If the user did not add anything to their Cart
 		if (lastAddedItem == null) {
 			return false;
 		}
+		
 		List<String[]> allCarts = new ArrayList<>();
 		String[] cartEntry = new String[] {userEmail, lastAddedItem.name, "1"};
+		
 		// Read the existing cart from the userCart csv file
 		try (CSVReader reader = new CSVReader(new FileReader(userCart))) {
 			allCarts = reader.readAll();
@@ -253,6 +259,7 @@ public final class Database {
 			e.printStackTrace();
 			return false;
 		}
+		
 		// We will only write the last item that the user added to their cart
 			// With this, we will not be updating the existing cart, rather just keep adding
 				// items to a new line everytime the user adds something to their cart
@@ -306,7 +313,10 @@ public final class Database {
 	}
 	
 	
-	public void removeRental(Rental rental) {
+	public void removeRental(Rental rental) throws Exception {
+		
+		boolean success = false;
+		
 		try {
 			CSVReader reader = new CSVReader(new FileReader(rentalData));
 			List<String[]> file = reader.readAll();
@@ -318,6 +328,7 @@ public final class Database {
 			for (String[] line: file) {
 				if (line[0].equals(uid) && line[1].equals(iid) && line[2].equals(date)) {
 					file.remove(line);
+					success = true;
 					break;
 				}
 			}
@@ -328,6 +339,10 @@ public final class Database {
 		}
 		catch (Exception e) {
 			System.out.println(e.getMessage());
+		}
+		
+		if (!success) {
+			throw new Exception("Rental not found!");
 		}
 	}
 	
