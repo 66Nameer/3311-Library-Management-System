@@ -31,8 +31,9 @@ public final class Database {
 		}
 		return INSTANCE;
 	}
+	
 
-	public ArrayList<Rental> fetchRentals(String userID) {
+	public ArrayList<Rental> fetchRentals(String userID) throws Exception {
 		ArrayList<Rental> userRentals = new ArrayList<>();				// List of User's Rentals to be returned after searching Rentals DB
 		int itemID;
 		User userTemp = fetchUser(userID);
@@ -55,11 +56,12 @@ public final class Database {
 		}
 		return userRentals;
 	}
+	
 
 	public void pushRental(Rental rental) {
-		String ID = String.valueOf(rental.getItem().ID);
+		//String ID = String.valueOf(rental.getItem().ID);
 		try {
-			String[] newEntry = new String[]{rental.getUser().getEmail(), ID, rental.getDueDate().toString()};
+			String[] newEntry = new String[]{rental.getUser().getEmail(), String.valueOf(rental.getItem().getID()), rental.getDueDate().toString()};
 			CSVWriter writer = new CSVWriter(new FileWriter(rentalData));
 			writer.writeNext(newEntry);
 		}
@@ -84,6 +86,12 @@ public final class Database {
 
 	public boolean pushUser(User user) {
 		// Writing to the Users.csv file
+		
+		
+		if (Database.authenticateUser(user.getEmail(), user.getPassword())) {			// Need to ensure User doesn't already exist in the DB
+			return false;
+		}
+		
 		try (Writer writer = new FileWriter("src/main/java/DatabaseFiles/Users.csv", true)) {
 			// Create an instance of CSVWriter with specific settings
 				//Default Separator: Comma column separator
@@ -143,7 +151,7 @@ public final class Database {
 	}
 
 
-	public User fetchUser(String email) {
+	public User fetchUser(String email) throws Exception {
 			try (CSVReader reader = new CSVReader(new FileReader(userData))) {
 				String[] nextLine;
 				while ((nextLine = reader.readNext()) != null) {
@@ -154,7 +162,7 @@ public final class Database {
 						return fact.createUser(email, password, userType);
 					}
 				}
-				System.out.println("No user found with email: " + email);
+				//System.out.println("No user found with email: " + email);
 			}
 			catch (IllegalArgumentException e) {
 				System.out.println("Invalid user type in CSV: " + e.getMessage());
@@ -168,7 +176,8 @@ public final class Database {
 				System.out.println("An error occurred: " + e.getMessage());
 				e.printStackTrace();
 			}
-			return null;
+			
+			throw new Exception("User not found");
 	}
 
 	// itemData CSV format
@@ -186,7 +195,7 @@ public final class Database {
 					int newStock = Integer.parseInt(line[5]);
 					newStock = newStock + amount;
 					if (newStock == -1) {
-
+						throw new Exception("Item not in stock!");			// Rental created with 0 itemID left in stock
 					}
 					line[5] = String.valueOf(newStock);
 					break;
@@ -265,16 +274,21 @@ public final class Database {
 		return true;
 	}
 
-	public void removeUser(User user) {
+	public void removeUser(User user) throws Exception {
+		
+		boolean success = false;
+		
 		try {
 			CSVReader reader = new CSVReader(new FileReader(userData));
 			List<String[]> file = reader.readAll();
 			String uid = user.getEmail();
 			String pass = user.getPassword();
 			String type = user.getUserType().toString();					// Have to test this to see if toString matches format of stored type
+			
 			for (String[] line: file) {
 				if (line[0].equals(uid) && line[1].equals(pass) && line[2].equals(type)) {
 					file.remove(line);
+					success = true;
 					break;
 				}
 			}
@@ -284,5 +298,37 @@ public final class Database {
 		catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+		
+		if (!success) {
+			throw new Exception("User not found!");
+		}
+		
 	}
+	
+	
+	public void removeRental(Rental rental) {
+		try {
+			CSVReader reader = new CSVReader(new FileReader(rentalData));
+			List<String[]> file = reader.readAll();
+			
+			String uid = rental.getUser().getEmail();
+			String iid = String.valueOf(rental.getItem().getID());
+			String date = rental.getDueDate().toString();
+			
+			for (String[] line: file) {
+				if (line[0].equals(uid) && line[1].equals(iid) && line[2].equals(date)) {
+					file.remove(line);
+					break;
+				}
+			}
+			CSVWriter writer = new CSVWriter(new FileWriter(userData));
+			writer.writeAll(file);
+			
+			this.updateStock(rental.getItem().getID(), 1);
+		}
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
 }

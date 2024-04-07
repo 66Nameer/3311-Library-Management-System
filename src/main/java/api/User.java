@@ -56,26 +56,36 @@ public abstract class User {
 	}
 	
 	
-	
 	public void rentItem(PhysicalItem item) {
-		if (item.canRent) {								// Need a checker of api.User's outstanding rentals/penalties in case they've lost rental privileges
+		
+		if (item.canRent) {									// Need a checker of api.User's outstanding rentals/penalties in case they've lost rental privileges
 			
 			LocalDate today = LocalDate.now();
 			LocalDate due = today.plusDays(3);
+			Database db = Database.getInstance();
 			
-			Rental rent = new Rental(this, item, due);
+			try {
+				db.updateStock(item.getID(), -1);				
+			} catch (Exception e) {								// Item out of stock, can't rent
+				System.out.println(e.getMessage());
+				return;
+			}
+			
+			Rental rent = new Rental(this, item, due);			// Otherwise the rental goes through
 			rentals.add(rent);
-			
-			// update stock of item in DB to reflect item being rented
-			//api.Database.updateStock(item.getID(), -1);
-			
-			
+			db.pushRental(rent);
 			
 		}
 	}
 	
 	
-
+	public void returnItem(Rental rental) {
+		rentals.remove(rental);
+		Database db = Database.getInstance();
+		db.removeRental(rental);
+	}
+	
+	
 	public void openItem(Item item) {
 	
 	}
@@ -87,7 +97,6 @@ public abstract class User {
 	public NotificationManager getNotificationService() {
 		return notificationService;
 	}
-
 
 
 	public void addSubscription(Subscription subscription) {
@@ -113,6 +122,7 @@ public abstract class User {
 
 
 	}
+	
 
 	public ArrayList<Subscription> getSubscriptions(){
 		return new ArrayList<>(this.sub);
