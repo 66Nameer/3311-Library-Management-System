@@ -47,12 +47,12 @@ public abstract class User {
 	public void makeRequests(Item item) {
 		if(item instanceof Textbook){
 			priority = 1;
-		     }
-		else{
+		}
+		else {
 			priority = 2;
-		    }
-			Request req=new Request(item, this, priority);
-			request.add(req);
+		}
+		Request req=new Request(item, this, priority);
+		request.add(req);
 	}
 	
 	
@@ -102,25 +102,22 @@ public abstract class User {
 	public void addSubscription(Subscription subscription) {
 		boolean contain = false;
 		for(Subscription sub2: sub){
-			if(sub2.getServiceName() == subscription.getServiceName()){
+			if(sub2.getServiceName().equals(subscription.getServiceName())){
 				contain=true;
 			}
 		}
-		if(contain==false){
+		if(!contain){
 			sub.add(subscription);
 		}
 	}
 
 
 	public void removeSubscription(String serviceName) {
-
 		for(Subscription sub2: sub){
-			if(sub2.getServiceName() == serviceName){
+			if(sub2.getServiceName().equals(serviceName)){
 				sub.remove(sub2);
 			}
 		}
-
-
 	}
 	
 
