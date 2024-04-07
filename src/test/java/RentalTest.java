@@ -1,11 +1,15 @@
 import api.*;
-import org.junit.Test;
+
 
 import java.time.LocalDate;
 import java.util.*;
 
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Test;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 //TODO: This is a copy of same test, need to modify
 public class RentalTest{
@@ -191,9 +195,9 @@ public class RentalTest{
     public void testDefaultConstructorForRental() {
         Rental rental = new Rental();
 
-        assertNull( String.valueOf(rental.getUser()),null);
-        assertNull( String.valueOf(rental.getItem()),null);
-        assertNull( String.valueOf(rental.getDueDate()),null);
+        assertNull( String.valueOf(rental.getUser()));
+        assertNull( String.valueOf(rental.getItem()));
+        assertNull( String.valueOf(rental.getDueDate()));
     }
 
 
@@ -201,32 +205,32 @@ public class RentalTest{
     public void testDefaultConstructorForRenta2() {
         Rental rental = new Rental();
 
-        assertNull( String.valueOf(rental.getUser()),null);
-        assertNull( String.valueOf(rental.getItem()),null);
-        assertNull( String.valueOf(rental.getDueDate()),null);
+        assertNull( String.valueOf(rental.getUser()));
+        assertNull( String.valueOf(rental.getItem()));
+        assertNull( String.valueOf(rental.getDueDate()));
     }
     @Test
     public void testDefaultConstructorForRental3() {
         Rental rental = new Rental();
 
-        assertNull( String.valueOf(rental.getUser()),null);
-        assertNull( String.valueOf(rental.getItem()),null);
-        assertNull( String.valueOf(rental.getDueDate()),null);
+        assertNull( String.valueOf(rental.getUser()));
+        assertNull( String.valueOf(rental.getItem()));
+        assertNull( String.valueOf(rental.getDueDate()));
     }
     @Test
     public void testDefaultConstructorForRental4() {
         Rental rental = new Rental();
 
-        assertNull( String.valueOf(rental.getUser()),null);
-        assertNull( String.valueOf(rental.getItem()),null);
-        assertNull( String.valueOf(rental.getDueDate()),null);
+        assertNull( String.valueOf(rental.getUser()));
+        assertNull( String.valueOf(rental.getItem()));
+        assertNull( String.valueOf(rental.getDueDate()));
     }
     @Test
     public void testDefaultConstructorForRental5() {
         Rental rental = new Rental();
 
-        assertNull( String.valueOf(rental.getUser()),null);
-        assertNull( String.valueOf(rental.getItem()),null);
-        assertNull( String.valueOf(rental.getDueDate()),null);
+        assertNull( String.valueOf(rental.getUser()));
+        assertNull( String.valueOf(rental.getItem()));
+        assertNull( String.valueOf(rental.getDueDate()));
     }
 }
