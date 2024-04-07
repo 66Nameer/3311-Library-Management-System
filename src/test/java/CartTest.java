@@ -1,11 +1,15 @@
 import api.*;
-import org.junit.Test;
+
 
 import java.time.LocalDate;
 import java.util.*;
 
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Test;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CartTest{
 
@@ -44,9 +48,9 @@ public class CartTest{
 
         // Undo to saved state
         cart.undo(savedState);
-        assertEquals("Cart should revert to containing only the initially added item after undo.", cart.getItems().size(), 1);
-        assertTrue("Cart should contain the initial item after undo.", cart.getItems().containsKey(book1));
-        assertEquals("Initial item's quantity should remain unchanged after undo.", (int) cart.getItems().get(book1), 1);
+        assertEquals(1, cart.getItems().size(), "Cart should revert to containing only the initially added item after undo.");
+        assertTrue(cart.getItems().containsKey(book1), "Cart should contain the initial item after undo.");
+        assertEquals(1, (int) cart.getItems().get(book1), 1);
     }
 
     @Test
@@ -99,8 +103,8 @@ public class CartTest{
 
         // Verify the cart's content and item quantities
 
-        assertEquals("The quantity of the first item should be correctly reported.", (int) cart.getItems().get(book1), 1);
-        assertEquals("The quantity of the second item should be correctly reported.", (int) cart.getItems().get(book2), 2);
+        assertEquals(1, (int) cart.getItems().get(book1), 1);
+        assertEquals(2, (int) cart.getItems().get(book2), 2);
     }
 
     @Test
@@ -156,7 +160,7 @@ public class CartTest{
         cart.addItem(book1, 1);
         cart.addItem(book2, 1);
 
-        assertSame("The last added item should be book2.", cart.getLastAdded(), book2);
+        assertSame(cart.getLastAdded(), book2, "The last added item should be book2.");
     }
 
     @Test
@@ -184,7 +188,7 @@ public class CartTest{
         Book book1 = new Book(attributes);
         cart.addItem(book1, 2); // Add book1 twice
 
-        assertEquals("The quantity of book1 (ID: 1) should be 2.", cart.getItemQuantity(1), 2);
+        assertEquals(2, cart.getItemQuantity(1),"The quantity of book1 (ID: 1) should be 2." );
     }
 
     @Test
@@ -213,7 +217,7 @@ public class CartTest{
         cart.addItem(book1, 2); // Add book1 twice
         cart.removeItem(book1,2);
 
-        assertEquals("The quantity of book1 (ID: 1) should be 2.", cart.getItemQuantity(1), 0);
+        assertEquals(0, cart.getItemQuantity(1), "The quantity of book1 (ID: 1) should be 0.");
     }
 
 
@@ -244,7 +248,7 @@ public class CartTest{
         cart.addItem(book1, 1);
 
         String expected = "Effective Java - Quantity: 1\n";
-        assertEquals("adasdasdasd", cart.displayCart(),expected);
+        assertEquals(expected, cart.displayCart(),"dadasdas");
     }
 
 
@@ -363,9 +367,9 @@ public class CartTest{
         // Undo to previous state
         caretaker.undo(cart);
 
-        assertEquals("1", cart.getItems().size(), 1);
-        assertTrue("Cart should contain book1 after undo.", cart.getItems().containsKey(book1));
-        assertEquals("a", (int) cart.getItems().get(book1), 1);
+        assertEquals(1, cart.getItems().size(), "1");
+        assertTrue(cart.getItems().containsKey(book1), "Cart should contain book1 after undo.");
+        assertEquals(1, (int) cart.getItems().get(book1), "asdad");
     }
 
     @Test
@@ -376,7 +380,7 @@ public class CartTest{
         // Attempt to undo without any saved states
         caretaker.undo(cart);
 
-        assertTrue("Cart should remain unchanged if undo is called with an empty history.", cart.getItems().isEmpty());
+        assertTrue(cart.getItems().isEmpty(), "Cart should remain unchanged if undo is called with an empty history.");
     }
   
 }
