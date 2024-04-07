@@ -1,11 +1,10 @@
 import api.*;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class CartCaretakerTest {
@@ -18,7 +17,7 @@ public void testUndoWithEmptyHistory2() {
     // Attempt to undo without any saved states
     caretaker.undo(cart);
 
-    assertTrue("Cart should remain unchanged if undo is called with an empty history.", cart.getItems().isEmpty());
+    assertTrue(cart.getItems().isEmpty(), "Cart should remain unchanged if undo is called with an empty history.");
 }
     @Test
     public void testSaveAndUndo4() {
@@ -77,9 +76,9 @@ public void testUndoWithEmptyHistory2() {
         // Undo to previous state
         caretaker.undo(cart);
 
-        assertEquals("1", cart.getItems().size(), 1);
-        assertTrue("Cart should contain book1 after undo.", cart.getItems().containsKey(book1));
-        assertEquals("a", (int) cart.getItems().get(book1), 1);
+        assertEquals(1, cart.getItems().size());
+        assertTrue(cart.getItems().containsKey(book1), "Cart should contain book1 after undo.");
+        assertEquals(1, (int) cart.getItems().get(book1));
     }
     @Test
     public void testSaveAndUndo5() {
@@ -138,9 +137,9 @@ public void testUndoWithEmptyHistory2() {
         // Undo to previous state
         caretaker.undo(cart);
 
-        assertEquals("1", cart.getItems().size(), 1);
-        assertTrue("Cart should contain book1 after undo.", cart.getItems().containsKey(book1));
-        assertEquals("a", (int) cart.getItems().get(book1), 1);
+        assertEquals(1, cart.getItems().size());
+        assertTrue(cart.getItems().containsKey(book1), "Cart should contain book1 after undo.");
+        assertEquals(1, (int) cart.getItems().get(book1));
     }
     @Test
     public void testSaveAndUndo6() {
@@ -199,9 +198,9 @@ public void testUndoWithEmptyHistory2() {
         // Undo to previous state
         caretaker.undo(cart);
 
-        assertEquals("1", cart.getItems().size(), 1);
-        assertTrue("Cart should contain book1 after undo.", cart.getItems().containsKey(book1));
-        assertEquals("a", (int) cart.getItems().get(book1), 1);
+        assertEquals(1, cart.getItems().size());
+        assertTrue(cart.getItems().containsKey(book1), "Cart should contain book1 after undo.");
+        assertEquals(1, (int) cart.getItems().get(book1));
     }
     @Test
     public void testSaveAndUndo7() {
@@ -260,9 +259,9 @@ public void testUndoWithEmptyHistory2() {
         // Undo to previous state
         caretaker.undo(cart);
 
-        assertEquals("1", cart.getItems().size(), 1);
-        assertTrue("Cart should contain book1 after undo.", cart.getItems().containsKey(book1));
-        assertEquals("a", (int) cart.getItems().get(book1), 1);
+        assertEquals(1, cart.getItems().size());
+        assertTrue(cart.getItems().containsKey(book1), "Cart should contain book1 after undo.");
+        assertEquals(1, (int) cart.getItems().get(book1));
     }
     @Test
     public void testSaveAndUndo8() {
@@ -321,9 +320,9 @@ public void testUndoWithEmptyHistory2() {
         // Undo to previous state
         caretaker.undo(cart);
 
-        assertEquals("1", cart.getItems().size(), 1);
-        assertTrue("Cart should contain book1 after undo.", cart.getItems().containsKey(book1));
-        assertEquals("a", (int) cart.getItems().get(book1), 1);
+        assertEquals(1, cart.getItems().size() );
+        assertTrue(cart.getItems().containsKey(book1), "Cart should contain book1 after undo.");
+        assertEquals(1, (int) cart.getItems().get(book1) );
     }
 
 
@@ -335,7 +334,7 @@ public void testUndoWithEmptyHistory2() {
         // Attempt to undo without any saved states
         caretaker.undo(cart);
 
-        assertTrue("Cart should remain unchanged if undo is called with an empty history.", cart.getItems().isEmpty());
+        assertTrue(cart.getItems().isEmpty(), "Cart should remain unchanged if undo is called with an empty history.");
     }
     @Test
     public void testUndoWithEmptyHistory4() {
@@ -345,7 +344,7 @@ public void testUndoWithEmptyHistory2() {
         // Attempt to undo without any saved states
         caretaker.undo(cart);
 
-        assertTrue("Cart should remain unchanged if undo is called with an empty history.", cart.getItems().isEmpty());
+        assertTrue(cart.getItems().isEmpty(), "Cart should remain unchanged if undo is called with an empty history.");
     }
     @Test
     public void testUndoWithEmptyHistory5() {
@@ -355,7 +354,7 @@ public void testUndoWithEmptyHistory2() {
         // Attempt to undo without any saved states
         caretaker.undo(cart);
 
-        assertTrue("Cart should remain unchanged if undo is called with an empty history.", cart.getItems().isEmpty());
+        assertTrue(cart.getItems().isEmpty(), "Cart should remain unchanged if undo is called with an empty history.");
     }
     @Test
     public void testUndoWithEmptyHistory6() {
@@ -365,7 +364,7 @@ public void testUndoWithEmptyHistory2() {
         // Attempt to undo without any saved states
         caretaker.undo(cart);
 
-        assertTrue("Cart should remain unchanged if undo is called with an empty history.", cart.getItems().isEmpty());
+        assertTrue(cart.getItems().isEmpty(), "Cart should remain unchanged if undo is called with an empty history.");
     }
 
 }
