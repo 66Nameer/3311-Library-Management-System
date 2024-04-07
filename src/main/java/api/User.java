@@ -129,6 +129,10 @@ public abstract class User {
 		return new ArrayList<>(this.rentals);
 	}
 
+	public ArrayList<Request> getRequest(){
+		return new ArrayList<>(this.request);
+	}
+
 	public void setSubscriptions(List<Subscription> loadSubscriptions) {
 		this.sub = new ArrayList<>(loadSubscriptions);
 	}
