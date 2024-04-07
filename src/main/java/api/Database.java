@@ -64,6 +64,7 @@ public final class Database {
 			String[] newEntry = new String[]{rental.getUser().getEmail(), String.valueOf(rental.getItem().getID()), rental.getDueDate().toString()};
 			CSVWriter writer = new CSVWriter(new FileWriter(rentalData));
 			writer.writeNext(newEntry);
+			writer.flush();
 		}
 		catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -76,6 +77,7 @@ public final class Database {
 			CSVWriter writer = new CSVWriter(new FileWriter(itemData));
 			String[] newItem = {String.valueOf(item.getID()), item.name, String.valueOf(item.price), item.ISBN, "20"};			// TODO: Need to get ItemType, not currently stored with the PhysicalItem. Use ItemAttributes to implement this if possible, not really sure what it does tbh
 			writer.writeNext(newItem);
+			writer.flush();
         }
 		catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -107,6 +109,7 @@ public final class Database {
 			String[] record = { user.getEmail(), user.getPassword(), user.getUserType().toString() };
 			// Write the record to the CSV file
 			csvWriter.writeNext(record);
+			csvWriter.flush();
 			return true;
 		}
 		catch (IOException e) {
@@ -204,6 +207,7 @@ public final class Database {
 			}
 			CSVWriter writer = new CSVWriter(new FileWriter(itemData));				// Write contents of itemData back into it with updated stock value included
 			writer.writeAll(file);
+			writer.flush();
 		}
 		catch (Exception e) {
 			System.out.println(e.getMessage());

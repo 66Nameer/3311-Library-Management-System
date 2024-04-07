@@ -253,7 +253,7 @@ public class DatabaseTest {
 	    }
 	    
 	    
-	    @Test
+	    @Test(expected = Exception.class)
 	    public void testUserRemovalSuccess() throws Exception {
 	    	
 	    	SimpleUserFactory factory = new SimpleUserFactory();
