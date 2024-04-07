@@ -1,11 +1,15 @@
 import api.*;
-import org.junit.Test;
+
 
 import java.time.LocalDate;
 import java.util.*;
 
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Test;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.*;
 public class SubscriptionDataTest{
     @Test
     public void testSubscriptionData2() {
@@ -28,8 +32,8 @@ public class SubscriptionDataTest{
         Subscription newSubscription = new Subscription("NewService", true);
         subscriptionData.addSubscription(newSubscription);
 
-        assertTrue("User's subscriptions should include the new subscription.",
-                user.getSubscriptions().contains(newSubscription));
+        assertTrue(user.getSubscriptions().contains(newSubscription),
+                "User's subscriptions should include the new subscription.");
     }
 
 
@@ -54,8 +58,8 @@ public class SubscriptionDataTest{
         Subscription newSubscription = new Subscription("News", true);
         subscriptionData.addSubscription(newSubscription);
 
-        assertTrue("User's subscriptions should include the new subscription.",
-                user.getSubscriptions().contains(newSubscription));
+        assertTrue(user.getSubscriptions().contains(newSubscription),
+                "User's subscriptions should include the new subscription.");
     }
 
     @Test
@@ -66,8 +70,8 @@ public class SubscriptionDataTest{
         };
         subscriptionData.loginUser(user);
 
-        assertSame("The logged in user should match the user set in SubscriptionData.", user, subscriptionData.getUser());
-        assertNotNull("A subscription object should be created upon login.", subscriptionData.getSubscription());
+        assertSame(user, subscriptionData.getUser(), "The logged in user should match the user set in SubscriptionData.");
+        assertNotNull( subscriptionData.getSubscription());
 
         // Now test logout functionality
         subscriptionData.logoutUser();
@@ -78,21 +82,21 @@ public class SubscriptionDataTest{
     public void testSingletonInstance3() {
         SubscriptionData firstInstance = SubscriptionData.getInstance();
         SubscriptionData secondInstance = SubscriptionData.getInstance();
-        assertSame("There should only be one instance of SubscriptionData.", secondInstance, firstInstance);
+        assertSame(secondInstance, firstInstance, "There should only be one instance of SubscriptionData.");
     }
 
     @Test
     public void testSingletonInstance4() {
         SubscriptionData firstInstance = SubscriptionData.getInstance();
         SubscriptionData secondInstance = SubscriptionData.getInstance();
-        assertSame("There should only be one instance of SubscriptionData.", secondInstance, firstInstance);
+        assertSame(secondInstance, firstInstance, "There should only be one instance of SubscriptionData.");
     }
 
     @Test
     public void testSingletonInstance5() {
         SubscriptionData firstInstance = SubscriptionData.getInstance();
         SubscriptionData secondInstance = SubscriptionData.getInstance();
-        assertSame("There should only be one instance of SubscriptionData.", secondInstance, firstInstance);
+        assertSame(secondInstance, firstInstance, "There should only be one instance of SubscriptionData.");
     }
 
 
@@ -121,8 +125,8 @@ public class SubscriptionDataTest{
         subscriptionData.loginUser(user);
         subscriptionData.removeSubscription("ExistingService");
 
-        assertTrue("User's subscriptions should be empty after removing the subscription.",
-                user.getSubscriptions().isEmpty());
+        assertTrue(user.getSubscriptions().isEmpty(),
+                "User's subscriptions should be empty after removing the subscription.");
     }
 
     @Test
@@ -150,8 +154,8 @@ public class SubscriptionDataTest{
         subscriptionData.loginUser(user);
         subscriptionData.removeSubscription("Service");
 
-        assertTrue("User's subscriptions should be empty after removing the subscription.",
-                user.getSubscriptions().isEmpty());
+        assertTrue(user.getSubscriptions().isEmpty(),
+                "User's subscriptions should be empty after removing the subscription.");
     }
 
     @Test
@@ -179,8 +183,8 @@ public class SubscriptionDataTest{
         subscriptionData.loginUser(user);
         subscriptionData.removeSubscription("Existing");
 
-        assertTrue("User's subscriptions should be empty after removing the subscription.",
-                user.getSubscriptions().isEmpty());
+        assertTrue(user.getSubscriptions().isEmpty(),
+                "User's subscriptions should be empty after removing the subscription.");
     }
 
     @Test
@@ -208,7 +212,7 @@ public class SubscriptionDataTest{
         subscriptionData.loginUser(user);
         subscriptionData.removeSubscription("ExistService");
 
-        assertTrue("User's subscriptions should be empty after removing the subscription.",
-                user.getSubscriptions().isEmpty());
+        assertTrue(user.getSubscriptions().isEmpty(),
+                "User's subscriptions should be empty after removing the subscription.");
     }
 }
