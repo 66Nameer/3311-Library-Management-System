@@ -79,7 +79,7 @@ public abstract class User {
 	}
 	
 	
-	public void returnItem(Rental rental) {
+	public void returnItem(Rental rental) throws Exception {
 		rentals.remove(rental);
 		Database db = Database.getInstance();
 		db.removeRental(rental);
