@@ -1,4 +1,5 @@
 import api.*;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -171,7 +172,7 @@ public class DatabaseTest {
 	        db.pushItem(book1);
 			Exception exception = assertThrows(Exception.class, () -> db.updateStock(1, -21));
 
-			assertEquals("Stock cannot go below 0.", exception.getMessage());					// Simulates a user attempting to rent the 21st copy of an item, which doesn't exist
+			Assertions.assertEquals("Stock cannot go below 0.", exception.getMessage());					// Simulates a user attempting to rent the 21st copy of an item, which doesn't exist
 	        
 	    }
 	    

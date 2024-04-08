@@ -213,6 +213,7 @@ public final class Database {
 					newStock = newStock + amount;
 					if (newStock < 0) {
 						success = false;
+						break;
 					}
 					line[5] = String.valueOf(newStock);
 					break;
@@ -231,8 +232,7 @@ public final class Database {
 			System.out.println(e.getMessage());
 			throw e;
 		}
-		
-		
+
 		if (!success) {
 			if (amount < 0) {
 				throw new Exception("Stock cannot go below 0.");
