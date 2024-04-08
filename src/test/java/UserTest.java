@@ -8,7 +8,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
-
+import java.io.*;
+import java.nio.file.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -435,6 +436,53 @@ public class UserTest {
         assertEquals(1, visitor.getSubscriptions().size());
         assertFalse(visitor.getSubscriptions().contains(sub1));
         assertTrue(visitor.getSubscriptions().contains(sub2));
+    }
+
+    @Test
+    public void testSaveSubscriptions() {
+        User user = new Student("test@example.com", "password");
+
+        user.addSubscription(new Subscription("Test Service", true));
+        SubscriptionManager.saveSubscriptions(user);
+
+        assertEquals(1, user.getSubscriptions().size(), "The user should have one subscription.");
+    }
+
+    @Test
+    public void testLoadSubscriptions() {
+        User user = new Staff("test@example.com", "password");
+
+        user.addSubscription(new Subscription("Test Service", true));
+        SubscriptionManager.saveSubscriptions(user);
+
+        List<Subscription> loadedSubscriptions = SubscriptionManager.loadSubscriptions(user.getEmail());
+        assertNotNull(loadedSubscriptions, "Loaded subscriptions should not be null.");
+        assertEquals(1, loadedSubscriptions.size(), "There should be one subscription loaded.");
+        Subscription loadedSubscription = loadedSubscriptions.get(0);
+        assertEquals("Test Service", loadedSubscription.getServiceName(), "The service name of the loaded subscription should match.");
+        assertTrue(loadedSubscription.isActive(), "The subscription should be active.");
+    }
+
+    @Test
+    public void testRemoveSubscriptions() {
+        User user = new Student("test2@example.com", "password");
+
+        user.addSubscription(new Subscription("Test Service", true));
+        SubscriptionManager.saveSubscriptions(user);
+        SubscriptionManager.removeSubscription("test2@example.com", "Test Service");
+
+        System.out.println(SubscriptionManager.loadSubscriptions("test2@example.com"));
+    }
+
+    @Test
+    public void testSubscriptionExists() {
+        User user = new Faculty("test3@example.com", "password");
+        user.addSubscription(new Subscription("A New Service", true));
+        SubscriptionManager.saveSubscriptions(user);
+
+        boolean exists = SubscriptionManager.subscriptionExists(user.getEmail(), "A New Service");
+
+        assertTrue(exists, "Subscription should exist.");
     }
     //end test visitor
 
