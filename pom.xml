@@ -33,7 +33,13 @@
             <version>5.9.0</version>
             <scope>test</scope>
         </dependency>
-             
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>RELEASE</version>
+            <scope>test</scope>
+        </dependency>
+
         <!-- Any additional dependencies -->
     </dependencies>
     <packaging>jar</packaging>

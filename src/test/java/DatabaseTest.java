@@ -47,7 +47,7 @@ public class DatabaseTest {
 	        SimpleUserFactory factory = new SimpleUserFactory();
 	        User user = factory.createUser("faculty@email.com", "pass", UserType.FACULTY);
 
-	        user.rentItem(book1);												// pushRental() called in rentItem()
+	        user.rentItem(book1); // pushRental() called in rentItem()
 	        	
 	        Rental rent1 = user.getRentals().get(0);								// fetchRentals() called in getRentals()
 	        assertEquals(book1, rent1.getItem());
@@ -77,13 +77,15 @@ public class DatabaseTest {
 	                .setType(ItemType.BOOK)
 	                .build();
 	        
-	        
+
 	        Book book1 = new Book(attributes);
+			System.out.println(book1.ISBN);
 	        
 	        Database db = Database.getInstance();
 	        db.pushItem(book1);
 	    	
 	    	Item test1 = db.fetchItem(1);						// This is returning null for some reason
+			System.out.println(test1.ISBN);
 	    	
 	    	assertEquals(book1.getID(), test1.ID);
 	    	assertEquals(book1.ISBN, test1.ISBN);
