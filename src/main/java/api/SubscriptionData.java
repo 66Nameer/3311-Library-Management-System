@@ -5,7 +5,7 @@ public class SubscriptionData {
     private Subscription subscription;
     private static SubscriptionData instance=new SubscriptionData();
 
-    private SubscriptionData(){}
+    public SubscriptionData(){}
 
     public static SubscriptionData getInstance() {
         return instance;
