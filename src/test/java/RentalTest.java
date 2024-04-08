@@ -190,14 +190,13 @@ public class RentalTest{
         assertEquals(LocalDate.now().plusDays(3), rental.getDueDate()); // Assuming rentItem sets a due date 3 days from today
     }
 
-
     @Test
     public void testDefaultConstructorForRental() {
         Rental rental = new Rental();
 
-        assertNull( String.valueOf(rental.getUser()));
-        assertNull( String.valueOf(rental.getItem()));
-        assertNull( String.valueOf(rental.getDueDate()));
+        assertNull( rental.getUser());
+        assertNull( rental.getItem());
+        assertNull( rental.getDueDate());
     }
 
 
@@ -205,32 +204,32 @@ public class RentalTest{
     public void testDefaultConstructorForRenta2() {
         Rental rental = new Rental();
 
-        assertNull( String.valueOf(rental.getUser()));
-        assertNull( String.valueOf(rental.getItem()));
-        assertNull( String.valueOf(rental.getDueDate()));
+        assertNull( rental.getUser());
+        assertNull(rental.getItem());
+        assertNull( rental.getDueDate());
     }
     @Test
     public void testDefaultConstructorForRental3() {
         Rental rental = new Rental();
 
-        assertNull( String.valueOf(rental.getUser()));
-        assertNull( String.valueOf(rental.getItem()));
-        assertNull( String.valueOf(rental.getDueDate()));
+        assertNull( rental.getUser());
+        assertNull( rental.getItem());
+        assertNull( rental.getDueDate());
     }
     @Test
     public void testDefaultConstructorForRental4() {
         Rental rental = new Rental();
 
-        assertNull( String.valueOf(rental.getUser()));
-        assertNull( String.valueOf(rental.getItem()));
-        assertNull( String.valueOf(rental.getDueDate()));
+        assertNull( rental.getUser());
+        assertNull( rental.getItem());
+        assertNull( rental.getDueDate());
     }
     @Test
     public void testDefaultConstructorForRental5() {
         Rental rental = new Rental();
 
-        assertNull( String.valueOf(rental.getUser()));
-        assertNull( String.valueOf(rental.getItem()));
-        assertNull( String.valueOf(rental.getDueDate()));
+        assertNull( rental.getUser());
+        assertNull( rental.getItem());
+        assertNull( rental.getDueDate());
     }
 }
