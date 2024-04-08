@@ -1,10 +1,11 @@
 import api.*;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.util.*;
 
 import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 
@@ -79,13 +80,11 @@ public class DatabaseTest {
 	        
 
 	        Book book1 = new Book(attributes);
-			System.out.println(book1.ISBN);
 	        
 	        Database db = Database.getInstance();
 	        db.pushItem(book1);
 	    	
 	    	Item test1 = db.fetchItem(1);						// This is returning null for some reason
-			System.out.println(test1.ISBN);
 	    	
 	    	assertEquals(book1.getID(), test1.ID);
 	    	assertEquals(book1.ISBN, test1.ISBN);
@@ -144,8 +143,8 @@ public class DatabaseTest {
 	        
 	    }
 	    
-	    
-	    @Test(expected = Exception.class)
+
+	    @Test
 	    public void testStockUpdateFailure() throws Exception {
 	    	
 	    	Map<String, Object> additionalAttributes = new HashMap<>();
@@ -170,8 +169,9 @@ public class DatabaseTest {
 	        
 	        Database db = Database.getInstance();
 	        db.pushItem(book1);
-	    	
-	    	db.updateStock(1, -21);					// Simulates a user attempting to rent the 21st copy of an item, which doesn't exist
+			Exception exception = assertThrows(Exception.class, () -> db.updateStock(1, -21));
+
+			assertEquals("Stock cannot go below 0.", exception.getMessage());					// Simulates a user attempting to rent the 21st copy of an item, which doesn't exist
 	        
 	    }
 	    
@@ -262,7 +262,7 @@ public class DatabaseTest {
 	    }
 	    
 	    
-	    @Test(expected = Exception.class)
+	    @Test
 	    public void testUserRemovalSuccess() throws Exception {
 	    	
 	    	SimpleUserFactory factory = new SimpleUserFactory();
@@ -272,20 +272,21 @@ public class DatabaseTest {
 	    	db.pushUser(user1);
 	    	
 	    	db.removeUser(user1);
-	    	
-	    	User test1 = db.fetchUser(user1.getEmail());				// Should throw Exception because User was successfully removed from DB
+
+			Exception exception = assertThrows(Exception.class, () -> db.fetchUser(user1.getEmail()));
+			assertEquals("User not found", exception.getMessage());				// Should throw Exception because User was successfully removed from DB
 	    	
 	    }
 	    
 	    
-	    @Test(expected = Exception.class)
+	    @Test
 	    public void testUserRemovalFailure() throws Exception {
 	    	
 	    	SimpleUserFactory factory = new SimpleUserFactory();
 	    	User user1 = factory.createUser("removefail@email.com", "testpass", UserType.STUDENT);
 	    	Database db = Database.getInstance();
-	    	
-	    	db.removeUser(user1);							// Should throw Exception because User was never in the DB to begin with
+
+			assertThrows(Exception.class, () -> db.removeUser(user1), "Should throw Exception");		// Should throw Exception because User was never in the DB to begin with
 	    	
 	    }
 	    
@@ -338,7 +339,7 @@ public class DatabaseTest {
 	    }
 	    
 	
-	    @Test(expected = Exception.class)
+	    @Test
 	    public void testRentalRemovalFailure() throws Exception {
 	    	
 	    	Map<String, Object> additionalAttributes = new HashMap<>();
@@ -376,8 +377,9 @@ public class DatabaseTest {
 			}
 			
 			Rental rent = new Rental(user, book1, due);			// Otherwise the rental goes through
-			
-			db.removeRental(rent);								// Should throw Exception since Rental was never pushed to the DB
+
+			Exception exception = assertThrows(Exception.class, () -> db.removeRental(rent));
+			assertEquals("Rental not found!", exception.getMessage());// Should throw Exception since Rental was never pushed to the DB
 	    	
 	    }
 	    

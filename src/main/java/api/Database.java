@@ -234,7 +234,11 @@ public final class Database {
 		
 		
 		if (!success) {
-			throw new Exception("Item not in stock!");
+			if (amount < 0) {
+				throw new Exception("Stock cannot go below 0.");
+			} else {
+				throw new Exception("Item not in stock!");
+			}
 		}
 		
 	}
