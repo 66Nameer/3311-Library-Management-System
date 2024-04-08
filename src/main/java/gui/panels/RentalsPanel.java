@@ -108,9 +108,8 @@ public class RentalsPanel extends JPanel {
             while ((line = br.readLine()) != null) {
                 String[] rentalData = line.split(",");
                 // Add to the table model
-                if ("PHYSICAL".equals(rentalData[6].trim())) {
-                    rentalsTableModel.addRow(new String[]{rentalData[1].trim(), rentalData[7].trim()});
-                }
+                rentalsTableModel.addRow(new String[]{rentalData[1].trim(), rentalData[3].trim()});
+
             }
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this, "Error loading rental data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
