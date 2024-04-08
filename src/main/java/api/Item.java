@@ -28,6 +28,11 @@ public abstract class Item {
 		this.type = builder.getType();
 		this.ISBN = builder.getISBN();
 	}
+	
+	
+	public String getISBN() {
+		return this.ISBN;
+	}
 
 
 

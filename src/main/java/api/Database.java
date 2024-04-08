@@ -75,7 +75,7 @@ public final class Database {
 	public void pushItem(PhysicalItem item) {
 		try {
 			CSVWriter writer = new CSVWriter(new FileWriter(itemData));
-			String[] newItem = {String.valueOf(item.getID()), item.name, String.valueOf(item.price), item.ISBN, "20"};			// TODO: Need to get ItemType, not currently stored with the PhysicalItem. Use ItemAttributes to implement this if possible, not really sure what it does tbh
+			String[] newItem = {String.valueOf(item.getID()), item.name, String.valueOf(item.price), item.getISBN(), String.valueOf(item.type), "20"};			// TODO: Need to get ItemType, not currently stored with the PhysicalItem. Use ItemAttributes to implement this if possible, not really sure what it does tbh
 			writer.writeNext(newItem);
 			writer.flush();
         }
@@ -127,6 +127,7 @@ public final class Database {
 			String[] nextLine;
 			String id = String.valueOf(itemID);
 			while ((nextLine = reader.readNext()) != null) {
+				System.out.println("Working til this point");
 				if (id.equals(nextLine[0])) {
 					String itemName = nextLine[1].trim();
 					double price = Double.parseDouble(nextLine[2].trim());
@@ -194,8 +195,13 @@ public final class Database {
 		try {
 			CSVReader reader = new CSVReader(new FileReader(itemData));
 			List<String[]> file = reader.readAll();
+			
+			System.out.println("File length: " + file.size());
+			
 			for (String[] line: file) {									// Find line in itemData file with "itemID"
-				if (line[0].equals(ID)) {								// When found, update the stock value by adding "amount"
+				System.out.println("line[0]: " + line[0] + " " + line[0].getClass());
+				System.out.println("ID: " + ID + " " + ID.getClass());
+				if (line[0].trim().equalsIgnoreCase(ID.trim())) {								// When found, update the stock value by adding "amount"
 					int newStock = Integer.parseInt(line[5]);
 					newStock = newStock + amount;
 					if (newStock == -1) {

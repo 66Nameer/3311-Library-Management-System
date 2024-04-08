@@ -40,6 +40,10 @@ public class DatabaseTest {
 	        
 	        Book book1 = new Book(attributes);
 	        
+	        Database db = Database.getInstance();
+	        
+	        db.pushItem(book1);
+	        
 	        SimpleUserFactory factory = new SimpleUserFactory();
 	        User user = factory.createUser("faculty@email.com", "pass", UserType.FACULTY);
 
