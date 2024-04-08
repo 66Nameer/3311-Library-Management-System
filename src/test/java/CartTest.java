@@ -278,7 +278,7 @@ public class CartTest{
         cart.addItem(book1, 1);
 
         String expected = "Effective C - Quantity: 1\n";
-        assertEquals("adasdasdasd", cart.displayCart(),expected);
+        assertEquals(expected, cart.displayCart(),expected);
     }
 
 
@@ -308,7 +308,7 @@ public class CartTest{
         cart.addItem(book1, 1);
 
         String expected = "Effective Python - Quantity: 1\n";
-        assertEquals("adasdasdasd", cart.displayCart(),expected);
+        assertEquals(expected, cart.displayCart(),expected);
     }
     @Test
     public void testSaveAndUndo3() {
