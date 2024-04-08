@@ -59,10 +59,9 @@ public final class Database {
 
 
 	public void pushRental(Rental rental) {
-		//String ID = String.valueOf(rental.getItem().ID);
 		try {
 			String[] newEntry = new String[]{rental.getUser().getEmail(), String.valueOf(rental.getItem().getID()), rental.getDueDate().toString()};
-			CSVWriter writer = new CSVWriter(new FileWriter(rentalData),
+			CSVWriter writer = new CSVWriter(new FileWriter(rentalData, true),
 					CSVWriter.DEFAULT_SEPARATOR,
 					CSVWriter.NO_QUOTE_CHARACTER,
 					CSVWriter.DEFAULT_ESCAPE_CHARACTER,
@@ -102,7 +101,7 @@ public final class Database {
 			return false;
 		}
 
-		try (Writer writer = new FileWriter("src/main/java/DatabaseFiles/Users.csv", true)) {
+		try (Writer writer = new FileWriter(userData, true)) {
 			// Create an instance of CSVWriter with specific settings
 			//Default Separator: Comma column separator
 			// No Quote Character: Will remove quote characters
@@ -135,7 +134,6 @@ public final class Database {
 			String[] nextLine;
 			String id = String.valueOf(itemID);
 			while ((nextLine = reader.readNext()) != null) {
-				System.out.println("Working til this point");
 				if (id.equals(nextLine[0])) {
 					String itemName = nextLine[1].trim();
 					double price = Double.parseDouble(nextLine[2].trim());
@@ -199,26 +197,28 @@ public final class Database {
 	// itemID of item whose stock needs to be updated
 	// amount by which the stock needs to be updated (if rented then -1, if returned then +1)
 	public void updateStock(int itemID, int amount) throws Exception {
+		
+		boolean success = true;
+		
 		String ID = String.valueOf(itemID);
 		try {
 			CSVReader reader = new CSVReader(new FileReader(itemData));
 			List<String[]> file = reader.readAll();
 
-			System.out.println("File length: " + file.size());
-
 			for (String[] line: file) {									// Find line in itemData file with "itemID"
-				System.out.println("line[0]: " + line[0] + " " + line[0].getClass());
-				System.out.println("ID: " + ID + " " + ID.getClass());
 				if (line[0].trim().equalsIgnoreCase(ID.trim())) {								// When found, update the stock value by adding "amount"
 					int newStock = Integer.parseInt(line[5]);
+					System.out.println("Current stock: " + newStock);
+					System.out.println("amount: " + amount);
 					newStock = newStock + amount;
-					if (newStock == -1) {
-						throw new Exception("Item not in stock!");			// Rental created with 0 itemID left in stock, won't go through
+					if (newStock < 0) {
+						success = false;
 					}
 					line[5] = String.valueOf(newStock);
 					break;
 				}
 			}
+			
 			CSVWriter writer = new CSVWriter(new FileWriter(itemData),
 					CSVWriter.DEFAULT_SEPARATOR,
 					CSVWriter.NO_QUOTE_CHARACTER,
@@ -231,6 +231,12 @@ public final class Database {
 			System.out.println(e.getMessage());
 			throw e;
 		}
+		
+		
+		if (!success) {
+			throw new Exception("Item not in stock!");
+		}
+		
 	}
 
 
@@ -248,7 +254,7 @@ public final class Database {
 			String[] nextLine;
 
 			while((nextLine = reader.readNext()) != null) {
-				if (email.equalsIgnoreCase(nextLine[0]) && password.equals(nextLine[1])) {
+				if (email.equals(nextLine[0]) && password.equals(nextLine[1])) {
 					reader.close();
 					return true;
 				}
