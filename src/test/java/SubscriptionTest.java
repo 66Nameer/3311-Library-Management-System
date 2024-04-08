@@ -1,11 +1,14 @@
 import api.*;
-import org.junit.Test;
+
 
 import java.time.LocalDate;
 import java.util.*;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class SubscriptionTest{
 
@@ -16,7 +19,7 @@ public class SubscriptionTest{
         };
         Subscription subscription = new Subscription("ServiceName", true);
         user.addSubscription(subscription);
-        assertEquals("The subscriptions list should contain exactly one subscription.", user.getSubscriptions().size(), 1);
+        assertEquals(1, user.getSubscriptions().size(), "adasd");
 
 
     }
@@ -28,7 +31,7 @@ public class SubscriptionTest{
         };
         Subscription subscription = new Subscription("BBC", true);
         user.addSubscription(subscription);
-        assertEquals("The subscriptions list should contain exactly one subscription.", user.getSubscriptions().size(), 1);
+        assertEquals(1, user.getSubscriptions().size(), "dadada");
 
 
     }
@@ -39,7 +42,7 @@ public class SubscriptionTest{
         };
         Subscription subscription = new Subscription("CNN", true);
         user.addSubscription(subscription);
-        assertEquals("The subscriptions list should contain exactly one subscription.", user.getSubscriptions().size(), 1);
+        assertEquals(1, user.getSubscriptions().size(), "dadasda");
 
 
     }
@@ -50,7 +53,7 @@ public class SubscriptionTest{
         };
         Subscription subscription = new Subscription("CTV", true);
         user.addSubscription(subscription);
-        assertEquals("The subscriptions list should contain exactly one subscription.", user.getSubscriptions().size(), 1);
+        assertEquals(1, user.getSubscriptions().size(), "adasdasda");
 
 
     }
@@ -61,7 +64,7 @@ public class SubscriptionTest{
         };
         Subscription subscription = new Subscription("NYTimes", true);
         user.addSubscription(subscription);
-        assertEquals("The subscriptions list should contain exactly one subscription.", user.getSubscriptions().size(), 1);
+        assertEquals(1, user.getSubscriptions().size(), "adasdasd");
 
 
     }
@@ -72,7 +75,7 @@ public class SubscriptionTest{
         };
         Subscription subscription = new Subscription("Washington", true);
         user.addSubscription(subscription);
-        assertEquals("The subscriptions list should contain exactly one subscription.", user.getSubscriptions().size(), 1);
+        assertEquals(1, user.getSubscriptions().size(), "dadasda");
 
 
     }
@@ -83,7 +86,7 @@ public class SubscriptionTest{
         };
         Subscription subscription = new Subscription("Dallas", true);
         user.addSubscription(subscription);
-        assertEquals("The subscriptions list should contain exactly one subscription.", user.getSubscriptions().size(), 1);
+        assertEquals(1, user.getSubscriptions().size(), "asdasda");
 
 
     }
@@ -94,7 +97,7 @@ public class SubscriptionTest{
         };
         Subscription subscription = new Subscription("Netflix", true);
         user.addSubscription(subscription);
-        assertEquals("The subscriptions list should contain exactly one subscription.", user.getSubscriptions().size(), 1);
+        assertEquals(1, user.getSubscriptions().size(), "sadadasa");
 
 
     }
@@ -105,7 +108,7 @@ public class SubscriptionTest{
         };
         Subscription subscription = new Subscription("Crave", true);
         user.addSubscription(subscription);
-        assertEquals("The subscriptions list should contain exactly one subscription.", user.getSubscriptions().size(), 1);
+        assertEquals(1, user.getSubscriptions().size(), "DA");
 
 
     }
@@ -116,7 +119,7 @@ public class SubscriptionTest{
         };
         Subscription subscription = new Subscription("Amazon", true);
         user.addSubscription(subscription);
-        assertEquals("The subscriptions list should contain exactly one subscription.", user.getSubscriptions().size(), 1);
+        assertEquals(1, user.getSubscriptions().size(), "ADASDA");
 
 
     }

@@ -105,7 +105,12 @@ public class LoginPanel extends JPanel implements ActionListener {
 
             // Fetch the user after they're authenticated
         	Database db = Database.getInstance();
-        	User user = db.fetchUser(email);
+            User user = null;
+            try {
+                user = db.fetchUser(email);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
             if (user != null) {
                 SessionManager.getInstance().loginUser(user);
                 SubscriptionData.getInstance().loginUser(user);
@@ -117,7 +122,12 @@ public class LoginPanel extends JPanel implements ActionListener {
         } else {
             JOptionPane.showMessageDialog(this, "Invalid Username or Password", "Error", JOptionPane.ERROR_MESSAGE);
 
-            User user = Database.getInstance().fetchUser(email); // Get the user after successful authentication
+            User user = null; // Get the user after successful authentication
+            try {
+                user = Database.getInstance().fetchUser(email);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
             if(user != null){
                 SessionManager.getInstance().loginUser(user); // Set the user session
                 SubscriptionData.getInstance().loginUser(user);

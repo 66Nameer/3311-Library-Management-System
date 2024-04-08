@@ -53,7 +53,7 @@ public class Cart extends JPanel {
 		return 0;
 	}
 	
-	public void displayCart() {
+	public String displayCart() {
 		StringBuilder cartContents = new StringBuilder();
 		for(Map.Entry<Item, Integer> entry : items.entrySet()) {
 			cartContents.append(entry.getKey().name)
@@ -68,6 +68,7 @@ public class Cart extends JPanel {
 
 		System.out.println(cartContents);
 
+		return String.valueOf(cartContents);
 	}
 
 
